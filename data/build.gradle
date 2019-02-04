@@ -62,6 +62,7 @@ dependencies {
     implementation deps.rxJava.rxKotlin
     implementation deps.rxJava.rxAndroid
     implementation deps.room.rxJava
+    implementation  'javax.inject:javax.inject:1'
 //
 //    implementation deps.firebase.core
     implementation deps.firebase.auth

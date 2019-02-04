@@ -1,3 +1,76 @@
 <resources>
-    <string name="app_name">CalcMoy</string>
+    <string name="app_name">calcmoy</string>
+
+    <string name="next">التالي</string>
+
+    <string-array name="stage">
+        <item>إبتدائي</item>
+        <item>متوسطة</item>
+        <item>ثانوية</item>
+        <item>جامعة</item>
+    </string-array>
+
+    <string name="field_required">يجب ملأ هده الخانة</string>
+    <string name="choose_faculty">إختر الشعبة</string>
+    <string name="confirme">تأكيد</string>
+    <string name="creat_acount">إنشاء حساب جديد</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة السر</string>
+    <string name="module">المواد</string>
+    <string name="prochevnts">أحداث قريبة</string>
+    <string name="name">الإسم</string>
+    <string name="famillyname">اللقب</string>
+    <string name="repeatPassword">أعد كلمة السر</string>
+    <string name="main">الرئيسية</string>
+    <string name="evnts">الأحداث</string>
+    <string name="moyene">المعدل</string>
+    <string name="no_event_yet">لا يوجد أحداث مسجلة بعد</string>
+    <string name="time">الزمن</string>
+    <string name="place">المكان</string>
+    <string name="add">إضافة</string>
+    <string name="events_soon">أحداث قريبة</string>
+    <string name="points3">⋮</string>
+    <string name="fill_info">إملأ المعلومات</string>
+    <string name="module_name">إسم المقياس</string>
+    <string name="coief">المعامل</string>
+    <string name="pick_color">إختر اللون</string>
+    <string name="change_name">تغيير إسم المقياس</string>
+    <string name="change_coei">تغيير المعامل</string>
+    <string name="change_color">تغيير اللون</string>
+    <string name="open_drawer">open-drawer</string>
+    <string name="close_drawer">close_drawer</string>
+
+    <!-- TODO: change text to arabic -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signein_failed">فشل في التسجيل الدخول </string>
+    <string name="some_error">some think went wrong</string>
+    <string name="inknown_error">Somme thing went wrong</string>
+    <string name="password_not_compatible">the passwords are not Compatible</string>
+    <string name="email_not_valid">Email is not valid !</string>
+    <string name="password_short">the password is too shoort</string>
+    <string name="cnx_failed">there is no internet connection !!</string>
+    <string name="email_or_pass_not_correct">email or password are not Correct !!</string>
+    <string name="login_error">Login error</string>
+    <string name="name_empty">name should not be empty</string>
+    <string name="prenam_empty">prenam should not be empty</string>
+    <string name="registration_faill">registration failled</string>
+    <string name="scien">علمي</string>
+    <string name="lettre">أدبي</string>
+    <string name="math">رياضيات</string>
+    <string name="scien_taj">علوم تجريبية</string>
+    <string name="economi">تسيير و إقتصاد</string>
+    <string name="tm_electrique">تقني رياضي (هندسة كهربائية)</string>
+    <string name="tm_mecanique">تقني رياضي (هندسة ميكانيكية)</string>
+    <string name="tm_civil">تقني رياضي(هندسة مدنية)</string>
+    <string name="tm_tar">تقني رياضي( هندسة الطرائق)</string>
+    <string name="language">لغات أجنبية</string>
+    <string name="philo">فلسفة</string>
+
+    //facebook
+    <string name="facebook_app_id">177492766524607</string>
+    <string name="fb_login_protocol_scheme">fb177492766524607</string>
+    <string name="opration_canceled">The operation has been canceled</string>
+
+
 </resources>
