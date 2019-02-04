@@ -1,0 +1,11 @@
+package oxxy.kero.roiaculte.team7.domain.repositories
+
+import oxxy.kero.roiaculte.team7.domain.exception.Failure
+import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.interactors.RegistrationModel
+
+interface  AuthentificationRepository{
+    suspend  fun registreUser(user: RegistrationModel):Either<Failure, None>
+
+}

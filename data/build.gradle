@@ -64,7 +64,7 @@ dependencies {
     implementation deps.room.rxJava
 //
 //    implementation deps.firebase.core
-//    implementation deps.firebase.auth
+    implementation deps.firebase.auth
 //    implementation deps.firebase.google_services
 //    implementation deps.firebase.database
 
