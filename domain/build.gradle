@@ -1,0 +1,15 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.kotlin.coroutines_core
+    implementation deps.kotlin.coroutines_android
+    testImplementation deps.test.junit
+    testImplementation deps.test.mockk
+    implementation  'javax.inject:javax.inject:1'
+    testImplementation deps.test.kotlin_junit
+    implementation deps.kotlin.rx2
+}
+
+sourceCompatibility = "7"
+targetCompatibility = "7"

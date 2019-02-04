@@ -1,0 +1,81 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'com.google.gms.google-services'
+kapt {
+    correctErrorTypes = true
+}
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "oxxy.kero.roiaculte.team7.calcmoy"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        }
+    }
+    dataBinding{
+        enabled true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(":domain")
+    implementation project(":data")
+
+    //Dependencies
+    implementation deps.android.constraint_layout
+    implementation deps.android.lifecycle_extensions
+    implementation deps.android.fragment
+    implementation deps.android.appcompat
+    implementation deps.android.recyclerview
+    implementation deps.android.card_view
+    implementation deps.android.design
+    implementation deps.android.facebook_sdk
+    implementation deps.android.circle_image
+    implementation deps.android.picasso
+    implementation deps.android.image_copper
+    implementation deps.dagger.core
+    implementation deps.dagger.support
+    kapt deps.dagger.kaptCompiler
+    kapt deps.dagger.kaptProcessor
+    implementation deps.room.runtime
+    implementation deps.kotlin.kotlin_jre
+    implementation deps.kotlin.coroutines_core
+    implementation deps.kotlin.coroutines_android
+    implementation deps.rxJava.core
+    implementation deps.rxJava.rxAndroid
+    implementation deps.rxJava.rxKotlin
+    implementation deps.firebase.core
+//    implementation deps.firebase.auth
+//    implementation deps.firebase.google_services
+
+    kapt deps.room.compiler
+
+    testImplementation deps.test.junit
+    testImplementation deps.test.mockk
+    testImplementation deps.test.kotlin_junit
+}
+

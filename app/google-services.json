@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "230952683503",
+    "firebase_url": "https://calcmoy-5f89b.firebaseio.com",
+    "project_id": "calcmoy-5f89b",
+    "storage_bucket": "calcmoy-5f89b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230952683503:android:769574200e9d0796",
+        "android_client_info": {
+          "package_name": "oxxy.kero.roiaculte.team7.calcmoy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230952683503-iilvdf3p19i21i54r6i9ohumtlecjt3e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "oxxy.kero.roiaculte.team7.calcmoy",
+            "certificate_hash": "59249550f87d42971094e82ee9fa45460d6788c1"
+          }
+        },
+        {
+          "client_id": "230952683503-ha9lr2f8e9c2414tpu4pv9h2v9cjpga4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkNJlaCDrOrjMBrbip43aj4rcebJduwQc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230952683503-8psqeidc3041c268fm5m33v82m1dsvsl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
