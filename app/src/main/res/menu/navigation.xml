@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/bottom_nav_bar_home"
+        android:title="@string/main" />
+
+    <item
+        android:id="@+id/navigation_module"
+        android:icon="@drawable/bottom_nav_bar_modules"
+        android:title="@string/module" />
+
+    <item
+        android:id="@+id/navigation_events"
+        android:icon="@drawable/bottom_nav_bar_events"
+        android:title="@string/evnts" />
+
+    <item
+        android:id="@+id/navigation_moyen"
+        android:icon="@drawable/bottom_nav_bar_moyenne"
+        android:title="@string/moyene" />
+
+</menu>
