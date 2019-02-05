@@ -7,6 +7,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import oxxy.kero.roiaculte.team7.data.firebase.AuthentificationFirebase
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.LoginParam
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.interactors.RegistrationModel
 import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
@@ -28,6 +29,10 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
             if(type== GOOGLE_CONST)GoogleAuthProvider.getCredential( credentiel, null)
         else FacebookAuthProvider.getCredential(credentiel) )
 
+    }
+
+    override suspend fun loginUser(param: LoginParam): Either<Failure.LoginFailure, None> {
+        return authentificator.logUserIn(param.mail, param.password)
     }
 
     companion object {

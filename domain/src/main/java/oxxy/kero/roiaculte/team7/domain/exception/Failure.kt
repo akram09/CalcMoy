@@ -12,9 +12,15 @@ sealed class Failure {
     }
 
     sealed class  SignInCredentielFailure:Failure(){
-        class SignInNetworkError(e:Exception?):SignInCredentielFailure()
-        class SignInUknownError(e:Exception?):SignInCredentielFailure()
-        class SignInInvalidCredentiel(e:Exception?):SignInCredentielFailure()
+        class SignInNetworkError(val e:Exception?):SignInCredentielFailure()
+        class SignInUknownError(val e:Exception?):SignInCredentielFailure()
+        class SignInInvalidCredentiel(val e:Exception?):SignInCredentielFailure()
+    }
+    sealed class LoginFailure:Failure(){
+        class LoginNetworkError(val e:Exception?):LoginFailure()
+        class LoginUknownError(val e:Exception?):LoginFailure()
+        class LoginPasswordInvalid(val e:Exception?):LoginFailure()
+        class LoginUsrNotFound(val e:Exception?):LoginFailure()
     }
 
 //    class NetworkConnection: Failure()

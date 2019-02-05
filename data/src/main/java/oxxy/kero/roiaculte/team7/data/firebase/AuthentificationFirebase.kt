@@ -61,6 +61,40 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
         }
     }
 
+    suspend fun logUserIn(mail:String  , pass:String):Either<Failure.LoginFailure, None>{
+        return suspendCoroutine {
+            auth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener{
+                task ->
+                if(task.isSuccessful){
+                    it.resume(Either.Right(None()))
+                }else{
+                  val exception = task.exception
+                    it.resume(
+                        when(exception){
+                            is FirebaseNetworkException-> Either.Left(Failure.LoginFailure.LoginNetworkError(exception))
+                            is FirebaseAuthInvalidCredentialsException-> Either.Left(Failure.LoginFailure.LoginPasswordInvalid(exception))
+                            else->{
+                                 if(exception is FirebaseAuthException){
+                                   if((exception.errorCode == "ERROR_USER_TOKEN_EXPIRED")or (exception.errorCode == "ERROR_WRONG_PASSWORD"))
+                                      {
+                                       Either.Left(Failure.LoginFailure.LoginPasswordInvalid(exception))
+                                   }else if(exception.errorCode=="ERROR_USER_NOT_FOUND"){
+                                       Either.Left(Failure.LoginFailure.LoginUsrNotFound(exception))
+                                   }else{
+                                       Either.Left(Failure.LoginFailure.LoginUknownError(exception))
+                                   }
+                                 }else{
+                                     Either.Left(Failure.LoginFailure.LoginUknownError(exception))
+                                 }
+                            }
+                        }
+                    )
+
+                }
+
+            }
+        }
+    }
    fun signUserOut(){
         auth.signOut()
     }
