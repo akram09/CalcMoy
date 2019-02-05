@@ -12,7 +12,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAuth) {
 
-   suspend fun registreUserWithEmail(mail :String , pass :String ):Either<CreatUserFailures, None>{
+   suspend fun registreUserWithEmail(mail :String , pass :String ):Either<Failure.CreatUserFailures, None>{
        return suspendCoroutine{
             continuation->
            auth.createUserWithEmailAndPassword(mail , pass).addOnCompleteListener {
@@ -22,21 +22,21 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
 
                }else {
                    continuation.resume(Either.Left(when(task.exception){
-                       is FirebaseAuthUserCollisionException-> FirebaseCoalisedUser(
+                       is FirebaseAuthUserCollisionException-> Failure.CreatUserFailures.FirebaseCoalisedUser(
                            task.exception
                        )
-                       is FirebaseAuthWeakPasswordException -> FirebaseWeakPassword(
+                       is FirebaseAuthWeakPasswordException -> Failure.CreatUserFailures.FirebaseWeakPassword(
                            task.exception
                        )
-                       is FirebaseNetworkException-> FirebaseNetworkError(task.exception)
+                       is FirebaseNetworkException-> Failure.CreatUserFailures.FirebaseNetworkError(task.exception)
 
-                       else -> FirebaseUknownError(task.exception)
+                       else -> Failure.CreatUserFailures.FirebaseUknownError(task.exception)
                    }))
                }
            }
         }
     }
-    suspend fun signInUserWithCredentiel(credentiel :AuthCredential):Either<SignInCredentielFailure, None>{
+    suspend fun signInUserWithCredentiel(credentiel :AuthCredential):Either<Failure.SignInCredentielFailure, None>{
         return suspendCoroutine {
             continuation->
             auth.signInWithCredential(credentiel).addOnCompleteListener{
@@ -46,10 +46,12 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
                 }else{
                     continuation.resume(Either.Left(
                         when(task.exception){
-                          is  FirebaseAuthInvalidCredentialsException->SignInInvalidCredentiel(task.exception)
-                            is FirebaseNetworkException-> SignInNetworkError(task.exception)
+                          is  FirebaseAuthInvalidCredentialsException-> Failure.SignInCredentielFailure.SignInInvalidCredentiel(
+                              task.exception
+                          )
+                            is FirebaseNetworkException-> Failure.SignInCredentielFailure.SignInNetworkError(task.exception)
 
-                            else -> SignInUknownError(task.exception)
+                            else -> Failure.SignInCredentielFailure.SignInUknownError(task.exception)
                         }
                     ))
 
