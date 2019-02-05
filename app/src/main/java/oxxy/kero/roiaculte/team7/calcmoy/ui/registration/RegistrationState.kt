@@ -9,5 +9,5 @@ const val  REGISTRATION_LOGIN = 1
 
 class RegistrationState (val fragment :Int,val signinInfo: SigninInfo,val  loginInfo: LoginInfo ) : State
 
-class SigninInfo (val email: String, val password : String, val repeatPassword:String,var login :  Async<None>?)
+class SigninInfo (val email: String, val password : String, val repeatPassword:String,var signIn :  Async<None>?)
 class LoginInfo (val email: String, val password : String,var login :  Async<None>?)
