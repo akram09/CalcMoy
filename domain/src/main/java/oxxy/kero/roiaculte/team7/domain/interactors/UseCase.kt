@@ -8,10 +8,10 @@ import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.AppRxSchedulers
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 
-interface EitherInteractor<in P, out R> {
+interface EitherInteractor<in P, out R , out F :Failure> {
     val dispatcher: CoroutineDispatcher
     val ResultDispatcher :CoroutineDispatcher
-    suspend operator fun invoke(executeParams: P):Either<Failure, R>
+    suspend operator fun invoke(executeParams: P):Either<F, R>
 }
 
 interface Interactor<in P>{
@@ -34,7 +34,7 @@ abstract class ObservableInteractor<Type , in Params>(private val schedulers:App
     }
 }
 
-fun <P, R> CoroutineScope.launchInteractor(interactor: EitherInteractor<P,R >, param: P , OnResult:(Either<Failure, R>)->Unit): Job {
+fun <P, R, T:Failure> CoroutineScope.launchInteractor(interactor: EitherInteractor<P,R , T>, param: P , OnResult:(Either<T, R>)->Unit): Job {
     val  job = async(interactor.dispatcher) { interactor(param) }
     return launch(interactor.ResultDispatcher) { OnResult(job.await()) }
 }
@@ -47,5 +47,5 @@ fun <P> CoroutineScope.launchInteractor(interactor:Interactor<P>, param: P, onRe
         onResult()}
 
 }
-fun  <R>CoroutineScope.launchInteractor(interactor: EitherInteractor<Unit, R>, OnResult: (Either<Failure, R>) -> Unit) =
+fun  <R, T:Failure>CoroutineScope.launchInteractor(interactor: EitherInteractor<Unit, R, T>, OnResult: (Either<T, R>) -> Unit) =
     launchInteractor(interactor, Unit, OnResult = OnResult)
