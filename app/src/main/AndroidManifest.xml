@@ -10,7 +10,9 @@
             android:supportsRtl="true"
             android:name =".AndroidApplication"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.registration.RegistrationActivity">
+        <activity android:name=".ui.registration.RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

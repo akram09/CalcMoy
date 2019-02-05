@@ -71,6 +71,7 @@
     <string name="facebook_app_id">177492766524607</string>
     <string name="fb_login_protocol_scheme">fb177492766524607</string>
     <string name="opration_canceled">The operation has been canceled</string>
+    <string name="weak_password">weak password please provide a strong password</string>
 
 
 </resources>

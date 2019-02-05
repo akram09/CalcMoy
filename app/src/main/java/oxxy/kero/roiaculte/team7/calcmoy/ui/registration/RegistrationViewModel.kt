@@ -4,6 +4,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
+import oxxy.kero.roiaculte.team7.domain.exception.CreatUserFailures
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.interactors.RegistrationModel
@@ -39,12 +40,10 @@ class RegistrationViewModel @Inject constructor(private val signInUseCase: SignI
         }
     }
 
-    private fun handleSignInFaillure(failure: Failure) {
+    private fun handleSignInFaillure(failure: CreatUserFailures) {
         setState {
             RegistrationState(this.fragment,
-                SigninInfo(this.signinInfo.email,this.signinInfo.password,this.signinInfo.repeatPassword,Fail(
-                    Throwable(failure.toString())
-                )),
+                SigninInfo(this.signinInfo.email,this.signinInfo.password,this.signinInfo.repeatPassword,Fail(failure)),
                 LoginInfo(this.loginInfo.email,this.loginInfo.password,this.loginInfo.login)
             )
         }

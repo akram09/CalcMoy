@@ -36,16 +36,17 @@ class RegistrationActivity : BaseActivity() {
     }
 
     private fun loadLoginFragment() {
-        if(logIn == null) logIn = Login.getInstance()
 
+        if(logIn == null) logIn = Login.getInstance()
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
         if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn!!) }
-        else if(tmp != logIn) supportFragmentManager.inTransaction {replace(R.id.main_activity_framelayout,logIn!!).addToBackStack("login_fragment") }
+        else if(tmp != logIn) supportFragmentManager.inTransaction {replace(R.id.main_activity_framelayout,logIn!!) }
     }
 
     private fun loadSignInFragment() {
-            if(signeIn == null) signeIn = SigneIn.getInstance()
-           val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
+
+        if(signeIn == null) signeIn = SigneIn.getInstance()
+        val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
         if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn!!) }
         else if(tmp != signeIn) supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
     }

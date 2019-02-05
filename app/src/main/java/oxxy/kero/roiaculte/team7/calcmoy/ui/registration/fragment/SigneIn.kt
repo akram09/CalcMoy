@@ -19,6 +19,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.invisible
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.visible
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.isEmailValid
+import oxxy.kero.roiaculte.team7.domain.exception.*
 
 class SigneIn : BaseFragment(){
 
@@ -38,7 +39,15 @@ class SigneIn : BaseFragment(){
             binding.signeinPassword.setText(it?.signinInfo?.password ?: "")
             binding.signeinRepeatpassword.setText(it?.signinInfo?.repeatPassword ?: "")
 
-            fun onFail(){
+            fun onFail(error  : CreatUserFailures){
+
+                when (error){
+                    is FirebaseWeakPassword -> onError(R.string.weak_password)
+                    is FirebaseCoalisedUser -> onError("user alredy exist !!") //TODO load signIn fragment
+                    is FirebaseNetworkError -> onError(R.string.cnx_failed)
+                    is FirebaseUknownError -> onError(R.string.inknown_error)
+                }
+
                 binding.signeinBtn.alpha = 1f
                 binding.signeinBtn.isClickable =true
                 binding.inputs.visible()
@@ -54,10 +63,9 @@ class SigneIn : BaseFragment(){
                         binding.signeinBtn.alpha = 0.7f
                         binding.signeinBtn.isClickable =false
                     }
-                    is Success<*> -> openSaveInfo()
-                    is Fail<*> -> {
-                        onError(R.string.registration_faill)
-                        onFail()
+                    is Success -> openSaveInfo()
+                    is Fail<*,*> -> {
+                        onFail(async.error as CreatUserFailures)
                     }
                 }
             }
