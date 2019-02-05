@@ -7,8 +7,13 @@ import oxxy.kero.roiaculte.team7.data.repositories.AuthentificationRepositoryImp
 import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
 import javax.inject.Singleton
 
-//@Module
+@Module
 class FirebaseModule {
 
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return FirebaseAuth.getInstance()
+    }
 
 }

@@ -9,17 +9,8 @@ import oxxy.kero.roiaculte.team7.data.repositories.AuthentificationRepositoryImp
 import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
 import javax.inject.Singleton
 
-@Module
+@Module(includes=[FirebaseModule::class])
 class DataModule {
-    @Provides
-    fun provideFirebaseAuth(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
-    }
-
-    @Provides
-    @Singleton
-    fun provideAuthentificationFirebase(auth : FirebaseAuth) = AuthentificationFirebase(auth)
-
     @Provides
     @Singleton
     fun provideRepo(auth : AuthentificationFirebase): AuthentificationRepository = AuthentificationRepositoryImpl(auth)

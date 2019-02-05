@@ -64,9 +64,9 @@ dependencies {
     implementation deps.room.rxJava
     implementation  'javax.inject:javax.inject:1'
 //
-//    implementation deps.firebase.core
+    implementation deps.firebase.core
     implementation deps.firebase.auth
-//    implementation deps.firebase.google_services
+    implementation deps.firebase.google_services
 //    implementation deps.firebase.database
 
     testImplementation deps.room.testing

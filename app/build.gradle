@@ -68,9 +68,10 @@ dependencies {
     implementation deps.rxJava.core
     implementation deps.rxJava.rxAndroid
     implementation deps.rxJava.rxKotlin
-//    implementation deps.firebase.core
-//    implementation deps.firebase.auth
-//    implementation deps.firebase.google_services
+
+    implementation deps.firebase.core
+    implementation deps.firebase.auth
+    implementation deps.firebase.google_services
 
     kapt deps.room.compiler
 
