@@ -2,6 +2,7 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment
 
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.SigneinBinding
+import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
@@ -21,28 +23,30 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.isEmailValid
 class SigneIn : BaseFragment(){
 
     private lateinit var binding :  SigneinBinding
-    private val viewModel :RegistrationViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[RegistrationViewModel::class.java]}
+    private lateinit var viewModel :RegistrationViewModel
+    companion object{ fun getInstance() = SigneIn() }
 
-    companion object{
-        fun getInstance() = SigneIn()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel = (context as RegistrationActivity).viewModel
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.signein,container,false)
         viewModel.observe(this ){
-            binding.signeinEmail.setText(it?.signinInfo?.email)
-            binding.signeinPassword.setText(it?.signinInfo?.password)
-            binding.signeinRepeatpassword.setText(it?.signinInfo?.repeatPassword)
+            binding.signeinEmail.setText(it?.signinInfo?.email ?: "")
+            binding.signeinPassword.setText(it?.signinInfo?.password ?: "")
+            binding.signeinRepeatpassword.setText(it?.signinInfo?.repeatPassword ?: "")
 
             fun onFail(){
                 binding.signeinBtn.alpha = 1f
                 binding.signeinBtn.isClickable =true
                 binding.inputs.visible()
                 binding.progressBar.invisible()
-                it?.signinInfo?.login = null
+                it?.signinInfo?.signIn = null
             }
 
-            it?.signinInfo?.login.let {async ->
+            it?.signinInfo?.signIn.let { async ->
                 when(async){
                     is Loading<*> -> {
                         binding.inputs.invisible()
