@@ -43,11 +43,9 @@ abstract  class BaseViewModel<S: State>(initialState:S): ViewModel() {
         chenger(state.value!!)
     }
 
-    protected fun  <P, Type> launchObservableInteractor(interactor: ObservableInteractor<Type, P>, p:P, errorHandler :(Failure)->Unit
+    protected fun  <P, Type> launchObservableInteractor(interactor: ObservableInteractor<Type, P>, p:P, errorHandler :(Throwable)->Unit
                                                         , dataHandler:(Type)->Unit){
-       disposable.add(interactor.observe(p){
-           it.either(errorHandler,dataHandler)
-       })
+       disposable.add(interactor.observe(p, errorHandler, dataHandler))
     }
 
 

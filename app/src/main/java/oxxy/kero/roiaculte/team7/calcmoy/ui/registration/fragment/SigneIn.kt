@@ -39,13 +39,13 @@ class SigneIn : BaseFragment(){
             binding.signeinPassword.setText(it?.signinInfo?.password ?: "")
             binding.signeinRepeatpassword.setText(it?.signinInfo?.repeatPassword ?: "")
 
-            fun onFail(error  : CreatUserFailures){
+            fun onFail(error  : Failure.CreatUserFailures){
 
                 when (error){
-                    is FirebaseWeakPassword -> onError(R.string.weak_password)
-                    is FirebaseCoalisedUser -> onError("user alredy exist !!") //TODO load signIn fragment
-                    is FirebaseNetworkError -> onError(R.string.cnx_failed)
-                    is FirebaseUknownError -> onError(R.string.inknown_error)
+                    is Failure.CreatUserFailures.FirebaseWeakPassword -> onError(R.string.weak_password)
+                    is Failure.CreatUserFailures.FirebaseCoalisedUser -> onError("user alredy exist !!") //TODO load signIn fragment
+                    is Failure.CreatUserFailures.FirebaseNetworkError -> onError(R.string.cnx_failed)
+                    is Failure.CreatUserFailures.FirebaseUknownError -> onError(R.string.inknown_error)
                 }
 
                 binding.signeinBtn.alpha = 1f
@@ -65,7 +65,7 @@ class SigneIn : BaseFragment(){
                     }
                     is Success -> openSaveInfo()
                     is Fail<*,*> -> {
-                        onFail(async.error as CreatUserFailures)
+                        onFail(async.error as Failure.CreatUserFailures)
                     }
                 }
             }

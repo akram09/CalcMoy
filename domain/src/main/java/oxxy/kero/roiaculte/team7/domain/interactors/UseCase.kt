@@ -24,13 +24,9 @@ abstract class ObservableInteractor<Type , in Params>(private val schedulers:App
 
     protected abstract fun buildObservable(p:Params):Observable< Type>
 
-    fun observe(p:Params, observer: (e:Either<Failure, Type>)->Unit): Disposable {
+    fun observe(p:Params, FailureObserver:(e:Throwable)->Unit , SuccesObserver:(t:Type)->Unit): Disposable {
        return buildObservable(p).subscribeOn(schedulers.io).observeOn(schedulers.main)
-            .subscribe({
-                observer(Either.Right(it))
-            }, {
-                observer(Either.Left(Failure.DataBaseError(it)))
-            })
+            .subscribe(SuccesObserver, FailureObserver)
     }
 }
 
@@ -47,5 +43,5 @@ fun <P> CoroutineScope.launchInteractor(interactor:Interactor<P>, param: P, onRe
         onResult()}
 
 }
-fun  <R, T:Failure>CoroutineScope.launchInteractor(interactor: EitherInteractor<Unit, R, T>, OnResult: (Either<T, R>) -> Unit) =
-    launchInteractor(interactor, Unit, OnResult = OnResult)
+//fun  <R, T:Failure>CoroutineScope.launchInteractor(interactor: EitherInteractor<Unit, R, T>, OnResult: (Either<T, R>) -> Unit) =
+//    launchInteractor(interactor, Unit, OnResult = OnResult)
