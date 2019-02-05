@@ -20,4 +20,8 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
     override suspend fun signUserOut() {
          authentificator.signUserOut()
     }
+    companion object {
+        const val GOOGLE_CONST = 0
+        const val FACEBOOK_CONST = 1
+    }
 }
