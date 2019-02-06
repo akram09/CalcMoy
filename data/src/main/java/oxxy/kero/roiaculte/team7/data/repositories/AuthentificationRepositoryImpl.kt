@@ -31,9 +31,31 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
     }
 
     override suspend fun signInUserCredentiel(credentiel: String, type: Int): Either<Failure.SignInCredentielFailure, None> {
-        return authentificator.signInUserWithCredentiel(
-            if(type== GOOGLE_CONST)GoogleAuthProvider.getCredential( credentiel, null)
-        else FacebookAuthProvider.getCredential(credentiel) )
+       val either = authentificator.signInUserWithCredentiel(
+           if(type== GOOGLE_CONST)GoogleAuthProvider.getCredential( credentiel, null)
+
+           else FacebookAuthProvider.getCredential(credentiel) )
+        if(either is Either.Left){
+            Log.e("errr", "ther is a failure")
+            return either
+        }else{
+            Log.e("errr", "there is success")
+            val id  = authentificator.getUserId()
+            Log.e("errr", id)
+            if(local.getUserById(id!!)==null){
+                Log.e("errr", "there is no user in db ")
+                val user = authentificator.checkUserRemote(id)
+                if( user!=null){
+                    local.addUserDao(user)
+                    Log.e("errr", "user added successfully")
+                }
+
+            }else {
+                Log.e("errr", "there is a user")
+                local.updateUser(id, true)
+            }
+            return either
+        }
 
     }
 
