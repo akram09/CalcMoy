@@ -7,7 +7,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.signin.SigneIn
 
 
 @Module
-abstract class FragmentBuilder {
+abstract class RegistrationFragmentBuilder {
 
     @ContributesAndroidInjector
     abstract fun provideFragmentSignIn() : SigneIn

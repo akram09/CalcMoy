@@ -1,5 +1,7 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.registration
 
+import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import oxxy.kero.roiaculte.team7.calcmoy.R
@@ -20,6 +22,10 @@ const val FRAGMENT_KEY ="curent_fragment_key"
 
 
 class RegistrationActivity : BaseActivity() {
+
+    companion object {
+        fun getIntent(context : Context) = Intent(context,RegistrationActivity::class.java)
+    }
 
     private var signeIn : SigneIn? = null
     private var logIn : Login? = null

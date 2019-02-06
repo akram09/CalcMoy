@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.login.LoginViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.signin.SigneInViewModel
+import oxxy.kero.roiaculte.team7.calcmoy.ui.splash_screen.SplashViewModel
 
 
 @Module
@@ -14,10 +15,10 @@ abstract class ViewModelModule {
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(RegistrationViewModel::class)
-//    internal abstract fun provideRegistrationViewModel(viewModel : RegistrationViewModel) : ViewModel
+    @Binds
+    @IntoMap
+    @ViewModelKey(SplashViewModel::class)
+    internal abstract fun provideSplashViewModel(viewModel : SplashViewModel) : ViewModel
 
     @Binds
     @IntoMap
