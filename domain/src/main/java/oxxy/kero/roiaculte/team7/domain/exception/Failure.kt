@@ -23,6 +23,7 @@ sealed class Failure {
         class LoginUsrNotFound(val e:Exception?):LoginFailure()
     }
     class ProvideUserStateFailure(val e:Exception?):Failure()
+    class GetModulesDEfaultFailure(val e:Exception?):Failure()
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()
