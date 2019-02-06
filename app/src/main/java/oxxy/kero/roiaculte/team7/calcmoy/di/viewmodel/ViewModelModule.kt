@@ -5,7 +5,8 @@ import android.arch.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationViewModel
+import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.login.LoginViewModel
+import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.signin.SigneInViewModel
 
 
 @Module
@@ -13,9 +14,18 @@ abstract class ViewModelModule {
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(RegistrationViewModel::class)
+//    internal abstract fun provideRegistrationViewModel(viewModel : RegistrationViewModel) : ViewModel
+
     @Binds
     @IntoMap
-    @ViewModelKey(RegistrationViewModel::class)
-    internal abstract fun provideRegistrationViewModel(viewModel : RegistrationViewModel) : ViewModel
+    @ViewModelKey(SigneInViewModel::class)
+    internal abstract fun provideSignInViewModel(viewModel : SigneInViewModel) : ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel::class)
+    internal abstract fun provideLoginViewModel(viewModel : LoginViewModel) : ViewModel
 }

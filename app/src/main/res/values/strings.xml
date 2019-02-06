@@ -50,7 +50,8 @@
     <string name="email_not_valid">Email is not valid !</string>
     <string name="password_short">the password is too shoort</string>
     <string name="cnx_failed">there is no internet connection !!</string>
-    <string name="email_or_pass_not_correct">email or password are not Correct !!</string>
+    <string name="email_not_correct">email is not Correct !!</string>
+    <string name="password_not_correct">password is not Correct !!</string>
     <string name="login_error">Login error</string>
     <string name="name_empty">name should not be empty</string>
     <string name="prenam_empty">prenam should not be empty</string>
@@ -68,10 +69,13 @@
     <string name="philo">فلسفة</string>
 
     //facebook
-    <string name="facebook_app_id">177492766524607</string>
-    <string name="fb_login_protocol_scheme">fb177492766524607</string>
+    <string name="facebook_app_id">355056481750451</string>
+    <string name="fb_login_protocol_scheme">fb355056481750451</string>
+
     <string name="opration_canceled">The operation has been canceled</string>
     <string name="weak_password">weak password please provide a strong password</string>
+    <string name="invalid_credentiel">invalid Credentiel</string>
+    <string name="operation_canceld">operation canceld</string>
 
 
 </resources>
