@@ -71,6 +71,12 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
         return local.provideUserState()
     }
 
+    override suspend fun getUserState(): Either<Failure.ProvideUserStateFailure, UserState> {
+        return if(authentificator.isThereUser()){
+             local.provideUserState()
+        }else Either.Right(UserState.USER_NOT_REGISTRED)
+    }
+
     companion object {
         const val GOOGLE_CONST = 0
         const val FACEBOOK_CONST = 1

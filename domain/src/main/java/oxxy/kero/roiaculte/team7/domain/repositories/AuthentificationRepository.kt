@@ -18,4 +18,6 @@ interface  AuthentificationRepository{
     suspend fun loginUser(param: LoginParam ):Either<Failure.LoginFailure, None>
     suspend fun provideUserState():Either<Failure.ProvideUserStateFailure, UserState>
 
+    suspend fun getUserState():Either<Failure.ProvideUserStateFailure, UserState>
+
 }

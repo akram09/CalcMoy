@@ -105,8 +105,6 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
             }
         }
     }
-    //todo doont forget to add the user to the database from the remote
-
 
      suspend fun checkUserRemote(id:String ): UserEntity?{
          return suspendCoroutine {
@@ -132,6 +130,10 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
 
     fun getUserId():String?{
         return auth.currentUser?.uid
+    }
+
+    fun isThereUser() :Boolean{
+        return auth.currentUser != null
     }
    fun signUserOut():String?{
        val id = auth.currentUser?.uid
