@@ -10,14 +10,21 @@
             android:supportsRtl="true"
             android:name =".AndroidApplication"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.registration.RegistrationActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+
+        <activity android:name=".ui.splash_screen.SplashActivity"
+                  android:theme="@style/AppTheme.NoActionBar.Launcher"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.registration.RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+
         </activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
