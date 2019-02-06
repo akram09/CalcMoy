@@ -1,16 +1,26 @@
 package oxxy.kero.roiaculte.team7.data.firebase
 
 
+import android.util.Log
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import oxxy.kero.roiaculte.team7.data.database.entities.SchoolConverterClass
+import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.*
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.models.User
+import oxxy.kero.roiaculte.team7.domain.models.UserState
+import java.lang.ref.PhantomReference
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAuth) {
+class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAuth, private val database :FirebaseDatabase) {
 
    suspend fun registreUserWithEmail(mail :String , pass :String ):Either<Failure.CreatUserFailures, None>{
        return suspendCoroutine{
@@ -21,7 +31,7 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
                    continuation.resume(Either.Right(None()))
 
                }else {
-                   continuation.resume(Either.Left(when(task.exception){
+                   continuation.resume(Either.Left(when(task.exception!!){
                        is FirebaseAuthUserCollisionException-> Failure.CreatUserFailures.FirebaseCoalisedUser(
                            task.exception
                        )
@@ -95,7 +105,37 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
             }
         }
     }
-   fun signUserOut(){
+    //todo doont forget to add the user to the database from the remote
+
+
+     suspend fun checkUserRemote(id:String ): UserEntity?{
+         return suspendCoroutine {
+             continuation->
+             val ref=database.reference
+             ref.child("users").child(id).addValueEventListener(object : ValueEventListener {
+                 override fun onCancelled(p0: DatabaseError) {
+                     Log.e("errr", p0.message)
+                     Log.e("errr", p0.code.toString())
+                 }
+                 override fun onDataChange(p0: DataSnapshot) {
+                       continuation.resume(if(p0.exists()){
+                         UserEntity(id , p0.child("name").value as String ,
+                             p0.child("prename").value as String , SchoolConverterClass().fromIntToSchool(
+                                 ( p0.child("school").value as Long).toInt()
+                             ), p0.child("year").value as String , (p0.child("semestre").value as Long).toInt(),
+                             p0.child("ImageUrl").value as String, true , p0.child("moyenneGenerale").value as Double)
+                       }else null)
+                 }
+             })
+         }
+     }
+
+    fun getUserId():String?{
+        return auth.currentUser?.uid
+    }
+   fun signUserOut():String?{
+       val id = auth.currentUser?.uid
         auth.signOut()
+       return  id
     }
 }

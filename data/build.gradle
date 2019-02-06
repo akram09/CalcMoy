@@ -56,6 +56,7 @@ dependencies {
     implementation deps.kotlin.kotlin_jre
     implementation deps.kotlin.coroutines_core
     implementation deps.kotlin.coroutines_android
+    implementation deps.kotlin.rx2
     kapt deps.room.compiler
     implementation deps.dagger.core
     implementation deps.dagger.support
@@ -70,7 +71,7 @@ dependencies {
     implementation deps.firebase.core
     implementation deps.firebase.auth
     implementation deps.firebase.google_services
-//    implementation deps.firebase.database
+    implementation deps.firebase.database
 
     testImplementation deps.room.testing
     testImplementation deps.test.junit

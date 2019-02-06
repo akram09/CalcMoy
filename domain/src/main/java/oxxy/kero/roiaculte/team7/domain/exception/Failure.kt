@@ -22,6 +22,7 @@ sealed class Failure {
         class LoginPasswordInvalid(val e:Exception?):LoginFailure()
         class LoginUsrNotFound(val e:Exception?):LoginFailure()
     }
+    class ProvideUserStateFailure(val e:Exception?):Failure()
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()

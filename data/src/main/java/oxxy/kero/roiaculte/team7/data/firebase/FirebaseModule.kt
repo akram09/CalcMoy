@@ -1,6 +1,7 @@
 package oxxy.kero.roiaculte.team7.data.firebase
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import oxxy.kero.roiaculte.team7.data.repositories.AuthentificationRepositoryImpl
@@ -14,6 +15,11 @@ class FirebaseModule {
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
+    }
+    @Provides
+    @Singleton
+    fun provideFirebaseDatabase():FirebaseDatabase{
+        return FirebaseDatabase.getInstance()
     }
 
 }

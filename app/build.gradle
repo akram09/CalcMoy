@@ -71,10 +71,12 @@ dependencies {
     implementation deps.rxJava.core
     implementation deps.rxJava.rxAndroid
     implementation deps.rxJava.rxKotlin
+    implementation deps.firebase.database
 
     implementation deps.firebase.core
     implementation deps.firebase.auth
     implementation deps.firebase.google_services
+    implementation("com.google.firebase:firebase-common:16.0.4")
 
     kapt deps.room.compiler
 
