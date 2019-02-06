@@ -24,6 +24,7 @@ sealed class Failure {
     }
     class ProvideUserStateFailure(val e:Exception?):Failure()
     class GetModulesDEfaultFailure(val e:Exception?):Failure()
+    class NoUserInfo():Failure()
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()

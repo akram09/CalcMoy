@@ -6,5 +6,5 @@ import oxxy.kero.roiaculte.team7.domain.interactors.GetModulesDefaultParam
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 
 interface DataModelingRepository {
-    fun getDefaultModules(executeParams: GetModulesDefaultParam): Either<Failure.GetModulesDEfaultFailure, List<Semestre>>
+    suspend fun getDefaultModules(executeParams: GetModulesDefaultParam): Either<Failure.GetModulesDEfaultFailure, List<Semestre>>
 }

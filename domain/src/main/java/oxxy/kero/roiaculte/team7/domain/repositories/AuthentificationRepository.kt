@@ -7,6 +7,7 @@ import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.LoginParam
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.interactors.RegistrationModel
+import oxxy.kero.roiaculte.team7.domain.interactors.UserInfo
 import oxxy.kero.roiaculte.team7.domain.models.UserState
 
 interface  AuthentificationRepository{
@@ -19,5 +20,6 @@ interface  AuthentificationRepository{
     suspend fun provideUserState():Either<Failure.ProvideUserStateFailure, UserState>
 
     suspend fun getUserState():Either<Failure.ProvideUserStateFailure, UserState>
+    suspend  fun provideUserInfo():Either<Failure.NoUserInfo, UserInfo>
 
 }

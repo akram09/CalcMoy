@@ -1,6 +1,7 @@
 package oxxy.kero.roiaculte.team7.data.firebase
 
 
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
@@ -8,11 +9,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import oxxy.kero.roiaculte.team7.data.Util.getName
 import oxxy.kero.roiaculte.team7.data.database.entities.SchoolConverterClass
 import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.*
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.interactors.UserInfo
 import oxxy.kero.roiaculte.team7.domain.models.User
 import oxxy.kero.roiaculte.team7.domain.models.UserState
 import java.lang.ref.PhantomReference
@@ -139,5 +142,22 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
        val id = auth.currentUser?.uid
         auth.signOut()
        return  id
+    }
+
+    suspend fun provideUser(): Either<Failure.NoUserInfo, UserInfo> {
+     return suspendCoroutine {
+         var displayName = auth.currentUser?.displayName
+         var imageUrl = auth.currentUser?.photoUrl
+         if((displayName ==null) and(imageUrl==null)){
+             it.resume(Either.Left(Failure.NoUserInfo()))
+         }else{
+             if(displayName==null) displayName = ""
+             if(imageUrl==null) imageUrl = Uri.EMPTY
+             it.resume(Either.Right(UserInfo(displayName.getName().first,
+                 displayName.getName().second, imageUrl.toString()
+             )))
+         }
+
+     }
     }
 }

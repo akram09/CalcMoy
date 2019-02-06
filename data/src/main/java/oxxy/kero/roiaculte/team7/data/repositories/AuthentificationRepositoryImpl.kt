@@ -12,11 +12,13 @@ import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.LoginParam
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.interactors.RegistrationModel
+import oxxy.kero.roiaculte.team7.domain.interactors.UserInfo
 import oxxy.kero.roiaculte.team7.domain.models.UserState
 import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
 import java.lang.NullPointerException
 
 import javax.inject.Inject
+import kotlin.coroutines.suspendCoroutine
 
 class AuthentificationRepositoryImpl @Inject constructor(private val authentificator: AuthentificationFirebase
             , private val local:LocalAuthentificator)
@@ -97,6 +99,10 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
         return if(authentificator.isThereUser()){
              local.provideUserState()
         }else Either.Right(UserState.USER_NOT_REGISTRED)
+    }
+
+    override suspend fun provideUserInfo(): Either<Failure.NoUserInfo, UserInfo> {
+        return authentificator.provideUser()
     }
 
     companion object {
