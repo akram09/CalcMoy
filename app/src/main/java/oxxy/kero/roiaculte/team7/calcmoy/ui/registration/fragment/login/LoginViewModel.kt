@@ -3,11 +3,15 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.login
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
+import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.*
+import oxxy.kero.roiaculte.team7.domain.models.UserState
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(private val logInUseCase: LoginUseCase,private val signInCredentiel: SignInCredentiel)
+class LoginViewModel @Inject constructor(private val logInUseCase: LoginUseCase,
+                                         private val signInCredentiel: SignInCredentiel,
+                                         private val userState : ProvideUserState)
     : BaseViewModel<LoginState>(LoginState("","",null)) {
 
 
@@ -26,7 +30,13 @@ class LoginViewModel @Inject constructor(private val logInUseCase: LoginUseCase,
     }
 
     private fun handleLoginPasst(none: None) {
-        //TODO excute userState use case
+        scope.launchInteractor(userState,None()){it.either(::handleFailure,::handleUserState)}
+    }
+
+    private fun handleUserState(userState: UserState) {
+        setState {
+            LoginState(this.email,this.password, Success(userState))
+        }
     }
 
     private fun handleFailure(loginFailure: Failure) {

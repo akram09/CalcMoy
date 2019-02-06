@@ -53,19 +53,7 @@ class SigneIn : BaseFragment(){
 
             fun onFail(error  : Failure) {
 
-                when (error){
-                    is Failure.CreatUserFailures -> when(error) {
-                        is Failure.CreatUserFailures.FirebaseWeakPassword -> onError(R.string.weak_password)
-                        is Failure.CreatUserFailures.FirebaseCoalisedUser -> onError("user alredy exist !!") //TODO load signIn fragment
-                        is Failure.CreatUserFailures.FirebaseNetworkError -> onError(R.string.cnx_failed)
-                        is Failure.CreatUserFailures.FirebaseUknownError -> onError(R.string.inknown_error)
-                    }
-                    is Failure.SignInCredentielFailure -> when(error){
-                        is Failure.SignInCredentielFailure.SignInNetworkError -> onError(R.string.cnx_failed)
-                        is Failure.SignInCredentielFailure.SignInInvalidCredentiel -> onError(R.string.invalid_credentiel)
-                        is Failure.SignInCredentielFailure.SignInUknownError -> onError(R.string.inknown_error)
-                    }
-                }
+                handleFailure(error)
 
                 binding.signeinBtn.alpha = 1f
                 binding.signeinBtn.isClickable =true
@@ -154,7 +142,7 @@ class SigneIn : BaseFragment(){
 
         }
 
-        binding.signeinLogin.setOnClickListener(){
+        binding.signeinLogin.setOnClickListener{
             activity?.let {
                 (it as RegistrationActivity).loadLoginFragment()
             }
@@ -176,11 +164,30 @@ class SigneIn : BaseFragment(){
         }
     }
 
-    private fun handleSuccess(type : UserState?) {
-        showMessage("registration success")
-        if (type == null) //TODO open SaveInfo Activity (signIn with email)
-        else {
-            //TODO desitination depend on UserState (SignIn with google and facebook)
+    private fun handleFailure(error: Failure) {
+        when (error){
+            is Failure.CreatUserFailures -> when(error) {
+                is Failure.CreatUserFailures.FirebaseWeakPassword -> onError(R.string.weak_password)
+                is Failure.CreatUserFailures.FirebaseCoalisedUser -> onError("user alredy exist !!") //TODO load signIn fragment
+                is Failure.CreatUserFailures.FirebaseNetworkError -> onError(R.string.cnx_failed)
+                is Failure.CreatUserFailures.FirebaseUknownError -> onError(R.string.inknown_error)
+            }
+            is Failure.SignInCredentielFailure -> when(error){
+                is Failure.SignInCredentielFailure.SignInNetworkError -> onError(R.string.cnx_failed)
+                is Failure.SignInCredentielFailure.SignInInvalidCredentiel -> onError(R.string.invalid_credentiel)
+                is Failure.SignInCredentielFailure.SignInUknownError -> onError(R.string.inknown_error)
+            }
+            is Failure.ProvideUserStateFailure -> when(error){
+                //TODO handle provide userState failurs
+            }
+        }
+    }
+
+    private fun handleSuccess(type : UserState) {
+        showMessage("registration success"+type)
+        when(type){
+            UserState.USER_REGISTRED_NOT_SAVED -> showMessage("go save info ") //TODO go to save info
+            UserState.USER_REGISTRED_SAVED -> showMessage("go to main ") //TODO go to main
         }
     }
 }

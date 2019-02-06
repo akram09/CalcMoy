@@ -6,16 +6,19 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.*
+import oxxy.kero.roiaculte.team7.domain.models.UserState
 import javax.inject.Inject
 
-class SigneInViewModel @Inject constructor(private val signInUseCase: SignInUseCase, private val signInCredentiel: SignInCredentiel)
+class SigneInViewModel @Inject constructor(private val signInUseCase: SignInUseCase,
+                                           private val signInCredentiel: SignInCredentiel,
+                                           private val userState : ProvideUserState )
     : BaseViewModel<SignInState> (SignInState("","","",null)){
 
     fun signIn(email :String, password : String){
         setState {
             SignInState(this.email,this.password,this.repeatPassword,Loading())
         }
-        scope.launchInteractor(signInUseCase, RegistrationModel(email,password)){it.either(::handleSignInFaillure,::handleSignInSuccess)}
+        scope.launchInteractor(signInUseCase, RegistrationModel(email,password)){it.either(::handleSignInFaillure,::handleSignInWithEmailSuccess)}
     }
 
     fun signInWithCredentil(token : String , type : Int){
@@ -26,12 +29,18 @@ class SigneInViewModel @Inject constructor(private val signInUseCase: SignInUseC
     }
 
     private fun handleCredentielPasst(none: None) {
-        //TODO excute getUserState
+        scope.launchInteractor(userState,None()){it.either(::handleSignInFaillure,::handleUserState)}
     }
 
-    private fun handleSignInSuccess(none: None) {
+    private fun handleUserState(userState: UserState) {
         setState {
-            SignInState(this.email,this.password,this.repeatPassword,Success(null))
+            SignInState(this.email,this.password,this.repeatPassword,Success(userState))
+        }
+    }
+
+    private fun handleSignInWithEmailSuccess(none: None) {
+        setState {
+            SignInState(this.email,this.password,this.repeatPassword,Success(UserState.USER_REGISTRED_NOT_SAVED))
         }
     }
 

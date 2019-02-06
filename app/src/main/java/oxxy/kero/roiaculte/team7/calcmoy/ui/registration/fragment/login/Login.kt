@@ -52,20 +52,8 @@ class Login : BaseFragment() {
             binding.loginPassword.setText( it?.password ?: "")
 
             fun onFail(error: Failure) {
-                when (error){
-                    is Failure.LoginFailure -> when(error) {
-                        is Failure.LoginFailure.LoginNetworkError -> onError(R.string.cnx_failed)
-                        is Failure.LoginFailure.LoginUknownError -> onError(R.string.inknown_error)
-                        is Failure.LoginFailure.LoginPasswordInvalid -> onError(R.string.password_not_correct)
-                        is Failure.LoginFailure.LoginUsrNotFound -> onError(R.string.email_not_correct)
-                    }
-                    is Failure.SignInCredentielFailure -> when(error){
-                        is Failure.SignInCredentielFailure.SignInNetworkError -> onError(R.string.cnx_failed)
-                        is Failure.SignInCredentielFailure.SignInInvalidCredentiel -> onError(R.string.invalid_credentiel)
-                        is Failure.SignInCredentielFailure.SignInUknownError -> onError(R.string.inknown_error)
-                    }
-                }
 
+                handleFailure(error)
                 binding.loginBtn.alpha = 1f
                 binding.loginBtn.isClickable =true
                 binding.inputs.visible()
@@ -162,8 +150,29 @@ class Login : BaseFragment() {
         }
     }
 
+    private fun handleFailure(error: Failure) {
+        when (error){
+            is Failure.LoginFailure -> when(error) {
+                is Failure.LoginFailure.LoginNetworkError -> onError(R.string.cnx_failed)
+                is Failure.LoginFailure.LoginUknownError -> onError(R.string.inknown_error)
+                is Failure.LoginFailure.LoginPasswordInvalid -> onError(R.string.password_not_correct)
+                is Failure.LoginFailure.LoginUsrNotFound -> onError(R.string.email_not_correct)
+            }
+            is Failure.SignInCredentielFailure -> when(error){
+                is Failure.SignInCredentielFailure.SignInNetworkError -> onError(R.string.cnx_failed)
+                is Failure.SignInCredentielFailure.SignInInvalidCredentiel -> onError(R.string.invalid_credentiel)
+                is Failure.SignInCredentielFailure.SignInUknownError -> onError(R.string.inknown_error)
+            }
+        }
+    }
+
+
     private fun onSuccess(userState: UserState) {
-        //TODO destinantion depend on userState
+        showMessage("registration success"+userState)
+        when(userState){
+            UserState.USER_REGISTRED_NOT_SAVED -> showMessage("go save info ") //TODO go to save info
+            UserState.USER_REGISTRED_SAVED -> showMessage("go to main ") //TODO go to main
+        }
     }
 }
 
