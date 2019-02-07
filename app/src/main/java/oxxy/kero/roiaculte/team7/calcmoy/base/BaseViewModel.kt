@@ -31,7 +31,7 @@ abstract  class BaseViewModel<S: State>(initialState:S): ViewModel() {
         disposable.dispose()
     }
 
-    protected fun setState( statechenger :S.()->S){
+    fun setState( statechenger :S.()->S){
         state.value = state.value?.statechenger()
     }
 

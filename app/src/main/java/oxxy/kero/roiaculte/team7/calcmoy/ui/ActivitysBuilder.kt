@@ -6,6 +6,8 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationModule
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationScoop
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.RegistrationFragmentBuilder
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.SaveInfoFragmentBuilder
 import oxxy.kero.roiaculte.team7.calcmoy.ui.splash_screen.SplashActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.splash_screen.SplashFragment
 import oxxy.kero.roiaculte.team7.calcmoy.ui.splash_screen.SplashFragmentBuilder
@@ -22,5 +24,8 @@ abstract class ActivitysBuilder {
     @ContributesAndroidInjector(modules = [RegistrationFragmentBuilder::class,RegistrationModule::class])
     @RegistrationScoop
     abstract fun provideRegistration() : RegistrationActivity
+
+    @ContributesAndroidInjector(modules = [SaveInfoFragmentBuilder::class])
+    abstract fun provideSaveInfo() : SaveInfoActivity
 
 }

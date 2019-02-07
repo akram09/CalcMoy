@@ -23,11 +23,11 @@ import oxxy.kero.roiaculte.team7.calcmoy.R
 @Module
 class AppModule {
 
-@Provides
-@Singleton
-  fun provideContext(app:AndroidApplication):Context{
-    return app.applicationContext
-}
+    @Provides
+    @Singleton
+      fun provideContext(app:AndroidApplication):Context{
+        return app.applicationContext
+    }
     @Provides @Singleton
     fun provideSchedulers(): AppRxSchedulers {
         return AppRxSchedulersImpl(

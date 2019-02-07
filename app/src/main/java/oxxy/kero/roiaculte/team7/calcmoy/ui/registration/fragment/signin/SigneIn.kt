@@ -31,6 +31,7 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationActivity
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
 import oxxy.kero.roiaculte.team7.domain.models.UserState
 
 
@@ -186,7 +187,7 @@ class SigneIn : BaseFragment(){
     private fun handleSuccess(type : UserState) {
         showMessage("registration success"+type)
         when(type){
-            UserState.USER_REGISTRED_NOT_SAVED -> showMessage("go save info ") //TODO go to save info
+            UserState.USER_REGISTRED_NOT_SAVED -> startActivity(SaveInfoActivity.getIntent(context!!))
             UserState.USER_REGISTRED_SAVED -> showMessage("go to main ") //TODO go to main
         }
     }

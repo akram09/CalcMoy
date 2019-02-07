@@ -21,6 +21,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.LoginBinding
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.GOOGLE_SIGNEIN
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationActivity
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
@@ -170,7 +171,7 @@ class Login : BaseFragment() {
     private fun onSuccess(userState: UserState) {
         showMessage("registration success"+userState)
         when(userState){
-            UserState.USER_REGISTRED_NOT_SAVED -> showMessage("go save info ") //TODO go to save info
+            UserState.USER_REGISTRED_NOT_SAVED -> startActivity(SaveInfoActivity.getIntent(context!!))
             UserState.USER_REGISTRED_SAVED -> showMessage("go to main ") //TODO go to main
         }
     }

@@ -18,7 +18,7 @@ const val EMAIL_SIGNEIN = 3
 
 const val LOGIN = 0
 const val SIGNIN = 1
-const val FRAGMENT_KEY ="curent_fragment_key"
+const val FRAGMENT_KEY ="registration_curent_fragment_key"
 
 
 class RegistrationActivity : BaseActivity() {

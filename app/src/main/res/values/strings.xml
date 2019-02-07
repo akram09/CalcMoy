@@ -76,6 +76,18 @@
     <string name="weak_password">weak password please provide a strong password</string>
     <string name="invalid_credentiel">invalid Credentiel</string>
     <string name="operation_canceld">operation canceld</string>
+    <string name="pr_1">السنة الأولى</string>
+    <string name="pr_2">السنة الثانية</string>
+    <string name="pr_3">السنةالثالثة</string>
+    <string name="pr_4">السنة الرابعة</string>
+    <string name="pr_5">السنة الخامسة</string>
+    <string name="cem_1">السنة الأولى متوسطة</string>
+    <string name="cem_2">السنة الثانية متوسطة</string>
+    <string name="cem_3">السنةالثالثة متوسطة</string>
+    <string name="cem_4">السنةالرابعة متوسطة (bem)</string>
+    <string name="licy_1">السنة الأولى ثانوي</string>
+    <string name="licy_2">السنة الثانية ثانوي</string>
+    <string name="licy_3">السنةالثالثة ثانوي (bac)</string>
 
 
 </resources>
