@@ -14,4 +14,9 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+    @Test
+    public void littleBigTest(){
+        String string = "(رياضيات و إعلام آلي السنة الأولى (الفيزياء1";
+     assertTrue(string.contains("رياضيات و إعلام"));
+    }
 }
