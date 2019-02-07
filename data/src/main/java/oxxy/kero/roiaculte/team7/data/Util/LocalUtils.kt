@@ -10,7 +10,7 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 fun Map<School, Array<year>>.getMoulesListe(school :School  , year :Int, id:String ): List<Semestre>{
    var list = emptyList<Semestre>()
     for ( i in 1..3 ){
-        list +=  Semestre(i , this[school]!![year].map {
+        list +=  Semestre(i , this[school]!![year-1].map {
             Matter("", it.name, it.coifficient, it.color, i, 0.0, id)
         })
     }

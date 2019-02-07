@@ -113,7 +113,7 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
          return suspendCoroutine {
              continuation->
              val ref=database.reference
-             ref.child("users").child(id).addValueEventListener(object : ValueEventListener {
+             ref.child("users").child(id).addListenerForSingleValueEvent(object : ValueEventListener {
                  override fun onCancelled(p0: DatabaseError) {
                      Log.e("errr", p0.message)
                      Log.e("errr", p0.code.toString())

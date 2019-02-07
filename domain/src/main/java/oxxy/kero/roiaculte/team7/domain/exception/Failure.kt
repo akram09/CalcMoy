@@ -25,6 +25,10 @@ sealed class Failure {
     class ProvideUserStateFailure(val e:Exception?):Failure()
     class GetModulesDEfaultFailure(val e:Exception?):Failure()
     class NoUserInfo():Failure()
+    sealed class SearchFailure:Failure(){
+        class NetworkFailure(e:Exception?):SearchFailure()
+        class UknowFailure(e:Exception?):SearchFailure()
+    }
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()
