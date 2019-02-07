@@ -187,7 +187,10 @@ class SigneIn : BaseFragment(){
     private fun handleSuccess(type : UserState) {
         showMessage("registration success"+type)
         when(type){
-            UserState.USER_REGISTRED_NOT_SAVED -> startActivity(SaveInfoActivity.getIntent(context!!))
+            UserState.USER_REGISTRED_NOT_SAVED -> {
+                startActivity(SaveInfoActivity.getIntent(context!!))
+                activity?.finish()
+            }
             UserState.USER_REGISTRED_SAVED -> showMessage("go to main ") //TODO go to main
         }
     }

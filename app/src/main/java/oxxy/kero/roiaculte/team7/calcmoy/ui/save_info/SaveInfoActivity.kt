@@ -29,9 +29,13 @@ class SaveInfoActivity :BaseActivity() {
         supportFragmentManager.inTransaction { add(R.id.save_info_container, fragment1!!) }
     }
 
-    fun loadFragment2() {
+    fun loadFragment2(bundle: Bundle) {
         if(fragment2 == null) fragment2 = Fragment2.getInstance()
-        supportFragmentManager.inTransaction { add(R.id.save_info_container, fragment2!!).addToBackStack("save_modules") }
+        fragment2?.arguments = bundle
+        supportFragmentManager.inTransaction { add(R.id.save_info_container, fragment2!!)
+            .addToBackStack("save_modules")
+            .setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
+        }
     }
 
 

@@ -3,6 +3,7 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1
 import android.app.Activity.RESULT_OK
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
@@ -10,6 +11,8 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +25,28 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toInt
 import com.squareup.picasso.Target
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toSChool
 import java.lang.Exception
 import javax.inject.Inject
 
 class Fragment1 : BaseFragment() {
 
-    companion object { fun getInstance() = Fragment1() }
+    companion object {
+        fun getInstance() = Fragment1()
+
+        const val IMAGE_URI =0
+        const val IMAGE_URL =1
+        const val IMAGE_DEFAULT =1
+
+        const val NAME = "name"
+        const val PRENAME = "prename"
+        const val STAGE = "stage"
+        const val YEAR = "year"
+        const val FACULTY = "faculty"
+        const val TYPE_IMAGE ="type_of_image"
+        const val IMAGE = "image"
+    }
 
     @Inject lateinit var appContext : Context
     private lateinit var binding : SaveInfoFragment1Binding
@@ -36,6 +54,8 @@ class Fragment1 : BaseFragment() {
     private var imageUri : Uri? = null
 
     private var firstTime = true
+    private var  which1 = 0
+    private var which2 = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,14 +71,17 @@ class Fragment1 : BaseFragment() {
 
             val image = it?.image
             when(image){
-                is Image.ImageUrl -> Picasso.get().load(image.url).into(object : Target{
+                is Image.ImageUrl -> if(image.url != "" )Picasso.get().load(image.url).into(object : Target{
                     override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
                     override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
                     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
                         binding.signeInImage.setImageBitmap(bitmap)
                     }
                 })
-                is Image.ImageUri -> binding.signeInImage.setImageURI(image.uri)
+                is Image.ImageUri -> {
+                    imageUri = image.uri
+                    binding.signeInImage.setImageURI(imageUri)
+                }
             }
         }
 
@@ -77,7 +100,97 @@ class Fragment1 : BaseFragment() {
                 .start(context!!,this)
         }
 
+        binding.signeInNextBtn.setOnClickListener(){
+            var cancel = false
+
+            val name = binding.signeInName.text.toString()
+            val prenam = binding.signeInPrenom.text.toString()
+
+            if(TextUtils.isEmpty(name)){
+                onError(R.string.name_empty)
+                cancel = true
+            }
+            if(TextUtils.isEmpty(prenam) && ! cancel){
+                onError(R.string.prenam_empty)
+                cancel = true
+            }
+            if(!cancel){
+                val stage = binding.signeInStage.selectedItemPosition
+                val year  = binding.signeInYear.selectedItemPosition
+
+                val bundlle  = Bundle()
+                bundlle.putString(NAME,name)
+                bundlle.putString(PRENAME,prenam)
+                bundlle.putInt(YEAR,year)
+                bundlle.putInt(STAGE,stage)
+
+                //saving image in bundlle
+                if(imageUri != null) {
+                    bundlle.putInt(TYPE_IMAGE, IMAGE_URI)
+                    bundlle.putString(IMAGE,imageUri!!.path)
+                }else{
+                    viewModel.withState {
+                        val img= it.image
+                        if(it.image != null && img is Image.ImageUrl){
+                            bundlle.putInt(TYPE_IMAGE, IMAGE_URL)
+                            bundlle.putString(IMAGE,img.url)
+                        }else{
+                            bundlle.putInt(TYPE_IMAGE, IMAGE_DEFAULT)
+                        }
+                    }
+                }
+
+                if(stage == 0 || stage == 1 || stage == 3) (activity as? SaveInfoActivity)?.loadFragment2(bundlle)
+                else if(stage == 2 &&  year == 0) showDialogueLicy1(bundlle)
+                else showDialogueLicy2_3(bundlle)
+            }
+
+        }
+
         return binding.root
+    }
+
+    private fun showDialogueLicy2_3(bundlle: Bundle) {
+        which1 =0
+        val list = arrayOf(getString(R.string.scien),getString(R.string.lettre))
+        val builder = AlertDialog.Builder ( context!! )
+        builder.setTitle ( getString(R.string.choose_faculty) )
+        builder.setSingleChoiceItems ( list , 0 ){ _, i: Int -> which1 = i }
+        builder.setPositiveButton (  R.string.confirme ){ _, _ ->
+            which2 = 0
+            val builder2 = AlertDialog.Builder ( context!! )
+            builder2.setTitle ( R.string.choose_faculty )
+            var list2 : Array<String>
+            if(list[which1] == getString(R.string.scien) ) {
+                list2 = arrayOf( getString(R.string.math) , getString(R.string.scien_taj) , getString(R.string.economi) , getString(R.string.tm_electrique) , getString(R.string.tm_mecanique) , getString(R.string.tm_civil) , getString(R.string.tm_tar) )
+            }else {
+                list2 = arrayOf(getString(R.string.language) , getString(R.string.philo) )
+            }
+
+            builder2.setSingleChoiceItems ( list2 , 0 ){_,i:Int -> which2 =i }
+
+            builder2.setPositiveButton ( R.string.confirme ){_,_ ->
+                bundlle.putString(FACULTY,list2[which2])
+                (activity as? SaveInfoActivity)?.loadFragment2(bundlle)
+            }
+
+            builder2.show ();
+        }
+
+        builder.show ()
+    }
+
+    private fun showDialogueLicy1(bundlle: Bundle) {
+        which1 =0
+        val list = arrayOf(getString(R.string.scien),getString(R.string.lettre))
+        val builder = AlertDialog.Builder ( context!! )
+        builder.setTitle ( getString(R.string.choose_faculty) )
+        builder.setSingleChoiceItems ( list , 0 ){ _, i: Int -> which1 = i }
+        builder.setPositiveButton ( getString(R.string.confirme) ){ _, _ ->
+            bundlle.putString(FACULTY,list[which1])
+            (activity as? SaveInfoActivity)?.loadFragment2(bundlle)
+        }
+        builder.show ()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
