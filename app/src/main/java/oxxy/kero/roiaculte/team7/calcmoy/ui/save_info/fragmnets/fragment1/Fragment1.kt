@@ -34,7 +34,6 @@ class Fragment1 : BaseFragment() {
 
     companion object {
         fun getInstance() = Fragment1()
-
         const val IMAGE_URI =0
         const val IMAGE_URL =1
         const val IMAGE_DEFAULT =1
