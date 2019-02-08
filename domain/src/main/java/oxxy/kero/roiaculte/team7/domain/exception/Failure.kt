@@ -29,6 +29,16 @@ sealed class Failure {
         class NetworkFailure(e:Exception?):SearchFailure()
         class UknowFailure(e:Exception?):SearchFailure()
     }
+    sealed class SaveImageFailure:Failure(){
+        class NetworkFailure(e:Exception?):SaveImageFailure()
+        class UknownFailure(e:Exception?):SaveImageFailure()
+    }
+    sealed class SaveUserFailure:Failure(){
+        class NetworkFailure(e:Exception?):SaveUserFailure()
+        class DataBaseFailure(e:Exception?):SaveUserFailure()
+        class UknownFailure(e:Exception?):SaveUserFailure()
+
+    }
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()

@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
+import oxxy.kero.roiaculte.team7.domain.interactors.ObservableCompleteInteractor
 import oxxy.kero.roiaculte.team7.domain.interactors.ObservableInteractor
 
 abstract  class BaseViewModel<S: State>(initialState:S): ViewModel() {
@@ -47,7 +48,10 @@ abstract  class BaseViewModel<S: State>(initialState:S): ViewModel() {
                                                         , dataHandler:(Type)->Unit){
        disposable.add(interactor.observe(p, errorHandler, dataHandler))
     }
-
+    protected fun  <P, Type> launchObservableCompletedInteractor(interactor: ObservableCompleteInteractor<Type, P>, p:P, errorHandler :(Throwable)->Unit
+                                                        , dataHandler:(Type)->Unit, onComplete:()->Unit){
+        disposable.add(interactor.observe(p, errorHandler, dataHandler, onComplete))
+    }
 
 }
 

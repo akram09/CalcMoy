@@ -143,7 +143,6 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
         auth.signOut()
        return  id
     }
-
     suspend fun provideUser(): Either<Failure.NoUserInfo, UserInfo> {
      return suspendCoroutine {
          var displayName = auth.currentUser?.displayName

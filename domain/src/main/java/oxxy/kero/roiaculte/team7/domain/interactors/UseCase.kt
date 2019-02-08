@@ -29,6 +29,16 @@ abstract class ObservableInteractor<Type , in Params>(private val schedulers:App
             .subscribe(SuccesObserver, FailureObserver)
     }
 }
+abstract class ObservableCompleteInteractor<Type , in Params>(private val schedulers:AppRxSchedulers){
+
+    protected abstract fun buildObservable(p:Params):Observable< Type>
+
+    fun observe(p:Params, FailureObserver:(e:Throwable)->Unit , SuccesObserver:(t:Type)->Unit, JobCompletedObserver
+      :()->Unit): Disposable {
+        return buildObservable(p).subscribeOn(schedulers.io).observeOn(schedulers.main)
+            .subscribe(SuccesObserver, FailureObserver, JobCompletedObserver)
+    }
+}
 
 fun <P, R, T:Failure> CoroutineScope.launchInteractor(interactor: EitherInteractor<P,R , T>, param: P , OnResult:(Either<T, R>)->Unit): Job {
     val  job = async(interactor.dispatcher) { interactor(param) }

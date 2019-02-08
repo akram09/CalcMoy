@@ -76,6 +76,7 @@ dependencies {
     implementation deps.firebase.core
     implementation deps.firebase.auth
     implementation deps.firebase.google_services
+    implementation deps.firebase.storage
     implementation("com.google.firebase:firebase-common:16.0.4")
 
     kapt deps.room.compiler

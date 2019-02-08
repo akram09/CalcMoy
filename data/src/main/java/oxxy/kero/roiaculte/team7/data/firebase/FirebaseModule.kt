@@ -2,6 +2,7 @@ package oxxy.kero.roiaculte.team7.data.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import oxxy.kero.roiaculte.team7.data.repositories.AuthentificationRepositoryImpl
@@ -20,6 +21,11 @@ class FirebaseModule {
     @Singleton
     fun provideFirebaseDatabase():FirebaseDatabase{
         return FirebaseDatabase.getInstance()
+    }
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage():FirebaseStorage{
+        return FirebaseStorage.getInstance()
     }
 
 }

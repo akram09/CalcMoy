@@ -41,6 +41,7 @@ versions.firebase_core = "16.0.6"
 versions.firebase_auth = "16.1.0"
 versions.auth_google = "16.0.1"
 versions.firebase_database = "16.0.6"
+versions.firebase_storage= "16.0.5"
 versions.image_copper='2.7.+'
 
 
@@ -64,6 +65,7 @@ deps.android = android
 
 def firebase = [:]
 firebase.core = "com.google.firebase:firebase-core:$versions.firebase_core"
+firebase.storage= "com.google.firebase:firebase-storage:$versions.firebase_storage"
 firebase.auth = "com.google.firebase:firebase-auth:$versions.firebase_auth"
 firebase.google_services = "com.google.android.gms:play-services-auth:$versions.auth_google"
 firebase.database = "com.google.firebase:firebase-database:$versions.firebase_database"
