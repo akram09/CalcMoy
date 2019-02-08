@@ -15,6 +15,7 @@ import oxxy.kero.roiaculte.team7.data.repositories.AuthentificationRepositoryImp
 import oxxy.kero.roiaculte.team7.data.repositories.DataModelingRepositoryImpl
 import oxxy.kero.roiaculte.team7.data.repositories.SearchRepositoryImpl
 import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
+import oxxy.kero.roiaculte.team7.domain.repositories.DataModelingRepository
 import javax.inject.Singleton
 
 @Module(includes=[FirebaseModule::class, LocalModule::class])
@@ -27,6 +28,6 @@ class DataModule {
    fun provideSearchRepo(database: FirebaseDatabase)=SearchRepositoryImpl(database)
    @Provides
    @Singleton
-   fun provideDataRepo(auth:FirebaseAuth,storage:StorageHandler, remote:RemoteDatabase, local:LocalData )
+   fun provideDataRepo(auth:FirebaseAuth,storage:StorageHandler, remote:RemoteDatabase, local:LocalData ) : DataModelingRepository
            = DataModelingRepositoryImpl(auth , storage , remote , local)
 }

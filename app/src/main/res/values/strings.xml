@@ -88,6 +88,8 @@
     <string name="licy_1">السنة الأولى ثانوي</string>
     <string name="licy_2">السنة الثانية ثانوي</string>
     <string name="licy_3">السنةالثالثة ثانوي (bac)</string>
+    <string name="no_matters">coludn\'t load your Module pleas fill it by your selfe</string>
+    <string name="semestre">semestre :</string>
 
 
 </resources>

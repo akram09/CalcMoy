@@ -47,20 +47,21 @@ class RegistrationActivity : BaseActivity() {
 
     fun loadLoginFragment() {
 
-        if(logIn == null) logIn = Login.getInstance()
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
         if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn!!) }
-        else if(tmp != logIn) supportFragmentManager.inTransaction {replace(R.id.main_activity_framelayout,logIn!!) }
-
+        else if(tmp !is Login) {
+            if(logIn == null) logIn = Login.getInstance()
+            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, logIn!!) }
+        }
         curentFragment = LOGIN
     }
 
     fun loadSignInFragment() {
 
-        if(signeIn == null) signeIn = SigneIn.getInstance()
+//        if(signeIn == null) signeIn = SigneIn.getInstance()
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
         if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn!!) }
-        else if(tmp != signeIn) supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
+        else if(tmp !is SigneIn ) supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
         curentFragment = SIGNIN
     }
 

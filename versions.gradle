@@ -43,6 +43,7 @@ versions.auth_google = "16.0.1"
 versions.firebase_database = "16.0.6"
 versions.firebase_storage= "16.0.5"
 versions.image_copper='2.7.+'
+versions.recycler_swiper = '1.1'
 
 
 
@@ -60,6 +61,7 @@ android.picasso = "com.squareup.picasso:picasso:$versions.picasso_version"
 android.circle_image = "de.hdodenhof:circleimageview:$versions.circle_image"
 android.image_copper = "com.theartofdev.edmodo:android-image-cropper:$versions.image_copper"
 android.facebook_sdk = "com.facebook.android:facebook-login:$versions.facebook_sdk"
+android.swiper ="it.xabaras.android:recyclerview-swipedecorator:$versions.recycler_swiper"
 deps.android = android
 
 

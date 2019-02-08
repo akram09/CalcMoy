@@ -60,6 +60,7 @@ dependencies {
     implementation deps.android.circle_image
     implementation deps.android.picasso
     implementation deps.android.image_copper
+    implementation deps.android.swiper
     implementation deps.dagger.core
     implementation deps.dagger.support
     kapt deps.dagger.kaptCompiler
