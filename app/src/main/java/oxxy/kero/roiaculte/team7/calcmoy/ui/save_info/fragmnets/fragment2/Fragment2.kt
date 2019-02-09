@@ -47,7 +47,6 @@ class Fragment2 : BaseFragment(){
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.moduleRecyclerview.layoutManager = LinearLayoutManager(context)
-        binding.moduleRecyclerview.setHasFixedSize(true)
 
         viewModel.observe(this){
             val semestres = it?.semestres
@@ -104,7 +103,6 @@ class Fragment2 : BaseFragment(){
                 Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
             }
             binding.spinner.setSelection(curent)
-
     }
 
 

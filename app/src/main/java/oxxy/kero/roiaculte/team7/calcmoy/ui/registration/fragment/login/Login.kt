@@ -77,20 +77,6 @@ class Login : BaseFragment() {
             }
         }
 
-        //Text watcher
-        binding.loginEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { viewModel.withState { it.email = binding.loginEmail.text.toString() }}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        binding.loginPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { viewModel.withState { it.email = binding.loginPassword.text.toString() }}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
         binding.loginBtn.setOnClickListener {
             val email :String = binding.loginEmail.text.toString()
             val password :String = binding.loginPassword.text.toString()

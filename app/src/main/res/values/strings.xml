@@ -90,6 +90,7 @@
     <string name="licy_3">السنةالثالثة ثانوي (bac)</string>
     <string name="no_matters">coludn\'t load your Module pleas fill it by your selfe</string>
     <string name="semestre">semestre :</string>
+    <string name="user_state_error">some thing is wrong please delete the application data and restart the app</string>
 
 
 </resources>
