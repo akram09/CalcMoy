@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.support.v7.util.SortedList
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import oxxy.kero.roiaculte.team7.calcmoy.R
@@ -58,7 +59,9 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
         fun upDateView(matter : Matter){
             binding.coif.setText(matter.coifficient.toString())
             binding.name.setText(matter.name)
-            binding.couler.setCircleBackgroundColor(Color.parseColor(matter.color))
+            val color  = Color.parseColor(matter.color)
+            Log.v("fucking_error","color is --->${matter.color} , $color")
+            binding.couler.setCircleBackgroundColor(color)
             binding.couler.setOnClickListener{
                 //TODO choose color
             }
