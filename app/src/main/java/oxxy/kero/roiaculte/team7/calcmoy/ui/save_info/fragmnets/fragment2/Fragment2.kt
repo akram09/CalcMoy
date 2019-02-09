@@ -105,6 +105,7 @@ class Fragment2 : BaseFragment(){
                 adapter.listOfMatters.clear()
                 val position = binding.spinner.selectedItemPosition
                 adapter.listOfMatters.addAll(listSemestre[position].matters)
+                Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
                 adapter.notifyDataSetChanged()
                 Log.v("fucking_error","OnLayoutChangeListener adding ${listSemestre[position].matters.size}")
             }
