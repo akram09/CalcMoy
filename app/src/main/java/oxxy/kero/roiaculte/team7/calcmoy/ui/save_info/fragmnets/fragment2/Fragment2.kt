@@ -125,7 +125,7 @@ class Fragment2 : BaseFragment(){
             for (i in 0 until listSemestre.size){
                 list.add(getString(R.string.semestre)+(i+1))
             }
-            val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,android.R.layout.simple_dropdown_item_1line,list)
+            val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,R.layout.save_info_fragment_2_spinner,list)
             binding.spinner.adapter = semestreAdapter
             binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
                 adapter.listOfMatters.clear()
