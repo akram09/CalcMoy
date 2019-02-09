@@ -48,7 +48,10 @@ class RegistrationActivity : BaseActivity() {
     fun loadLoginFragment() {
 
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
-        if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn!!) }
+        if(tmp == null){
+            if(logIn == null) logIn = Login.getInstance()
+            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn!!) }
+        }
         else if(tmp !is Login) {
             if(logIn == null) logIn = Login.getInstance()
             supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, logIn!!) }
@@ -58,10 +61,15 @@ class RegistrationActivity : BaseActivity() {
 
     fun loadSignInFragment() {
 
-//        if(signeIn == null) signeIn = SigneIn.getInstance()
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
-        if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn!!) }
-        else if(tmp !is SigneIn ) supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
+        if(tmp == null){
+            if(signeIn == null) signeIn = SigneIn.getInstance()
+            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn!!) }
+        }
+        else if(tmp !is SigneIn ) {
+            if(signeIn == null) signeIn = SigneIn.getInstance()
+            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
+        }
         curentFragment = SIGNIN
     }
 
