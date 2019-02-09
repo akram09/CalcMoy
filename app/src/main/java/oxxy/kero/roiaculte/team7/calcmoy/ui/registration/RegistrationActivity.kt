@@ -13,8 +13,6 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.signin.SigneIn
 
 
 const val GOOGLE_SIGNEIN = 0
-const val FACEBOOK_SIGNEIN = 1
-const val EMAIL_SIGNEIN = 3
 
 const val LOGIN = 0
 const val SIGNIN = 1
@@ -47,20 +45,29 @@ class RegistrationActivity : BaseActivity() {
 
     fun loadLoginFragment() {
 
-        if(logIn == null) logIn = Login.getInstance()
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
-        if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn!!) }
-        else if(tmp != logIn) supportFragmentManager.inTransaction {replace(R.id.main_activity_framelayout,logIn!!) }
-
+        if(tmp == null){
+            if(logIn == null) logIn = Login.getInstance()
+            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn!!) }
+        }
+        else if(tmp !is Login) {
+            if(logIn == null) logIn = Login.getInstance()
+            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, logIn!!) }
+        }
         curentFragment = LOGIN
     }
 
     fun loadSignInFragment() {
 
-        if(signeIn == null) signeIn = SigneIn.getInstance()
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
-        if(tmp == null) supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn!!) }
-        else if(tmp != signeIn) supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
+        if(tmp == null){
+            if(signeIn == null) signeIn = SigneIn.getInstance()
+            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn!!) }
+        }
+        else if(tmp !is SigneIn ) {
+            if(signeIn == null) signeIn = SigneIn.getInstance()
+            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
+        }
         curentFragment = SIGNIN
     }
 

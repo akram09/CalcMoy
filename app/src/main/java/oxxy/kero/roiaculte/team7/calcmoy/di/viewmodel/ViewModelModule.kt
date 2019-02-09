@@ -9,6 +9,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.login.LoginVie
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.signin.SigneInViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.splash_screen.SplashViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1ViewModel
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2.Fragment2ViewModel
 
 
 @Module
@@ -35,4 +36,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(Fragment1ViewModel::class)
     internal abstract fun provideSaveInfo1(viewModel : Fragment1ViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(Fragment2ViewModel::class)
+    internal abstract fun provideSaveInfo2(viewModel : Fragment2ViewModel) : ViewModel
+
+//    Fragment2ViewModel
 }

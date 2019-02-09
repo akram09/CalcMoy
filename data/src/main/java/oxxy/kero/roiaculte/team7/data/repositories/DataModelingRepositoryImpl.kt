@@ -32,7 +32,7 @@ class DataModelingRepositoryImpl @Inject constructor(val auth:FirebaseAuth, val 
                 executeParams.year, auth.currentUser!!.uid))
         }else{
             val facultyType = (executeParams.facultyType  as FacultyType)
-          return Either.Right(LocalStorage.lyceeArray[executeParams.year-1]
+          return Either.Right(LocalStorage.lyceeArray[executeParams.year]
               .getModuleList(facultyType, auth.currentUser!!.uid))
         }
     }

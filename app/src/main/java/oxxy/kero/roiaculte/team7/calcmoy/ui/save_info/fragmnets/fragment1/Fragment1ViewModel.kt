@@ -25,6 +25,7 @@ class Fragment1ViewModel @Inject constructor(private val userInfo : ProvideUserI
 
     private fun handleSuccecc(userInfo: UserInfo) {
         setState {
+            Log.v("fucking_error","handling success image --> : ${userInfo.ImageUrl}")
             Fragment1State(userInfo.username,userInfo.prename,this.school,this.year,Image.ImageUrl(userInfo.ImageUrl))
         }
     }

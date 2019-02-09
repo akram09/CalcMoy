@@ -100,20 +100,19 @@ class Fragment1 : BaseFragment() {
         }
 
         binding.signeInNextBtn.setOnClickListener(){
-            var cancel = false
 
             val name = binding.signeInName.text.toString()
             val prenam = binding.signeInPrenom.text.toString()
 
             if(TextUtils.isEmpty(name)){
                 onError(R.string.name_empty)
-                cancel = true
+                return@setOnClickListener
             }
-            if(TextUtils.isEmpty(prenam) && ! cancel){
+            if(TextUtils.isEmpty(prenam) ){
                 onError(R.string.prenam_empty)
-                cancel = true
+                return@setOnClickListener
             }
-            if(!cancel){
+
                 val stage = binding.signeInStage.selectedItemPosition
                 val year  = binding.signeInYear.selectedItemPosition
 
@@ -142,7 +141,7 @@ class Fragment1 : BaseFragment() {
                 if(stage == 0 || stage == 1 || stage == 3) (activity as? SaveInfoActivity)?.loadFragment2(bundlle)
                 else if(stage == 2 &&  year == 0) showDialogueLicy1(bundlle)
                 else showDialogueLicy2_3(bundlle)
-            }
+
 
         }
 
@@ -173,7 +172,7 @@ class Fragment1 : BaseFragment() {
                 (activity as? SaveInfoActivity)?.loadFragment2(bundlle)
             }
 
-            builder2.show ();
+            builder2.show ()
         }
 
         builder.show ()
