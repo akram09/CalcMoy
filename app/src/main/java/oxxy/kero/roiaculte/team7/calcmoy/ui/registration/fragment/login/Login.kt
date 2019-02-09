@@ -57,6 +57,9 @@ class Login : BaseFragment() {
                 handleFailure(error)
                 binding.loginBtn.alpha = 1f
                 binding.loginBtn.isClickable =true
+                binding.loginSignein.isClickable = true
+                binding.loginGoogle.isClickable = true
+                binding.loginFb.isClickable = true
                 binding.inputs.visible()
                 binding.progressBar.invisible()
                 it?.state = null
@@ -69,6 +72,9 @@ class Login : BaseFragment() {
                         binding.progressBar.visible()
                         binding.loginBtn.alpha = 0.7f
                         binding.loginBtn.isClickable =false
+                        binding.loginSignein.isClickable = false
+                        binding.loginGoogle.isClickable = false
+                        binding.loginFb.isClickable = false
                     }
                     is Success -> onSuccess(async())
                     is Fail<*, *> -> onFail(async.error)
@@ -76,20 +82,6 @@ class Login : BaseFragment() {
                 }
             }
         }
-
-        //Text watcher
-        binding.loginEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { viewModel.withState { it.email = binding.loginEmail.text.toString() }}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        binding.loginPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { viewModel.withState { it.email = binding.loginPassword.text.toString() }}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
 
         binding.loginBtn.setOnClickListener {
             val email :String = binding.loginEmail.text.toString()

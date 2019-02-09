@@ -2,15 +2,17 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.databinding.DataBindingUtil
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.util.SortedList
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.SaveInfoFragment2CardBinding
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 
-class Fragment2Adapter() : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>() {
+class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>() {
 
     private val callback : SortedList.Callback<Matter> =object : SortedList.Callback<Matter>(){
 
@@ -33,7 +35,7 @@ class Fragment2Adapter() : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder
 
         override fun areContentsTheSame(p0: Matter?, p1: Matter?): Boolean =  p0?.name == p1?.name
     }
-    val listOfSemestres : SortedList<Matter> = SortedList(Matter::class.java,callback)
+    val listOfMatters : SortedList<Matter> = SortedList(Matter::class.java,callback)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): SemestresHolder {
@@ -42,16 +44,31 @@ class Fragment2Adapter() : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder
         return SemestresHolder(binding)
     }
 
-    override fun getItemCount(): Int= listOfSemestres.size()
+    override fun getItemCount(): Int= listOfMatters.size()
 
-    override fun onBindViewHolder(holder: SemestresHolder, position: Int) { holder.upDateView(listOfSemestres[position]) }
+    override fun onBindViewHolder(holder: SemestresHolder, position: Int) { holder.upDateView(listOfMatters[position]) }
+
+    fun replaceAll(matters: List<Matter>) {
+        listOfMatters.beginBatchedUpdates()
+        listOfMatters.clear()
+        listOfMatters.addAll(matters)
+        listOfMatters.endBatchedUpdates()
+    }
+
+    fun remove(adapterPosition: Int): Matter {
+        val matter  = listOfMatters[adapterPosition]
+        listOfMatters.remove(matter)
+        return matter
+    }
 
     class SemestresHolder(val binding: SaveInfoFragment2CardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun upDateView(matter : Matter){
-            binding.coif.setText(matter.coifficient.toString())
-            binding.name.setText(matter.name)
-            binding.couler.setCircleBackgroundColor(Color.parseColor(matter.color))
+            binding.coif.text = "${binding.root.context?.getString(R.string.coif) ?: ""} : ${matter.coifficient}"
+            binding.name.text = matter.name
+            val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
+            binding.couler.setImageDrawable(colorDrawable)
+
             binding.couler.setOnClickListener{
                 //TODO choose color
             }

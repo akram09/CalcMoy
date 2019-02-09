@@ -58,6 +58,9 @@ class SigneIn : BaseFragment(){
 
                 binding.signeinBtn.alpha = 1f
                 binding.signeinBtn.isClickable =true
+                binding.signeinLogin.isClickable = true
+                binding.signeinGoogle.isClickable = true
+                binding.signeinFb.isClickable = true
                 binding.inputs.visible()
                 binding.progressBar.invisible()
                 it?.state = null
@@ -70,6 +73,9 @@ class SigneIn : BaseFragment(){
                         binding.progressBar.visible()
                         binding.signeinBtn.alpha = 0.7f
                         binding.signeinBtn.isClickable =false
+                        binding.signeinLogin.isClickable = false
+                        binding.signeinGoogle.isClickable = false
+                        binding.signeinFb.isClickable = false
                     }
                     is Success -> handleSuccess(async())
                     is Fail<*,*> -> onFail(async.error)
@@ -77,25 +83,6 @@ class SigneIn : BaseFragment(){
                 }
             }
         }
-
-        binding.signeinEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { viewModel.withState { it.email = binding.signeinEmail.text.toString() }}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        binding.signeinPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { viewModel.withState { it.email = binding.signeinPassword.text.toString() }}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-        binding.signeinRepeatpassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { viewModel.withState { it.email = binding.signeinRepeatpassword.text.toString() }}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
 
         binding.signeinBtn.setOnClickListener {
             val email :String = binding.signeinEmail.text.toString()
@@ -169,7 +156,10 @@ class SigneIn : BaseFragment(){
         when (error){
             is Failure.CreatUserFailures -> when(error) {
                 is Failure.CreatUserFailures.FirebaseWeakPassword -> onError(R.string.weak_password)
-                is Failure.CreatUserFailures.FirebaseCoalisedUser -> onError("user alredy exist !!") //TODO load signIn fragment
+                is Failure.CreatUserFailures.FirebaseCoalisedUser -> {
+                    onError("user alredy exist !!")
+                    activity?.let { (it as? RegistrationActivity)?.loadLoginFragment() }
+                }
                 is Failure.CreatUserFailures.FirebaseNetworkError -> onError(R.string.cnx_failed)
                 is Failure.CreatUserFailures.FirebaseUknownError -> onError(R.string.inknown_error)
             }
@@ -178,9 +168,8 @@ class SigneIn : BaseFragment(){
                 is Failure.SignInCredentielFailure.SignInInvalidCredentiel -> onError(R.string.invalid_credentiel)
                 is Failure.SignInCredentielFailure.SignInUknownError -> onError(R.string.inknown_error)
             }
-            is Failure.ProvideUserStateFailure -> when(error){
-                //TODO handle provide userState failurs
-            }
+            is Failure.ProvideUserStateFailure -> onError(getString(R.string.user_state_error))
+
         }
     }
 

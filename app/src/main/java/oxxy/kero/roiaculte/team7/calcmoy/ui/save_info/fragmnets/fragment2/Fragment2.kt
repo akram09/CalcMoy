@@ -2,14 +2,21 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
+import android.graphics.Canvas
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.SaveInfoFragment2Binding
@@ -29,7 +36,6 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.mapToFaculty
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toSChool
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
-import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import java.io.File
 
@@ -39,13 +45,39 @@ class Fragment2 : BaseFragment(){
     private  lateinit var binding : SaveInfoFragment2Binding
     private val viewModel: Fragment2ViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[Fragment2ViewModel::class.java] }
     private val adapter = Fragment2Adapter()
+    private val listSemestre : ArrayList<Semestre> = ArrayList()
+    private val callback : ItemTouchHelper.SimpleCallback =object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT){
+        override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean = false
+
+        override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
+            val matter = adapter.remove(p0.adapterPosition)
+            Snackbar.make(p0.itemView,R.string.delete_item,Snackbar.LENGTH_LONG).setAction(R.string.cancel){
+                adapter.listOfMatters.add(matter)
+            }.show()
+        }
+
+        override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+
+            RecyclerViewSwipeDecorator.Builder(context,c,binding.moduleRecyclerview,viewHolder,dX,dY,actionState,isCurrentlyActive)
+                .addSwipeLeftBackgroundColor(R.color.red_delete)
+                .addSwipeLeftActionIcon(R.drawable.delete)
+                .addSwipeLeftLabel(getString(R.string.delete))
+                .setSwipeLeftLabelColor(Color.WHITE)
+                .create()
+                .decorate()
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        }
+    }
+    private val itemTouchHelper = ItemTouchHelper(callback)
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
 
         binding.moduleRecyclerview.adapter = adapter
+        binding.moduleRecyclerview.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         binding.moduleRecyclerview.layoutManager = LinearLayoutManager(context)
-        binding.moduleRecyclerview.setHasFixedSize(true)
+        itemTouchHelper.attachToRecyclerView(binding.moduleRecyclerview)
 
         viewModel.observe(this){
             val semestres = it?.semestres
@@ -54,7 +86,11 @@ class Fragment2 : BaseFragment(){
                     //TODO show progress  bare and hide recyclerView
                     Log.v("fucking_error","is loading now ....")
                 }
-                is Success<*> -> handleSuccess(semestres(),it.curentSemestre)
+                is Success<*> -> {
+                    listSemestre.clear()
+                    listSemestre.addAll(semestres() ?: ArrayList() )
+                    handleSuccess(it.curentSemestre)
+                }
                 is Fail<*,*> -> handleFaillure(semestres.error)
             }
         }
@@ -63,7 +99,7 @@ class Fragment2 : BaseFragment(){
             val name = arguments!!.getString(NAME)!!
             val prename = arguments!!.getString(PRENAME)!!
             val stage = arguments!!.getInt(STAGE).toSChool()
-            val year = arguments!!.getInt(YEAR)
+            var year = arguments!!.getInt(YEAR)
             val faculty =arguments?.getString(FACULTY)?.mapToFaculty(context!!)
             val imageType = arguments!!.getInt(TYPE_IMAGE)
             var image  : Image? = null
@@ -84,25 +120,23 @@ class Fragment2 : BaseFragment(){
         viewModel.finichOnError()
     }
 
-    private fun handleSuccess(semestres: List<Semestre>?,curent : Int) {
-        Log.v("fucking_error","is success now ....")
-        semestres?.let {
-            Log.v("fucking_error","is success with out null now ....")
+    private fun handleSuccess(curent : Int) {
             val list = ArrayList<String>()
-            for (i in 0 until it.size){
+            for (i in 0 until listSemestre.size){
                 list.add(getString(R.string.semestre)+(i+1))
             }
-            val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,android.R.layout.simple_dropdown_item_1line,list)
+            val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,R.layout.save_info_fragment_2_spinner,list)
             binding.spinner.adapter = semestreAdapter
             binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
-                adapter.listOfSemestres.clear()
+                adapter.listOfMatters.clear()
                 val position = binding.spinner.selectedItemPosition
-                adapter.listOfSemestres.addAll(it[position].matters)
+                adapter.replaceAll(listSemestre[position].matters)
+                Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
             }
             binding.spinner.setSelection(curent)
-
-        }
     }
+
+
 
 }
 

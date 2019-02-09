@@ -24,9 +24,6 @@ class RegistrationActivity : BaseActivity() {
     companion object {
         fun getIntent(context : Context) = Intent(context,RegistrationActivity::class.java)
     }
-
-    private var signeIn : SigneIn? = null
-    private var logIn : Login? = null
     private lateinit var binding : RegistrationActivityBinding
     private var curentFragment :Int = SIGNIN
 
@@ -47,12 +44,12 @@ class RegistrationActivity : BaseActivity() {
 
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
         if(tmp == null){
-            if(logIn == null) logIn = Login.getInstance()
-            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn!!) }
+            val logIn = Login.getInstance()
+            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, logIn) }
         }
         else if(tmp !is Login) {
-            if(logIn == null) logIn = Login.getInstance()
-            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, logIn!!) }
+            val logIn = Login.getInstance()
+            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, logIn) }
         }
         curentFragment = LOGIN
     }
@@ -61,12 +58,12 @@ class RegistrationActivity : BaseActivity() {
 
         val  tmp  = supportFragmentManager.findFragmentById(R.id.main_activity_framelayout)
         if(tmp == null){
-            if(signeIn == null) signeIn = SigneIn.getInstance()
-            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn!!) }
+            val signeIn = SigneIn.getInstance()
+            supportFragmentManager.inTransaction { add(R.id.main_activity_framelayout, signeIn) }
         }
         else if(tmp !is SigneIn ) {
-            if(signeIn == null) signeIn = SigneIn.getInstance()
-            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn!!) }
+            val signeIn = SigneIn.getInstance()
+            supportFragmentManager.inTransaction { replace(R.id.main_activity_framelayout, signeIn) }
         }
         curentFragment = SIGNIN
     }

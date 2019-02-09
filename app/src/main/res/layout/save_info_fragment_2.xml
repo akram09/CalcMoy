@@ -63,15 +63,14 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:listitem="@layout/save_info_fragment_2_card">
+                >
 
                 </android.support.v7.widget.RecyclerView>
 
                 <Button
                         android:id="@+id/next"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_marginBottom="45dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="8dp"
                         android:background="#5D1049"
                         android:text="@string/next"
@@ -81,7 +80,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/module_recyclerview"
                         app:layout_constraintVertical_bias="0.0" android:layout_marginStart="8dp"
                         app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="50dp"/>
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v4.widget.NestedScrollView>
@@ -91,13 +90,14 @@
             android:layout_height="45dp"
             android:layout_gravity="bottom"
             android:background="#FA404040"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+        android:gravity="end">
 
             <Spinner
                 android:gravity="right"
                 android:backgroundTint="#fff"
                 android:id="@+id/spinner"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="60dp"/>
         </LinearLayout>
