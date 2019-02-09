@@ -46,6 +46,13 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
 
     override fun onBindViewHolder(holder: SemestresHolder, position: Int) { holder.upDateView(listOfMatters[position]) }
 
+    fun replaceAll(matters: List<Matter>) {
+        listOfMatters.beginBatchedUpdates()
+        listOfMatters.clear()
+        listOfMatters.addAll(matters)
+        listOfMatters.endBatchedUpdates()
+    }
+
     class SemestresHolder(val binding: SaveInfoFragment2CardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun upDateView(matter : Matter){

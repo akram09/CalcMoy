@@ -91,10 +91,6 @@ class Fragment2 : BaseFragment(){
     }
 
     private fun handleSuccess(curent : Int) {
-        Log.v("fucking_error","is success now ....")
-
-            binding.moduleRecyclerview.adapter = adapter
-            Log.v("fucking_error","is success with out null now ....")
             val list = ArrayList<String>()
             for (i in 0 until listSemestre.size){
                 list.add(getString(R.string.semestre)+(i+1))
@@ -104,13 +100,10 @@ class Fragment2 : BaseFragment(){
             binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
                 adapter.listOfMatters.clear()
                 val position = binding.spinner.selectedItemPosition
-                adapter.listOfMatters.addAll(listSemestre[position].matters)
+                adapter.replaceAll(listSemestre[position].matters)
                 Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
-                adapter.notifyDataSetChanged()
-                Log.v("fucking_error","OnLayoutChangeListener adding ${listSemestre[position].matters.size}")
             }
             binding.spinner.setSelection(curent)
-
 
     }
 

@@ -3,6 +3,7 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1
@@ -34,14 +35,16 @@ class SaveInfoActivity :BaseActivity() {
         fragment2?.arguments = bundle
         supportFragmentManager.inTransaction {
             setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
-            .addToBackStack("save_modules")
+           /* .addToBackStack("save_modules")*/
             .add(R.id.save_info_container, fragment2!!)
         }
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount>0){
-            supportFragmentManager.popBackStackImmediate()
+        val tmp = supportFragmentManager.findFragmentById(R.id.save_info_container)
+        if (tmp != null || tmp is Fragment2){
+            Log.v("fucking_error","is removing fragment2 now ....")
+            supportFragmentManager.inTransaction { remove(tmp) }
         }else super.onBackPressed()
     }
 }
