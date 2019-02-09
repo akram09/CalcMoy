@@ -29,7 +29,6 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.mapToFaculty
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toSChool
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
-import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import java.io.File
 
@@ -45,6 +44,8 @@ class Fragment2 : BaseFragment(){
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
 
         binding.moduleRecyclerview.adapter = adapter
+        val layoutManager = LinearLayoutManager(context)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.moduleRecyclerview.layoutManager = LinearLayoutManager(context)
         binding.moduleRecyclerview.setHasFixedSize(true)
 
@@ -68,7 +69,7 @@ class Fragment2 : BaseFragment(){
             val name = arguments!!.getString(NAME)!!
             val prename = arguments!!.getString(PRENAME)!!
             val stage = arguments!!.getInt(STAGE).toSChool()
-            val year = arguments!!.getInt(YEAR)
+            var year = arguments!!.getInt(YEAR)
             val faculty =arguments?.getString(FACULTY)?.mapToFaculty(context!!)
             val imageType = arguments!!.getInt(TYPE_IMAGE)
             var image  : Image? = null
@@ -100,9 +101,9 @@ class Fragment2 : BaseFragment(){
             val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,android.R.layout.simple_dropdown_item_1line,list)
             binding.spinner.adapter = semestreAdapter
             binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
-                adapter.listOfSemestres.clear()
+                adapter.listOfMatters.clear()
                 val position = binding.spinner.selectedItemPosition
-                adapter.listOfSemestres.addAll(listSemestre[position].matters)
+                adapter.listOfMatters.addAll(listSemestre[position].matters)
                 adapter.notifyDataSetChanged()
                 Log.v("fucking_error","OnLayoutChangeListener adding ${listSemestre[position].matters.size}")
             }
@@ -110,6 +111,8 @@ class Fragment2 : BaseFragment(){
 
 
     }
+
+
 
 }
 

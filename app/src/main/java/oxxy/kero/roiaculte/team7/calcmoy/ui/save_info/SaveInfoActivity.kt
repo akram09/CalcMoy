@@ -34,10 +34,14 @@ class SaveInfoActivity :BaseActivity() {
         fragment2?.arguments = bundle
         supportFragmentManager.inTransaction {
             setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
-            .addToBackStack("save_modules")
+           /* .addToBackStack("save_modules")*/
             .add(R.id.save_info_container, fragment2!!)
         }
     }
 
-
+//    override fun onBackPressed() {
+//        if (supportFragmentManager.backStackEntryCount>0){
+//            supportFragmentManager.popBackStackImmediate()
+//        }else super.onBackPressed()
+//    }
 }

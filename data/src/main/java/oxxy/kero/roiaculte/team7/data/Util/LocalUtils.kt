@@ -17,7 +17,7 @@ fun Map<School, Array<year>>.getMoulesListe(school :School  , year :Int, id:Stri
     return list
 }
 fun Map<FacultyType , Array<DataMatter>>.getModuleList(faculteType:FacultyType, id:String):List<Semestre>{
-    var list = emptyList<Semestre>()
+    val list = emptyList<Semestre>().toMutableList()
     for (i in 1..3){
         list += Semestre(i , this[faculteType]!!.map {
             matter->

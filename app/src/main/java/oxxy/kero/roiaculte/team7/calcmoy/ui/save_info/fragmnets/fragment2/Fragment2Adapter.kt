@@ -33,7 +33,7 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
 
         override fun areContentsTheSame(p0: Matter?, p1: Matter?): Boolean =  p0?.name == p1?.name
     }
-    val listOfSemestres : SortedList<Matter> = SortedList(Matter::class.java,callback)
+    val listOfMatters : SortedList<Matter> = SortedList(Matter::class.java,callback)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): SemestresHolder {
@@ -42,9 +42,9 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
         return SemestresHolder(binding)
     }
 
-    override fun getItemCount(): Int= listOfSemestres.size()
+    override fun getItemCount(): Int= listOfMatters.size()
 
-    override fun onBindViewHolder(holder: SemestresHolder, position: Int) { holder.upDateView(listOfSemestres[position]) }
+    override fun onBindViewHolder(holder: SemestresHolder, position: Int) { holder.upDateView(listOfMatters[position]) }
 
     class SemestresHolder(val binding: SaveInfoFragment2CardBinding) : RecyclerView.ViewHolder(binding.root) {
 
