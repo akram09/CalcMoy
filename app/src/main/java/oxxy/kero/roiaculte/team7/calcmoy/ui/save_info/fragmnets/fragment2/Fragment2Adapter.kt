@@ -64,8 +64,8 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
     class SemestresHolder(val binding: SaveInfoFragment2CardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun upDateView(matter : Matter){
-            binding.coif.setText(matter.coifficient.toString())
-            binding.name.setText(matter.name)
+            binding.coif.text = "${binding.root.context?.getString(R.string.coif) ?: ""} : ${matter.coifficient}"
+            binding.name.text = matter.name
             val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
             binding.couler.setImageDrawable(colorDrawable)
 
