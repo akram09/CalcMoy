@@ -13,8 +13,6 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.signin.SigneIn
 
 
 const val GOOGLE_SIGNEIN = 0
-const val FACEBOOK_SIGNEIN = 1
-const val EMAIL_SIGNEIN = 3
 
 const val LOGIN = 0
 const val SIGNIN = 1
