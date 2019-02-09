@@ -11,7 +11,8 @@ import oxxy.kero.roiaculte.team7.domain.interactors.launchInteractor
 import oxxy.kero.roiaculte.team7.domain.models.School
 import javax.inject.Inject
 
-class Fragment1ViewModel @Inject constructor(private val userInfo : ProvideUserInfo): BaseViewModel<Fragment1State>(Fragment1State("","",School.PRIMAIRE,0,null)){
+class Fragment1ViewModel @Inject constructor(private val userInfo : ProvideUserInfo)
+    : BaseViewModel<Fragment1State>(Fragment1State("","",School.PRIMAIRE,0,null)){
 
     private var firstTime = true
 
@@ -26,6 +27,7 @@ class Fragment1ViewModel @Inject constructor(private val userInfo : ProvideUserI
     private fun handleSuccecc(userInfo: UserInfo) {
         setState {
             Log.v("fucking_error","handling success image --> : ${userInfo.ImageUrl}")
+
             Fragment1State(userInfo.username,userInfo.prename,this.school,this.year,Image.ImageUrl(userInfo.ImageUrl))
         }
     }

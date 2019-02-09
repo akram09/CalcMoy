@@ -39,6 +39,7 @@ class Fragment2 : BaseFragment(){
     private  lateinit var binding : SaveInfoFragment2Binding
     private val viewModel: Fragment2ViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[Fragment2ViewModel::class.java] }
     private val adapter = Fragment2Adapter()
+    private val listSemestre : ArrayList<Semestre> = ArrayList()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
@@ -54,7 +55,11 @@ class Fragment2 : BaseFragment(){
                     //TODO show progress  bare and hide recyclerView
                     Log.v("fucking_error","is loading now ....")
                 }
-                is Success<*> -> handleSuccess(semestres(),it.curentSemestre)
+                is Success<*> -> {
+                    listSemestre.clear()
+                    listSemestre.addAll(semestres() ?: ArrayList() )
+                    handleSuccess(it.curentSemestre)
+                }
                 is Fail<*,*> -> handleFaillure(semestres.error)
             }
         }
@@ -84,12 +89,12 @@ class Fragment2 : BaseFragment(){
         viewModel.finichOnError()
     }
 
-    private fun handleSuccess(semestres: List<Semestre>?,curent : Int) {
+    private fun handleSuccess(curent : Int) {
         Log.v("fucking_error","is success now ....")
-        semestres?.let {
+
             Log.v("fucking_error","is success with out null now ....")
             val list = ArrayList<String>()
-            for (i in 0 until it.size){
+            for (i in 0 until listSemestre.size){
                 list.add(getString(R.string.semestre)+(i+1))
             }
             val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,android.R.layout.simple_dropdown_item_1line,list)
@@ -97,11 +102,13 @@ class Fragment2 : BaseFragment(){
             binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
                 adapter.listOfSemestres.clear()
                 val position = binding.spinner.selectedItemPosition
-                adapter.listOfSemestres.addAll(it[position].matters)
+                adapter.listOfSemestres.addAll(listSemestre[position].matters)
+                adapter.notifyDataSetChanged()
+                Log.v("fucking_error","OnLayoutChangeListener adding ${listSemestre[position].matters.size}")
             }
             binding.spinner.setSelection(curent)
 
-        }
+
     }
 
 }

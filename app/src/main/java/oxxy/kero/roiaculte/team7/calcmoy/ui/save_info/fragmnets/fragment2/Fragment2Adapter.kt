@@ -10,7 +10,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.SaveInfoFragment2CardBinding
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 
-class Fragment2Adapter() : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>() {
+class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>() {
 
     private val callback : SortedList.Callback<Matter> =object : SortedList.Callback<Matter>(){
 
