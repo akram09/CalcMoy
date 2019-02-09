@@ -6,7 +6,6 @@ import javax.inject.Inject
 
 class LocalData @Inject constructor(database: CalcMoyDatabase){
     fun saveUserInfo(user: User, list: List<Semestre>) {
-     //todo
     }
 
 
