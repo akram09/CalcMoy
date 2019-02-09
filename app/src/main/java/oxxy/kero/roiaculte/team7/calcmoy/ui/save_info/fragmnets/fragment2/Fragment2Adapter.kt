@@ -2,6 +2,7 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.databinding.DataBindingUtil
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.util.SortedList
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -54,14 +55,20 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
         listOfMatters.endBatchedUpdates()
     }
 
+    fun remove(adapterPosition: Int): Matter {
+        val matter  = listOfMatters[adapterPosition]
+        listOfMatters.remove(matter)
+        return matter
+    }
+
     class SemestresHolder(val binding: SaveInfoFragment2CardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun upDateView(matter : Matter){
             binding.coif.setText(matter.coifficient.toString())
             binding.name.setText(matter.name)
-            val color  = Color.parseColor(matter.color)
-            Log.v("fucking_error","color is --->${matter.color} , $color")
-            binding.couler.setCircleBackgroundColor(color)
+            val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
+            binding.couler.setImageDrawable(colorDrawable)
+
             binding.couler.setOnClickListener{
                 //TODO choose color
             }

@@ -57,6 +57,9 @@ class Login : BaseFragment() {
                 handleFailure(error)
                 binding.loginBtn.alpha = 1f
                 binding.loginBtn.isClickable =true
+                binding.loginSignein.isClickable = true
+                binding.loginGoogle.isClickable = true
+                binding.loginFb.isClickable = true
                 binding.inputs.visible()
                 binding.progressBar.invisible()
                 it?.state = null
@@ -69,6 +72,9 @@ class Login : BaseFragment() {
                         binding.progressBar.visible()
                         binding.loginBtn.alpha = 0.7f
                         binding.loginBtn.isClickable =false
+                        binding.loginSignein.isClickable = false
+                        binding.loginGoogle.isClickable = false
+                        binding.loginFb.isClickable = false
                     }
                     is Success -> onSuccess(async())
                     is Fail<*, *> -> onFail(async.error)
