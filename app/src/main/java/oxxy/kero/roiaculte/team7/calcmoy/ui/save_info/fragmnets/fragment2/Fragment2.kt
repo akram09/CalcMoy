@@ -93,6 +93,7 @@ class Fragment2 : BaseFragment(){
     private fun handleSuccess(curent : Int) {
         Log.v("fucking_error","is success now ....")
 
+            binding.moduleRecyclerview.adapter = adapter
             Log.v("fucking_error","is success with out null now ....")
             val list = ArrayList<String>()
             for (i in 0 until listSemestre.size){
