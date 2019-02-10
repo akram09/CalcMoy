@@ -42,7 +42,7 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         Log.v("fucking_error","faculté type --> $facultyType")
         if(image != null) setState { Fragment2State(this.semestres,image,this.curentSemestre) }
 
-        if(year <3 && year != 0) { //(year =0) university
+        if(school != School.UNIVERSITE) { //(year =0) university
             scope.launchInteractor(getDefaultMatters, GetModulesDefaultParam(year, school, facultyType)) {
                 it.either(::handleDefaultFaillure, ::handleDafaultSuccess)
             }

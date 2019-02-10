@@ -108,7 +108,7 @@ class Fragment2 : BaseFragment(){
             else if (imageType == IMAGE_URI) image = Image.ImageUri(Uri.fromFile(File( arguments?.getString(IMAGE))))
 
             viewModel.firstTime = false
-            viewModel.saveDate(name,prename,year+1,stage ,faculty,image)
+            viewModel.saveDate(name,prename,year,stage ,faculty,image)
         }
 
         return binding.root

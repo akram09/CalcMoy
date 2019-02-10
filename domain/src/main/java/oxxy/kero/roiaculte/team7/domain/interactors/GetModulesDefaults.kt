@@ -15,7 +15,7 @@ class GetModulesDefaults  @Inject constructor(val repo:DataModelingRepository, d
     override val dispatcher = dispatchers.io
     override val ResultDispatcher= dispatchers.main
     override suspend fun invoke(executeParams: GetModulesDefaultParam): Either<Failure.GetModulesDEfaultFailure, List<Semestre>> {
-          return repo.getDefaultModules(executeParams)
+        return repo.getDefaultModules(executeParams)
     }
 }
 data class GetModulesDefaultParam(val year:Int, val school: School, val facultyType: FacultyType?)

@@ -11,7 +11,6 @@
             android:supportsRtl="true"
             android:name =".AndroidApplication"
             android:theme="@style/AppTheme">
-
         <activity android:name=".ui.splash_screen.SplashActivity"
                   android:theme="@style/AppTheme.NoActionBar.Launcher"
                   android:screenOrientation="portrait">

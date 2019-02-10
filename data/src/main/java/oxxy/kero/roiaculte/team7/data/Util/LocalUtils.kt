@@ -1,5 +1,6 @@
 package oxxy.kero.roiaculte.team7.data.Util
 
+import android.util.Log
 import oxxy.kero.roiaculte.team7.data.disk.DataMatter
 import oxxy.kero.roiaculte.team7.data.disk.year
 import oxxy.kero.roiaculte.team7.domain.models.FacultyType
@@ -10,7 +11,9 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 fun Map<School, Array<year>>.getMoulesListe(school :School  , year :Int, id:String ): List<Semestre>{
    var list = emptyList<Semestre>()
     for ( i in 1..3 ){
-        list +=  Semestre(i , this[school]!![year-1].map {
+        Log.v("fucking_error", "errjrr")
+        Log.v("fucking_error", year.toString())
+        list +=  Semestre(i , this[school]!![year].map {
             Matter("", it.name, it.coifficient, it.color, i, 0.0, id)
         })
     }

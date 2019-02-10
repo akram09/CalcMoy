@@ -147,7 +147,7 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
      return suspendCoroutine {
          var displayName = auth.currentUser?.displayName
          var imageUrl = auth.currentUser?.photoUrl
-         if((displayName ==null) and(imageUrl==null)){
+         if((displayName ==null) and(imageUrl==null) or((displayName=="") and (imageUrl==Uri.EMPTY))){
              it.resume(Either.Left(Failure.NoUserInfo()))
          }else{
              if(displayName==null) displayName = ""

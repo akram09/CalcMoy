@@ -1,6 +1,7 @@
 package oxxy.kero.roiaculte.team7.data.repositories
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -27,7 +28,10 @@ class DataModelingRepositoryImpl @Inject constructor(val auth:FirebaseAuth, val 
 )
     : DataModelingRepository {
    override suspend fun getDefaultModules(executeParams: GetModulesDefaultParam): Either<Failure.GetModulesDEfaultFailure, List<Semestre>> {
+       Log.v("fucking_error", "ejejje")
         if(executeParams.facultyType==null){
+            Log.v("fucking_error", "ejejje")
+
             return Either.Right(LocalStorage.modulesWithoutFaculte.getMoulesListe(executeParams.school,
                 executeParams.year, auth.currentUser!!.uid))
         }else{
