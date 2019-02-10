@@ -1,6 +1,7 @@
 package oxxy.kero.roiaculte.team7.data.firebase
 
 import android.net.Uri
+import android.util.Log
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseNetworkException
@@ -12,6 +13,7 @@ import oxxy.kero.roiaculte.team7.domain.functional.Either
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import kotlin.math.roundToLong
 
 class StorageHandler @Inject constructor(val storage:FirebaseStorage ) {
 
@@ -21,9 +23,10 @@ class StorageHandler @Inject constructor(val storage:FirebaseStorage ) {
             observer->
            var  reference = storage.reference.child("images").child("$id.jpg")
             reference.putFile(uri).addOnProgressListener {
-                if(it.error!=null) {
+                if(it.error==null) {
                     if (!observer.isDisposed) {
-                        observer.onNext((it.bytesTransferred / it.totalByteCount) * 100.0)
+                        observer.onNext(((it.bytesTransferred.toDouble() /
+                                it.totalByteCount.toDouble()) * 100.0).roundToLong().toDouble())
                     }
                 }else{
                     if(!observer.isDisposed){

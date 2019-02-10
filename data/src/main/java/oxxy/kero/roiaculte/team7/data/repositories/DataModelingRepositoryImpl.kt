@@ -28,7 +28,6 @@ class DataModelingRepositoryImpl @Inject constructor(val auth:FirebaseAuth, val 
 )
     : DataModelingRepository {
    override suspend fun getDefaultModules(executeParams: GetModulesDefaultParam): Either<Failure.GetModulesDEfaultFailure, List<Semestre>> {
-       Log.v("fucking_error", "ejejje")
         if(executeParams.facultyType==null){
             Log.v("fucking_error", "ejejje")
 

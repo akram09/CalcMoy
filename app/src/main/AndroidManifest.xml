@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="oxxy.kero.roiaculte.team7.calcmoy">
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
     <application
             android:hardwareAccelerated="true"
             android:allowBackup="true"
@@ -11,7 +11,7 @@
             android:supportsRtl="true"
             android:name =".AndroidApplication"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.splash_screen.SplashActivity"
+        <activity android:name=".ui.TestActivity"
                   android:theme="@style/AppTheme.NoActionBar.Launcher"
                   android:screenOrientation="portrait">
             <intent-filter>
