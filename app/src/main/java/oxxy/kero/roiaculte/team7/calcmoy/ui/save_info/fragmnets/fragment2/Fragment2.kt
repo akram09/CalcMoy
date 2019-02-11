@@ -1,12 +1,14 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.design.widget.SnackbarContentLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
@@ -44,6 +46,7 @@ class Fragment2 : BaseFragment(){
 
     private  lateinit var binding : SaveInfoFragment2Binding
     private val viewModel: Fragment2ViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[Fragment2ViewModel::class.java] }
+    private val callbackFromViewModel : CalbackFromViewModel by lazy { viewModel }
     private val adapter = Fragment2Adapter()
     private val listSemestre : ArrayList<Semestre> = ArrayList()
     private val callback : ItemTouchHelper.SimpleCallback =object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT){
@@ -53,7 +56,13 @@ class Fragment2 : BaseFragment(){
             val matter = adapter.remove(p0.adapterPosition)
             Snackbar.make(p0.itemView,R.string.delete_item,Snackbar.LENGTH_LONG).setAction(R.string.cancel){
                 adapter.listOfMatters.add(matter)
-            }.show()
+            }.addCallback(object : Snackbar.Callback(){
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    if(event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT)  listSemestre[binding.spinner.selectedItemPosition].matters.remove(matter)
+                }
+            })
+                .show()
         }
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
@@ -130,13 +139,20 @@ class Fragment2 : BaseFragment(){
             binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
                 adapter.listOfMatters.clear()
                 val position = binding.spinner.selectedItemPosition
-                adapter.replaceAll(listSemestre[position].matters)
+                if(position != -1) adapter.replaceAll(listSemestre[position].matters)
                 Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
             }
             binding.spinner.setSelection(curent)
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        callbackFromViewModel.changeData(listSemestre,binding.spinner.selectedItemPosition)
+    }
 
+    interface CalbackFromViewModel {
+        fun changeData(semestres :  List<Semestre>, curent: Int)
+    }
 
 }
 

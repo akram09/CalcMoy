@@ -2,7 +2,6 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
-import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.LOGIN
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Image
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
@@ -17,7 +16,8 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults)
-    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),null,0)){
+    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),null,0)),
+    Fragment2.CalbackFromViewModel{
 
     private lateinit var name: String
     private lateinit var prenam: String
@@ -46,7 +46,7 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             scope.launchInteractor(getDefaultMatters, GetModulesDefaultParam(year, school, facultyType)) {
                 it.either(::handleDefaultFaillure, ::handleDafaultSuccess)
             }
-        }else  setState { Fragment2State(Success(listOf(Semestre(1, emptyList()))),this.image,0) }
+        }else  setState { Fragment2State(Success(listOf(Semestre(1, ArrayList()))),this.image,0) }
     }
 
     private fun handleDafaultSuccess(list: List<Semestre>) {
@@ -61,7 +61,11 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         //TODO change it for search later
         setState {
             Log.v("fucking_error","is finiching failling now ....")
-            Fragment2State(Success(listOf(Semestre(1, emptyList()))),this.image,0)
+            Fragment2State(Success(listOf(Semestre(1, ArrayList()))),this.image,0)
         }
+    }
+
+    override fun changeData(semestres: List<Semestre>, curent: Int) {
+        setState { copy(semestres = Success(semestres),curentSemestre = curent) }
     }
 }
