@@ -78,4 +78,5 @@ dependencies {
     testImplementation deps.test.junit
     testImplementation deps.test.mockk
     testImplementation deps.test.kotlin_junit
+    androidTestImplementation 'junit:junit:4.12'
 }

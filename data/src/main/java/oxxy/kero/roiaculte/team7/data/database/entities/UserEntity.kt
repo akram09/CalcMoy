@@ -6,15 +6,15 @@ import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverter
 import oxxy.kero.roiaculte.team7.domain.models.School
 @Entity(tableName = "User")
-data class UserEntity(@PrimaryKey @ColumnInfo(name = "UserId")val id:String
-                      , @ColumnInfo(name= "UserName") val name :String,
-                      @ColumnInfo(name = "UserPrename") val prename :String,
-                      @ColumnInfo(name= "UserSchool")  val school : School,
-                      @ColumnInfo(name= "UserYear")val year :String,
-                      val semestre :Int,
-                      val imageUrl :String,
+data class UserEntity(@PrimaryKey @ColumnInfo(name = "Id")val id:String
+                      , @ColumnInfo(name= "Name") val name :String,
+                      @ColumnInfo(name = "Prename") val prename :String,
+                      @ColumnInfo(name= "School")  val school : School,
+                      @ColumnInfo(name= "Year")val year :String,
+                      @ColumnInfo(name="Semestre")val semestre :Int,
+                      @ColumnInfo(name="ImageUrl")val imageUrl :String,
                       val isConnected:Boolean,
-                      val moyenneGenerale :Double)
+                      @ColumnInfo(name="GenMoy")val moyenneGenerale :Double)
 class SchoolConverterClass{
     @TypeConverter
     fun fromIntToSchool(entier:Int):School{

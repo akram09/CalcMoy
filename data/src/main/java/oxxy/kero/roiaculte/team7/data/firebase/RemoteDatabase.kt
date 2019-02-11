@@ -20,49 +20,24 @@ private const val SEMESTRE= "semestre"
 private const val SCHOOL ="school"
 class RemoteDatabase @Inject constructor(val database: FirebaseDatabase){
     suspend fun saveUserInfo(user: User, list: List<Semestre>) :Either<Failure.SaveUserFailure , None>{
-        val Stringmap =
-            mapOf<String, String>(
+        var Stringmap =
+            mapOf<String, Any>(
                 IMAGE_URL to user.imageUrl, NAME to user.name, PRENAME to user.prename
-                , YEAR to user.year
+                , YEAR to user.year ,  MOYENNE_GENERALE to user.moyenneGenerale,
+                        SEMESTRE to user.semstre, SCHOOL to SchoolConverterClass().fromSchoolToInt(user.school)
             )
-        val DoubleMap = mapOf<String, Double>(
-            MOYENNE_GENERALE to user.moyenneGenerale
-        )
-        val IntMap = mapOf<String, Int>(
-            SEMESTRE to user.semstre, SCHOOL to SchoolConverterClass().fromSchoolToInt(user.school)
-        )
         var modules = mapOf<String, List<Matter>>()
         for (semstre in list){
             modules += "semestre${semstre.numbre}" to semstre.matters
         }
-        val either1 = saveMap(Stringmap , user.id)
-        val either2 = saveMap(DoubleMap, user.id)
-        val either3  = saveMap(IntMap, user.id)
-       val either4  = suspendCoroutine<Either<Failure.SaveUserFailure ,None>> {
-            continuation->
-            database.reference.child("users").child(user.id).updateChildren(
-                modules
-            ).addOnCompleteListener {
-                if(it.isSuccessful){
-                    continuation.resume(Either.Right(None()))
-                }else{
-                    continuation.resume(Either.Left(Failure.SaveUserFailure.UknownFailure(it.exception)))
-                }
-            }
+        Stringmap += modules
+       return saveMap(Stringmap , user.id)
 
-        }
-        val set = listOf(either1 , either2 , either3 , either4).filter { it.isLeft }
-        if(set.isEmpty()){
-            return Either.Right(None())
-        }else{
-            database.reference.child("users").child(user.id).removeValue()
-            return set[0]
-        }
     }
         private suspend fun saveMap(map:Map<String , Any>, id:String):Either<Failure.SaveUserFailure, None>
                 = suspendCoroutine {
             continuation->
-            database.reference.child("users").child(id).push().updateChildren(map).addOnCompleteListener{
+            database.reference.child("users").child(id).updateChildren(map).addOnCompleteListener{
                 if(it.isSuccessful){
                     continuation.resume(Either.Right(None()))
                 }else{

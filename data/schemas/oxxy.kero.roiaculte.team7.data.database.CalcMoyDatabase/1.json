@@ -2,51 +2,51 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "37b8c21edb3f230c8284d5325a2bdcec",
+    "identityHash": "4c9385316153e0f6362db8dcc25b5b94",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`UserId` TEXT NOT NULL, `UserName` TEXT NOT NULL, `UserPrename` TEXT NOT NULL, `UserSchool` INTEGER NOT NULL, `UserYear` TEXT NOT NULL, `semestre` INTEGER NOT NULL, `imageUrl` TEXT NOT NULL, `isConnected` INTEGER NOT NULL, `moyenneGenerale` REAL NOT NULL, PRIMARY KEY(`UserId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Id` TEXT NOT NULL, `Name` TEXT NOT NULL, `Prename` TEXT NOT NULL, `School` INTEGER NOT NULL, `Year` TEXT NOT NULL, `Semestre` INTEGER NOT NULL, `ImageUrl` TEXT NOT NULL, `isConnected` INTEGER NOT NULL, `GenMoy` REAL NOT NULL, PRIMARY KEY(`Id`))",
         "fields": [
           {
             "fieldPath": "id",
-            "columnName": "UserId",
+            "columnName": "Id",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "name",
-            "columnName": "UserName",
+            "columnName": "Name",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "prename",
-            "columnName": "UserPrename",
+            "columnName": "Prename",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "school",
-            "columnName": "UserSchool",
+            "columnName": "School",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "year",
-            "columnName": "UserYear",
+            "columnName": "Year",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "semestre",
-            "columnName": "semestre",
+            "columnName": "Semestre",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "imageUrl",
-            "columnName": "imageUrl",
+            "columnName": "ImageUrl",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -58,24 +58,92 @@
           },
           {
             "fieldPath": "moyenneGenerale",
-            "columnName": "moyenneGenerale",
+            "columnName": "GenMoy",
             "affinity": "REAL",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "UserId"
+            "Id"
           ],
           "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Matters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`Id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT NOT NULL, `Ceof` INTEGER NOT NULL, `Color` TEXT NOT NULL, `Semestre` INTEGER NOT NULL, `Moyenne` REAL NOT NULL, `userId` TEXT NOT NULL, FOREIGN KEY(`userId`) REFERENCES `User`(`Id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "MatterId",
+            "columnName": "Id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "Name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coifficient",
+            "columnName": "Ceof",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "Color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "semestre",
+            "columnName": "Semestre",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "moyenne",
+            "columnName": "Moyenne",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "Id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "User",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "userId"
+            ],
+            "referencedColumns": [
+              "Id"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"37b8c21edb3f230c8284d5325a2bdcec\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4c9385316153e0f6362db8dcc25b5b94\")"
     ]
   }
 }

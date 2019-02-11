@@ -15,10 +15,10 @@ interface UserDao {
 
     @Query("SELECT *FROM User WHERE isConnected =1")
     fun getConnectedUser():List<UserEntity>
-    @Query("SELECT *FROM USER WHERE UserId = :id")
+    @Query("SELECT *FROM USER WHERE Id = :id")
     fun getUserById(id:String):UserEntity?
 
-    @Query("Update User SET isConnected = :connected WHERE UserId = :id")
+    @Query("Update User SET isConnected = :connected WHERE Id = :id")
     fun update(id :String , connected:Boolean)
 
 }

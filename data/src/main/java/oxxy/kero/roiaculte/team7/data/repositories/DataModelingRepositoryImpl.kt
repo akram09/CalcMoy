@@ -60,8 +60,14 @@ class DataModelingRepositoryImpl @Inject constructor(val auth:FirebaseAuth, val 
             executeParams.user.imageUrl
         }
         executeParams.user.imageUrl= url
-          remote.saveUserInfo(executeParams.user , executeParams.list)
-        local.saveUserInfo(executeParams.user, executeParams.list)
-           return Either.Left(Failure.SaveUserFailure.UknownFailure(null))
+          val either=remote.saveUserInfo(executeParams.user , executeParams.list)
+         val either2= local.saveUserInfo(executeParams.user, executeParams.list)
+           if(either.isLeft){
+               return either
+           }else if(either2.isLeft){
+               return either2
+           }else{
+              return  Either.Right(None())
+           }
     }
 }

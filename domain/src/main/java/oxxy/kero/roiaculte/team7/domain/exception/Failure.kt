@@ -26,17 +26,17 @@ sealed class Failure {
     class GetModulesDEfaultFailure(val e:Exception?):Failure()
     class NoUserInfo():Failure()
     sealed class SearchFailure:Failure(){
-        class NetworkFailure(e:Exception?):SearchFailure()
-        class UknowFailure(e:Exception?):SearchFailure()
+        class NetworkFailure(val e:Exception?):SearchFailure()
+        class UknowFailure(val e:Exception?):SearchFailure()
     }
     sealed class SaveImageFailure:Failure(){
-        class NetworkFailure(e:Exception?):SaveImageFailure()
-        class UknownFailure(e:Exception?):SaveImageFailure()
+        class NetworkFailure(val e:Exception?):SaveImageFailure()
+        class UknownFailure(val e:Exception?):SaveImageFailure()
     }
     sealed class SaveUserFailure:Failure(){
-        class NetworkFailure(e:Exception?):SaveUserFailure()
-        class DataBaseFailure(e:Exception?):SaveUserFailure()
-        class UknownFailure(e:Exception?):SaveUserFailure()
+        class NetworkFailure(val e:Exception?):SaveUserFailure()
+        class DataBaseFailure(val e:Exception?):SaveUserFailure()
+        class UknownFailure(val e:Exception?):SaveUserFailure()
 
     }
 
