@@ -25,9 +25,9 @@ class DataModule {
     fun provideRepo(auth : AuthentificationFirebase, local :LocalAuthentificator): AuthentificationRepository = AuthentificationRepositoryImpl(auth, local)
    @Provides
    @Singleton
-   fun provideSearchRepo(database: FirebaseDatabase)=SearchRepositoryImpl(database)
+   fun provideSearchRepo(database: FirebaseDatabase, auth: FirebaseAuth)=SearchRepositoryImpl(database, auth)
    @Provides
    @Singleton
-   fun provideDataRepo(auth:FirebaseAuth,storage:StorageHandler, remote:RemoteDatabase, local:LocalData ) : DataModelingRepository
-           = DataModelingRepositoryImpl(auth , storage , remote , local)
+   fun provideDataRepo(storage:StorageHandler, remote:RemoteDatabase, local:LocalData ) : DataModelingRepository
+           = DataModelingRepositoryImpl( storage , remote , local)
 }

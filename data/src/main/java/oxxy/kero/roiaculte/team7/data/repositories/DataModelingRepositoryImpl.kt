@@ -22,7 +22,7 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.repositories.DataModelingRepository
 import javax.inject.Inject
 
-class DataModelingRepositoryImpl @Inject constructor(val auth:FirebaseAuth, val storage:StorageHandler
+class DataModelingRepositoryImpl @Inject constructor( val storage:StorageHandler
                                                      , val remote : RemoteDatabase,
                                                      val local:LocalData
 )
@@ -32,16 +32,16 @@ class DataModelingRepositoryImpl @Inject constructor(val auth:FirebaseAuth, val 
             Log.v("fucking_error", "ejejje")
 
             return Either.Right(LocalStorage.modulesWithoutFaculte.getMoulesListe(executeParams.school,
-                executeParams.year, auth.currentUser!!.uid))
+                executeParams.year,remote.getUserId()!!))
         }else{
             val facultyType = (executeParams.facultyType  as FacultyType)
           return Either.Right(LocalStorage.lyceeArray[executeParams.year]
-              .getModuleList(facultyType, auth.currentUser!!.uid))
+              .getModuleList(facultyType, remote.getUserId()!!))
         }
     }
 
     override fun updateFile(p: String): Observable<Double> {
-     return storage.saveFile(Uri.parse(p), auth.currentUser?.uid!!)
+     return storage.saveFile(Uri.parse(p), remote.getUserId()!!)
     }
 
 //    override suspend fun getUrl(): Either<Failure.SaveImageFailure, String> {
@@ -50,7 +50,7 @@ class DataModelingRepositoryImpl @Inject constructor(val auth:FirebaseAuth, val 
 
     override suspend fun saveUser(executeParams: SaveUserParam): Either<Failure.SaveUserFailure, None> {
         val url:String = if(executeParams.hasSumbitImage){
-            val either= storage.getUrl(auth.currentUser?.uid!!)
+            val either= storage.getUrl(remote.getUserId()!!)
             if(either.isRight){
                 (either as Either.Right<String>).b
             }else{

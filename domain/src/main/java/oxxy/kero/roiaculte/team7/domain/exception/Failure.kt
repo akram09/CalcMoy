@@ -1,6 +1,7 @@
 package oxxy.kero.roiaculte.team7.domain.exception
 
-import java.lang.Exception
+
+import kotlin.Exception
 
 
 sealed class Failure {
@@ -41,10 +42,13 @@ sealed class Failure {
     }
 
     sealed class ProvideSuggestionFaillure :Failure(){
-        //TODO creat your failures here
+        class NetworkFailure(val e:Exception?):ProvideSuggestionFaillure()
+        class UknownFailure(val e:Exception?):ProvideSuggestionFaillure()
     }
-    sealed class ProvideUniversityFailure : Failure(){
-        //TODO creat your failures here
+    sealed class ProvideUniversityFailure : Failure() {
+        class NetworkFailure(val e:Exception?):ProvideUniversityFailure()
+        class UknownFailure(val e:Exception):ProvideUniversityFailure()
+        class UNiversiteDontExiste(val e:Exception?):ProvideUniversityFailure()
     }
 
 //    class NetworkConnection: Failure()

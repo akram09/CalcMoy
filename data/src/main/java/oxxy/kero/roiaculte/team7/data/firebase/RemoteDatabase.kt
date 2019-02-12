@@ -1,5 +1,6 @@
 package oxxy.kero.roiaculte.team7.data.firebase
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import oxxy.kero.roiaculte.team7.data.database.entities.SchoolConverterClass
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
@@ -9,6 +10,7 @@ import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 private const val IMAGE_URL = "imageUrl"
@@ -18,7 +20,8 @@ private const val YEAR = "year"
 private const val MOYENNE_GENERALE= "moyenneGenerale"
 private const val SEMESTRE= "semestre"
 private const val SCHOOL ="school"
-class RemoteDatabase @Inject constructor(val database: FirebaseDatabase){
+@Singleton
+class RemoteDatabase @Inject constructor(val database: FirebaseDatabase , val auth :FirebaseAuth){
     suspend fun saveUserInfo(user: User, list: List<Semestre>) :Either<Failure.SaveUserFailure , None>{
         var Stringmap =
             mapOf<String, Any>(
@@ -46,6 +49,7 @@ class RemoteDatabase @Inject constructor(val database: FirebaseDatabase){
                 }
             }
         }
+    fun getUserId() = auth.currentUser?.uid
 
 
 
