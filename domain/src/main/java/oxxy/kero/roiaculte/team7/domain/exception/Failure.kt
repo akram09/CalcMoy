@@ -40,6 +40,13 @@ sealed class Failure {
 
     }
 
+    sealed class ProvideSuggestionFaillure :Failure(){
+        //TODO creat your failures here
+    }
+    sealed class ProvideUniversityFailure : Failure(){
+        //TODO creat your failures here
+    }
+
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()
 //    abstract class FirebaseError(val t:Exception? ):Failure()

@@ -95,6 +95,7 @@
     <string name="cancel">cancel</string>
     <string name="delete">delete</string>
     <string name="coif">المعامل :</string>
+    <string name="search_hint">search for your universit</string>
 
 
 </resources>
