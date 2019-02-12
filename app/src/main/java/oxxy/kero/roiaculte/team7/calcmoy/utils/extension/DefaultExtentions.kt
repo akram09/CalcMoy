@@ -15,6 +15,7 @@
  */
 package oxxy.kero.roiaculte.team7.calcmoy.utils.extension
 
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -27,4 +28,9 @@ fun String.isEmailValid(): Boolean {
     pattern = Pattern.compile(EMAIL_PATTERN)
     matcher = pattern.matcher(this)
     return matcher.matches()
+}
+
+fun <E> ArrayList<E>.oneElement(element : E) : ArrayList<E> {
+    this.add(element)
+    return this
 }

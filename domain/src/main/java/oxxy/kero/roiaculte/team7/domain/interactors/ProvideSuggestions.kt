@@ -6,6 +6,8 @@ import oxxy.kero.roiaculte.team7.domain.functional.Either
 
 class ProvideSuggestions  : EitherInteractor<String,List<Suggestions>,Failure.ProvideSuggestionFaillure>{
 
+
+
     override val dispatcher: CoroutineDispatcher
         get() = TODO("not implemented")
     override val ResultDispatcher: CoroutineDispatcher

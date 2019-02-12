@@ -96,6 +96,8 @@
     <string name="delete">delete</string>
     <string name="coif">المعامل :</string>
     <string name="search_hint">search for your universit</string>
+    <string name="no_university">sorry no university with that name please fill your module by your selfe</string>
+    <string name="university_not_found">sorry we can\'t find this university</string>
 
 
 </resources>

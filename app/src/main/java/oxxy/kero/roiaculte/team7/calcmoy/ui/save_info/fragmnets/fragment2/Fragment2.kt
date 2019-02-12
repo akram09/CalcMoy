@@ -1,14 +1,12 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.arch.lifecycle.ViewModelProviders
-import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.design.widget.SnackbarContentLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
@@ -22,6 +20,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.SaveInfoFragment2Binding
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1.Companion.FACULTY
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1.Companion.IMAGE
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1.Companion.IMAGE_URI
@@ -32,23 +31,24 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragme
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1.Companion.TYPE_IMAGE
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1.Companion.YEAR
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Image
-import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.mapToFaculty
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toSChool
-import oxxy.kero.roiaculte.team7.domain.exception.Failure
+import oxxy.kero.roiaculte.team7.domain.models.FacultyType
+import oxxy.kero.roiaculte.team7.domain.models.Matter
+import oxxy.kero.roiaculte.team7.domain.models.School
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import java.io.File
+import java.lang.Exception
 
-class Fragment2 : BaseFragment(){
+class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivity{
     companion object { fun getInstance() = Fragment2() }
 
     private  lateinit var binding : SaveInfoFragment2Binding
     private val viewModel: Fragment2ViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[Fragment2ViewModel::class.java] }
     private val callbackFromViewModel : CalbackFromViewModel by lazy { viewModel }
     private val adapter = Fragment2Adapter()
-    private val listSemestre : ArrayList<Semestre> = ArrayList()
     private val callback : ItemTouchHelper.SimpleCallback =object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT){
         override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean = false
 
@@ -59,7 +59,7 @@ class Fragment2 : BaseFragment(){
             }.addCallback(object : Snackbar.Callback(){
                 override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                     super.onDismissed(transientBottomBar, event)
-                    if(event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT)  listSemestre[binding.spinner.selectedItemPosition].matters.remove(matter)
+                    if(event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) callbackFromViewModel.removeMatter(matter,binding.spinner.selectedItemPosition)
                 }
             })
                 .show()
@@ -89,18 +89,21 @@ class Fragment2 : BaseFragment(){
         itemTouchHelper.attachToRecyclerView(binding.moduleRecyclerview)
 
         viewModel.observe(this){
-            val semestres = it?.semestres
-            when(semestres){
-                is Loading<*> -> {
-                    //TODO show progress  bare and hide recyclerView
-                    Log.v("fucking_error","is loading now ....")
+            it?.also {
+                val matterState = it.mattersState
+                when (matterState) {
+                    is Loading<*> -> {
+                        //TODO show progress  bare , hide recyclerView and disable spinner
+                        Log.v("fucking_error", "is loading now ....")
+                    }
+                    is Success<*> -> {
+                        //TODO hide progess bare , show recyclrView and enable spinner
+                        Log.v("fucking_error", "is Success now ....")
+                    }
                 }
-                is Success<*> -> {
-                    listSemestre.clear()
-                    listSemestre.addAll(semestres() ?: ArrayList() )
-                    handleSuccess(it.curentSemestre)
-                }
-                is Fail<*,*> -> handleFaillure(semestres.error)
+                setUpRecyclerView(it.semestres , it.curentSemestre)
+                setUpImage(it.image)
+                showSearch(it.showSearch)
             }
         }
 
@@ -117,42 +120,69 @@ class Fragment2 : BaseFragment(){
             else if (imageType == IMAGE_URI) image = Image.ImageUri(Uri.fromFile(File( arguments?.getString(IMAGE))))
 
             viewModel.firstTime = false
-            viewModel.saveDate(name,prename,year,stage ,faculty,image)
+            callbackFromViewModel.saveDate(name,prename,year,stage ,faculty,image)
+        }
+
+        binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
+
+            val position = binding.spinner.selectedItemPosition
+            if (position != -1 ) {
+                viewModel.withState {
+                    adapter.listOfMatters.clear()
+                    adapter.replaceAll(it.semestres[position].matters)
+                    callbackFromViewModel.setCurentSemstre(position)
+                }
+            }
+            Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
         }
 
         return binding.root
     }
 
-    private fun handleFaillure(error: Failure) {
-        onError(R.string.no_matters)
-        Log.v("fucking_error","is failling now ....")
-        viewModel.finichOnError()
+    private fun showSearch(showSearch: Boolean) {
+        if (showSearch){
+            //TODO show  search
+        }else {
+            //TODO hide search
+        }
     }
 
-    private fun handleSuccess(curent : Int) {
-            val list = ArrayList<String>()
-            for (i in 0 until listSemestre.size){
-                list.add(getString(R.string.semestre)+(i+1))
-            }
-            val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,R.layout.save_info_fragment_2_spinner,list)
-            binding.spinner.adapter = semestreAdapter
-            binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
-                adapter.listOfMatters.clear()
-                val position = binding.spinner.selectedItemPosition
-                if(position != -1) adapter.replaceAll(listSemestre[position].matters)
-                Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
-            }
-            binding.spinner.setSelection(curent)
+    private fun setUpImage(image: Image?) {
+        when(image){
+            is Image.ImageUri ->{/*TODO load image uri*/}
+            is Image.ImageUrl -> {/* Picasso */}
+        }
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        callbackFromViewModel.changeData(listSemestre,binding.spinner.selectedItemPosition)
+    private fun setUpRecyclerView(semestres: List<Semestre>, curentSemestre: Int) {
+        val list = ArrayList<String>()
+        for (i in 0 until semestres.size){
+            list.add(getString(R.string.semestre)+(i+1))
+        }
+        val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,R.layout.save_info_fragment_2_spinner,list)
+        binding.spinner.adapter = semestreAdapter
+        binding.spinner.setSelection(curentSemestre)
+
+    }
+
+    override fun getUniversity(data: String) {
+        try {
+            callbackFromViewModel.loadUniversityMatters(data.toInt())
+        }catch (e : Exception){
+            onError(R.string.university_not_found)
+        }
+
     }
 
     interface CalbackFromViewModel {
-        fun changeData(semestres :  List<Semestre>, curent: Int)
-    }
+        fun setCurentSemstre(curent: Int)
+        fun addEmptySemestre()
+        fun addMatter(matter : Matter , curent: Int)
+        fun removeMatter(matter : Matter ,curent: Int )
+        fun removeSemestre(position:Int)
+        fun saveDate(name : String, prenam : String, year : Int, school : School, facultyType: FacultyType?, image : Image?)
+        fun loadUniversityMatters(id : Int)
 
+    }
 }
 
