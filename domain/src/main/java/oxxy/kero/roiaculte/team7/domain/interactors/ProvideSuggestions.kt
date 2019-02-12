@@ -2,19 +2,18 @@ package oxxy.kero.roiaculte.team7.domain.interactors
 
 import kotlinx.coroutines.CoroutineDispatcher
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
+import oxxy.kero.roiaculte.team7.domain.functional.CouroutineDispatchers
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.repositories.SearchRepository
+import javax.inject.Inject
 
-class ProvideSuggestions  : EitherInteractor<String,List<Suggestions>,Failure.ProvideSuggestionFaillure>{
+class ProvideSuggestions @Inject constructor(dispatchers: CouroutineDispatchers, val repo :SearchRepository)   : EitherInteractor<String,List<Suggestions>,Failure.ProvideSuggestionFaillure>{
 
-
-
-    override val dispatcher: CoroutineDispatcher
-        get() = TODO("not implemented")
-    override val ResultDispatcher: CoroutineDispatcher
-        get() = TODO("not implemented")
+    override val dispatcher = dispatchers.io
+    override val ResultDispatcher= dispatchers.main
 
     override suspend fun invoke(executeParams: String): Either<Failure.ProvideSuggestionFaillure, List<Suggestions>> {
-        TODO("not implemented")
+        return repo.getSuggestions(executeParams)
     }
 }
 

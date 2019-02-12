@@ -11,10 +11,11 @@ import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 import kotlin.math.roundToLong
-
+@Singleton
 class StorageHandler @Inject constructor(val storage:FirebaseStorage ) {
 
 
