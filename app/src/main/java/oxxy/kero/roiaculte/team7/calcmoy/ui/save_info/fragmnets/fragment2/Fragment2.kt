@@ -1,8 +1,10 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
+import android.app.AlertDialog
 import android.app.SearchManager
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Color
@@ -21,6 +23,7 @@ import android.widget.ArrayAdapter
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
+import oxxy.kero.roiaculte.team7.calcmoy.databinding.DialogueAddModuleBinding
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.SaveInfoFragment2Binding
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1.Companion.FACULTY
@@ -35,6 +38,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragme
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Image
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
+import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.close
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.mapToFaculty
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toSChool
 import oxxy.kero.roiaculte.team7.domain.models.FacultyType
@@ -76,6 +80,8 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         }
     }
     private val itemTouchHelper = ItemTouchHelper(callback)
+    private var menu : Menu? = null
+    private var wich = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -87,8 +93,23 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         itemTouchHelper.attachToRecyclerView(binding.moduleRecyclerview)
 
         (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
-
+        (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setHasOptionsMenu(true)
+
+
+        binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
+
+            val position = binding.spinner.selectedItemPosition
+            if (position != -1 ) {
+                viewModel.withState {
+                    adapter.listOfMatters.clear()
+                    adapter.replaceAll(it.semestres[position].matters)
+                    callbackFromViewModel.setCurentSemstre(position)
+                }
+            }
+            Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
+        }
+
         viewModel.observe(this){
             it?.also {
                 when (it.mattersState) {
@@ -125,29 +146,32 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             callbackFromViewModel.saveDate(name,prename,year,stage ,faculty,image)
         }
 
-        binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
+        binding.fab.setOnClickListener{
+            AlertDialog.Builder(context)
+                .setTitle(R.string.adding)
+                .setItems(arrayOf(getString(R.string.semestre),getString(R.string.matter))){ _,choi: Int ->
+                    if (choi == 0) callbackFromViewModel.addEmptySemestre()
+                    else addMater()
+                }.show()
 
-            val position = binding.spinner.selectedItemPosition
-            if (position != -1 ) {
-                viewModel.withState {
-                    adapter.listOfMatters.clear()
-                    adapter.replaceAll(it.semestres[position].matters)
-                    callbackFromViewModel.setCurentSemstre(position)
-                }
-            }
-            Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
         }
 
         return binding.root
     }
 
-    private fun showSearch(showSearch: Boolean) {
-        if (showSearch){
-            //TODO show  search
-        }else {
-            //TODO hide search
-        }
+    private fun addMater() {
+        val builder = AlertDialog.Builder(context)
+        val dialogueBinding : DialogueAddModuleBinding = DataBindingUtil.inflate(layoutInflater,R.layout.dialogue_add_module,null,false)
+        builder.setView(dialogueBinding.root)
+        dialogueBinding.addmoduleColor.setOnClickListener{pickColor()}
+        builder.show()
     }
+
+    private fun pickColor() {
+
+    }
+
+    private fun showSearch(showSearch: Boolean) { menu?.setGroupVisible(R.id.search_group,showSearch) }
 
     private fun setUpImage(image: Image?) {
         when(image){
@@ -165,7 +189,6 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         val semestreAdapter : ArrayAdapter<String> = ArrayAdapter (context!!,R.layout.save_info_fragment_2_spinner,list)
         binding.spinner.adapter = semestreAdapter
         binding.spinner.setSelection(curentSemestre)
-
     }
 
     override fun getUniversity(data: String) {
@@ -182,13 +205,16 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
         inflater?.inflate(R.menu.save_info_menu, menu)
 
-        // Get the SearchView and set the searchable configuration
+        this.menu = menu
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu.findItem(R.id.search).actionView as SearchView).apply {
-            // Assumes current activity is the searchable activity
             setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
-//            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId  == android.R.id.home ) close()
+        return super.onOptionsItemSelected(item)
     }
 
     interface CalbackFromViewModel {

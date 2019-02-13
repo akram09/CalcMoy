@@ -9,9 +9,7 @@ import android.net.Uri
 import android.util.Log
 import dagger.android.AndroidInjection
 import dagger.android.DaggerContentProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import oxxy.kero.roiaculte.team7.domain.interactors.ProvideSuggestions
 import oxxy.kero.roiaculte.team7.domain.interactors.Suggestions
 import javax.inject.Inject
@@ -20,6 +18,7 @@ class SuggetionsProvider : DaggerContentProvider() {
 
 
     @Inject lateinit var provideSuggestions: ProvideSuggestions
+     var  scope: CoroutineScope= CoroutineScope(Dispatchers.Main)
 
     private val listUni : ArrayList<Suggestions> by lazy {
         val list = ArrayList<Suggestions>()
@@ -40,13 +39,15 @@ class SuggetionsProvider : DaggerContentProvider() {
         sortOrder: String?
     ): Cursor? {
 
-//        val list : MutableList<Suggestions> = ArrayList() // provideSuggestions.getSuggestions(uri.lastPathSegment)
 
-
+//       val job = scope.async {
+//           provideSuggestions()
+//       }
         val query = uri.lastPathSegment
         Log.v("fucking_provider","excute searching (query) $query")
-        return getCursorFromList(listUni.filter {it.nameFR.contains(query) || it.nameFR.contains(query)})
 
+//        return getCursorFromList(job.await())
+        return getCursorFromList(listUni.filter { it.nameAR.contains(query) || it.nameFR.contains(query) })
     }
 
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int = 0
@@ -56,14 +57,14 @@ class SuggetionsProvider : DaggerContentProvider() {
 
     private fun  getCursorFromList(suggestions : List<Suggestions> ) : Cursor{
          val cursor =  MatrixCursor(
-             arrayOf("_id", SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_TEXT_2)
+             arrayOf("_id", SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_TEXT_2,SearchManager.SUGGEST_COLUMN_INTENT_DATA)
         )
-        SearchManager.SUGGEST_COLUMN_TEXT_1
         for ( suggestion in suggestions ) {
             cursor.newRow()
                 .add("_id", suggestion.id)
                 .add(SearchManager.SUGGEST_COLUMN_TEXT_1, suggestion.nameFR)
                 .add(SearchManager.SUGGEST_COLUMN_TEXT_2, suggestion.nameAR)
+                .add(SearchManager.SUGGEST_COLUMN_INTENT_DATA,suggestion.id)
         }
 
         return cursor

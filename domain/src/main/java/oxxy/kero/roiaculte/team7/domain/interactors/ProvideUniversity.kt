@@ -8,12 +8,10 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.repositories.SearchRepository
 import javax.inject.Inject
 
-class ProvideUniversity @Inject constructor(dispatchers: CouroutineDispatchers , val repository: SearchRepository
-) : EitherInteractor<Int,List<Semestre>,Failure.ProvideUniversityFailure> {
+class ProvideUniversity @Inject constructor( val repository: SearchRepository) {
 
-    override val dispatcher=  dispatchers.computaion
-    override val ResultDispatcher = dispatchers.main
-    override suspend fun invoke(executeParams: Int): Either<Failure.ProvideUniversityFailure, List<Semestre>> {
+
+  operator fun invoke(executeParams: Int): Either<Failure.ProvideUniversityFailure, List<Semestre>> {
         return repository.getMattersById(executeParams)
     }
 }

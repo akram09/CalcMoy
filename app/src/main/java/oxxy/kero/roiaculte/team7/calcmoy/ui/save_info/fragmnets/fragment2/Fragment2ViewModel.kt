@@ -59,10 +59,6 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     }
 
 
-//    override fun changeData(semestres: List<Semestre>, curent: Int) {
-//        setState { copy(curentSemestre = curent,semestres = semestres) }
-//    }
-
     override fun setCurentSemstre(curent: Int) {
         withState {
             if (it.curentSemestre != curent) {
@@ -75,8 +71,9 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     override fun addEmptySemestre() {
         withState {
             val  list = it.semestres.toMutableList()
-            list.add(Semestre(list.size,ArrayList()))
-            setState { copy(semestres = list) }
+            val size  = list.size
+            list.add(Semestre(size,ArrayList()))
+            setState { copy(semestres = list,curentSemestre = size) }
         }
     }
 

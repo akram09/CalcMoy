@@ -98,6 +98,9 @@
     <string name="search_hint">search for your universit</string>
     <string name="no_university">sorry no university with that name please fill your module by your selfe</string>
     <string name="university_not_found">sorry we can\'t find this university</string>
+    <string name="search">Search</string>
+    <string name="adding">what do you want to add</string>
+    <string name="matter">matter</string>
 
 
 </resources>

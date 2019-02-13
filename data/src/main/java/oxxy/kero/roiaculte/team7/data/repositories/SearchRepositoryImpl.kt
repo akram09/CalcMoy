@@ -56,15 +56,16 @@ class SearchRepositoryImpl @Inject constructor(val database: FirebaseDatabase, v
         return subject.toFlowable(BackpressureStrategy.DROP).toObservable()
     }
 
-    override suspend fun getMattersById(executeParams: Int): Either<Failure.ProvideUniversityFailure, List<Semestre>>
-    = suspendCoroutine{
+    override  fun getMattersById(executeParams: Int): Either<Failure.ProvideUniversityFailure, List<Semestre>>
+    {
+        var either :Either<Failure.ProvideUniversityFailure, List<Semestre>>? = null
         database.reference.child("modules").child("universite").child(executeParams.toString()).addListenerForSingleValueEvent(
             object :ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
                     Log.e("errr", "there is an error")
                     if((p0.code == DatabaseError.NETWORK_ERROR) or (p0.code ==DatabaseError.DISCONNECTED)){
-                        it.resume(Either.Left(Failure.ProvideUniversityFailure.NetworkFailure(p0.toException())))
-                    }else it.resume(Either.Left(Failure.ProvideUniversityFailure.UknownFailure(p0.toException())))
+                        either=   Either.Left(Failure.ProvideUniversityFailure.NetworkFailure(p0.toException()))
+                   }else  either = Either.Left(Failure.ProvideUniversityFailure.UknownFailure(p0.toException()))
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
@@ -89,11 +90,12 @@ class SearchRepositoryImpl @Inject constructor(val database: FirebaseDatabase, v
                                 )
                             }
                         }
-                        it.resume(Either.Right(listSemestre))
-                    }else it.resume(Either.Left(Failure.ProvideUniversityFailure.UNiversiteDontExiste(Exception())))
+                        either = Either.Right(listSemestre)
+                    }else either = Either.Left(Failure.ProvideUniversityFailure.UNiversiteDontExiste(Exception()))
                 }
             }
         )
+        return  either!!
     }
 
     override suspend fun getSuggestions(executeParams: String): Either<Failure.ProvideSuggestionFaillure, List<Suggestions>>

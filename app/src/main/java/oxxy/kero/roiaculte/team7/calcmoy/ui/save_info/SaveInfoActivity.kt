@@ -38,7 +38,7 @@ class SaveInfoActivity :BaseActivity() {
             Intent.ACTION_VIEW -> {
                 // Handle a suggestions click (because the suggestions all use ACTION_VIEW)
                 showResult(intent.dataString)
-                showMessage("getting modules for ${intent.getStringExtra(SearchManager.SUGGEST_COLUMN_TEXT_1)}")
+                showMessage("getting modules for ${intent.dataString}")
             }
         }
     }
