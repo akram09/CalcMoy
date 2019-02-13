@@ -6,16 +6,18 @@ import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.rx2.await
 
 import oxxy.kero.roiaculte.team7.data.database.daos.UserDao
+import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
 import oxxy.kero.roiaculte.team7.domain.models.UserState
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class LocalAuthentificator @Inject constructor(database: CalcMoyDatabase) {
+class LocalAuthentificator @Inject constructor(val database: CalcMoyDatabase) {
     val dao:UserDao = database.userDao()
 
     suspend fun addUserDao(user : UserEntity){
@@ -50,8 +52,11 @@ class LocalAuthentificator @Inject constructor(database: CalcMoyDatabase) {
 
        }.await()
     }
-
-
+    suspend fun addMatters(list: List<MatterEntity>){
+        Completable.fromAction{
+            database.matterDao().insertMatters(list)
+        }.await()
+    }
 
 
 }

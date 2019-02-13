@@ -50,6 +50,10 @@ sealed class Failure {
         class UknownFailure(val e:Exception):ProvideUniversityFailure()
         class UNiversiteDontExiste(val e:Exception?):ProvideUniversityFailure()
     }
+    sealed class GetUserInfoFromRemote():Failure(){
+        class NetworkFailure(val e: Exception?):GetUserInfoFromRemote()
+        class UknownFAilure(val  e:Exception? ) : GetUserInfoFromRemote()
+    }
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()

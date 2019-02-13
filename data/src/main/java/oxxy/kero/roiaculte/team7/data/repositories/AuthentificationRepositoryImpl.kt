@@ -105,6 +105,17 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
         return authentificator.provideUser()
     }
 
+    override suspend fun getUserInfoFromRemote(): Either<Failure.GetUserInfoFromRemote, None> {
+           val either=  authentificator.getMatter()
+            if(either is Either.Left<Failure.GetUserInfoFromRemote>){
+                return either
+            }else {
+                either as Either.Right
+               local.addMatters(either.b)
+                return Either.Right(None())
+            }
+    }
+
     companion object {
         const val GOOGLE_CONST = 0
         const val FACEBOOK_CONST = 1

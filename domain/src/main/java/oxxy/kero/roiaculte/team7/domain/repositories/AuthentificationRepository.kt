@@ -21,5 +21,6 @@ interface  AuthentificationRepository{
 
     suspend fun getUserState():Either<Failure.ProvideUserStateFailure, UserState>
     suspend  fun provideUserInfo():Either<Failure.NoUserInfo, UserInfo>
+    suspend fun getUserInfoFromRemote():Either<Failure.GetUserInfoFromRemote , None>
 
 }
