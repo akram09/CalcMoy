@@ -65,7 +65,10 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
 
     override fun setCurentSemstre(curent: Int) {
         withState {
-            if (it.curentSemestre != curent) setState { copy(curentSemestre = curent) }
+            if (it.curentSemestre != curent) {
+                setState { copy(curentSemestre = curent) }
+                Log.v("fucking_error","setUp curent semestre ")
+            }
         }
     }
 

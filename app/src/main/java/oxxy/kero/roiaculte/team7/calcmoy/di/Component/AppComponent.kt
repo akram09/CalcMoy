@@ -7,6 +7,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.AndroidApplication
 import oxxy.kero.roiaculte.team7.calcmoy.di.Module.AppModule
 import oxxy.kero.roiaculte.team7.calcmoy.di.viewmodel.ViewModelModule
 import oxxy.kero.roiaculte.team7.calcmoy.ui.ActivitysBuilder
+import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2.provider.ContentProviderModule
 import oxxy.kero.roiaculte.team7.data.DataModule
 import javax.inject.Singleton
 
@@ -27,7 +28,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AndroidInjectionModule::class,
                        ActivitysBuilder::class,
-                      DataModule::class,
+                         DataModule::class,
+                        ContentProviderModule::class,
                         AppModule::class,
                         ViewModelModule::class])
 interface AppComponent : AndroidInjector<AndroidApplication> {

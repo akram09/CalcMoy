@@ -61,7 +61,7 @@
                   android:theme="@style/Base.Theme.AppCompat"/>
 
         <provider android:authorities="oxxy.kero.roiaculte.team7.calcmoy.provider"
-                  android:name=".ui.save_info.fragmnets.fragment2.SuggetionsProvider"
+                  android:name=".ui.save_info.fragmnets.fragment2.provider.SuggetionsProvider"
                   android:exported="false"/>
 
     </application>

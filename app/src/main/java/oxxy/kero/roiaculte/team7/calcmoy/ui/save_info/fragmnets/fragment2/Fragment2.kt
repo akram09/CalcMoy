@@ -1,20 +1,22 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
+import android.app.SearchManager
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
@@ -53,16 +55,12 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean = false
 
         override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
-            val matter = adapter.remove(p0.adapterPosition)
+            val matter  = adapter.listOfMatters[p0.adapterPosition]
+            val pos = binding.spinner.selectedItemPosition
+            callbackFromViewModel.removeMatter(matter,pos)
             Snackbar.make(p0.itemView,R.string.delete_item,Snackbar.LENGTH_LONG).setAction(R.string.cancel){
-                adapter.listOfMatters.add(matter)
-            }.addCallback(object : Snackbar.Callback(){
-                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    super.onDismissed(transientBottomBar, event)
-                    if(event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) callbackFromViewModel.removeMatter(matter,binding.spinner.selectedItemPosition)
-                }
-            })
-                .show()
+                callbackFromViewModel.addMatter(matter,pos)
+            }.show()
         }
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
@@ -88,10 +86,12 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         binding.moduleRecyclerview.layoutManager = LinearLayoutManager(context)
         itemTouchHelper.attachToRecyclerView(binding.moduleRecyclerview)
 
+        (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
+
+        setHasOptionsMenu(true)
         viewModel.observe(this){
             it?.also {
-                val matterState = it.mattersState
-                when (matterState) {
+                when (it.mattersState) {
                     is Loading<*> -> {
                         //TODO show progress  bare , hide recyclerView and disable spinner
                         Log.v("fucking_error", "is loading now ....")
@@ -115,6 +115,8 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             val faculty =arguments?.getString(FACULTY)?.mapToFaculty(context!!)
             val imageType = arguments!!.getInt(TYPE_IMAGE)
             var image  : Image? = null
+
+
 
             if(imageType == IMAGE_URL ) image = Image.ImageUrl(arguments?.getString(IMAGE)!!)
             else if (imageType == IMAGE_URI) image = Image.ImageUri(Uri.fromFile(File( arguments?.getString(IMAGE))))
@@ -155,6 +157,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
 
     private fun setUpRecyclerView(semestres: List<Semestre>, curentSemestre: Int) {
+        Log.v("fucking_error", "is set up recycler with ${semestres.size}.")
         val list = ArrayList<String>()
         for (i in 0 until semestres.size){
             list.add(getString(R.string.semestre)+(i+1))
@@ -172,6 +175,20 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             onError(R.string.university_not_found)
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater?.inflate(R.menu.save_info_menu, menu)
+
+        // Get the SearchView and set the searchable configuration
+        val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu.findItem(R.id.search).actionView as SearchView).apply {
+            // Assumes current activity is the searchable activity
+            setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+//            setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
+        }
     }
 
     interface CalbackFromViewModel {
