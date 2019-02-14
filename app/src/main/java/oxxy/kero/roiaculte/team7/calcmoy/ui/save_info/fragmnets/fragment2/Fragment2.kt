@@ -77,14 +77,16 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         }
     }
     private val itemTouchHelper = ItemTouchHelper(callback)
-    private var menu : Menu? = null
+    private lateinit var menu : Menu
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
         binding.moduleRecyclerview.adapter = adapter
         binding.moduleRecyclerview.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
-        binding.moduleRecyclerview.layoutManager = LinearLayoutManager(context)
+        val layoutmanager = LinearLayoutManager(context)
+        layoutmanager.orientation = LinearLayoutManager.VERTICAL
+        binding.moduleRecyclerview.layoutManager = layoutmanager
         itemTouchHelper.attachToRecyclerView(binding.moduleRecyclerview)
 
         (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
@@ -114,7 +116,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
                 showSearch(it.showSearch)
             }
         }
-
+89
         if(viewModel.firstTime){ saveDataToViewModel() }
 
         binding.addMatter.setOnClickListener{ addMater() }
@@ -138,7 +140,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         val name = arguments!!.getString(NAME)!!
         val prename = arguments!!.getString(PRENAME)!!
         val stage = arguments!!.getInt(STAGE).toSChool()
-        var year = arguments!!.getInt(YEAR)
+        val year = arguments!!.getInt(YEAR)
         val faculty =arguments?.getString(FACULTY)?.mapToFaculty(context!!)
         val imageType = arguments!!.getInt(TYPE_IMAGE)
         var image  : Image? = null
@@ -162,7 +164,9 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     }
 
-    private fun showSearch(showSearch: Boolean) { menu?.setGroupVisible(R.id.search_group,showSearch) }
+    private fun showSearch(showSearch: Boolean) {
+        Log.v("fucking_error","showSearch ${showSearch.toString()}")
+        menu?.setGroupVisible(R.id.search_group,showSearch) }
 
     private fun setUpImage(image: Image?) {
         when(image){

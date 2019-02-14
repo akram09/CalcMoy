@@ -104,7 +104,8 @@
                                                  android:layout_width="wrap_content"
                                                  android:layout_height="wrap_content"
                                                  android:layout_gravity="bottom|start"
-                                                 android:layout_margin="16dp">
+                                                 android:layout_margin="16dp"
+                                                 app:menu_labels_position="right">
 
             <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/add_semestre"
@@ -112,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/home_work"
                     app:fab_size="mini"
-                    app:fab_label="@string/add_matter"/>
+                    app:fab_label="@string/add_semestre"/>
 
             <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/add_matter"
@@ -120,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/exam"
                     app:fab_size="mini"
-                    app:fab_label="@string/add_semestre"/>
+                    app:fab_label="@string/add_matter"/>
 
 
         </com.github.clans.fab.FloatingActionMenu>

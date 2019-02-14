@@ -41,40 +41,34 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): SemestresHolder {
        val inflater = LayoutInflater.from(parent.context)
         val binding : SaveInfoFragment2CardBinding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2_card,parent,false)
+        Log.v("recycler_fucking_error","inflating item on recycler view ")
         return SemestresHolder(binding)
     }
 
-    override fun getItemCount(): Int= listOfMatters.size()
+    override fun getItemCount(): Int{
+        Log.v("recycler_fucking_error","getItem on RecyclerAdapter ${listOfMatters.size()}")
+        return listOfMatters.size()
+    }
 
-    override fun onBindViewHolder(holder: SemestresHolder, position: Int) { holder.upDateView(listOfMatters[position]) }
+    override fun onBindViewHolder(holder: SemestresHolder, position: Int) {
+        Log.v("recycler_fucking_error","upDateView in position : $position")
+        holder.upDateView(listOfMatters[position])
+    }
 
     fun replaceAll(matters: List<Matter>) {
         listOfMatters.beginBatchedUpdates()
-//        for (i in 0 until listOfMatters.size()){
-//            val matter = listOfMatters[i]
-//            if (!matters.contains(matter)) listOfMatters.remove(matter)
-//        }
-        var size = listOfMatters.size() ;  var i = 0
-        while(i<size){
+        for( i in (listOfMatters.size()-1)..0){
             val matter = listOfMatters[i]
             if(!matters.contains(matter)) listOfMatters.remove(matter)
-            size = listOfMatters.size()
-            i++
         }
-
         listOfMatters.addAll(matters)
         listOfMatters.endBatchedUpdates()
-    }
-
-    fun remove(adapterPosition: Int): Matter {
-        val matter  = listOfMatters[adapterPosition]
-        listOfMatters.remove(matter)
-        return matter
     }
 
     class SemestresHolder(val binding: SaveInfoFragment2CardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun upDateView(matter : Matter){
+            Log.v("recycler_fucking_error","start updating ....")
             binding.coif.text = "${binding.root.context?.getString(R.string.coif) ?: ""} : ${matter.coifficient}"
             binding.name.text = matter.name
             val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
@@ -83,6 +77,7 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
             binding.couler.setOnClickListener{
                 //TODO choose color
             }
+            Log.v("recycler_fucking_error","finish updating")
         }
     }
 }
