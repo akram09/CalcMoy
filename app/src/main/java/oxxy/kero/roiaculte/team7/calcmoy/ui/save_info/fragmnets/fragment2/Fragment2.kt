@@ -84,7 +84,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
         binding.moduleRecyclerview.adapter = adapter
-        ViewCompat.setNestedScrollingEnabled(binding.moduleRecyclerview,false)
+//        ViewCompat.setNestedScrollingEnabled(binding.moduleRecyclerview,false)
         binding.moduleRecyclerview.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         val layoutmanager = LinearLayoutManager(context)
         layoutmanager.orientation = LinearLayoutManager.VERTICAL
