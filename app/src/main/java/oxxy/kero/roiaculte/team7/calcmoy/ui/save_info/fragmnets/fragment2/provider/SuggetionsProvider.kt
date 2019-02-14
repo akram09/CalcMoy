@@ -40,14 +40,12 @@ class SuggetionsProvider : DaggerContentProvider() {
     ): Cursor? {
 
 
-//       val job = scope.async {
-//           provideSuggestions()
-//       }
         val query = uri.lastPathSegment
+        val job = scope.async { provideSuggestions(query) }
         Log.v("fucking_provider","excute searching (query) $query")
 
-//        return getCursorFromList(job.await())
-        return getCursorFromList(listUni.filter { it.nameAR.contains(query) || it.nameFR.contains(query) })
+        return getCursorFromList(job.await())
+//        return getCursorFromList(listUni.filter { it.nameAR.contains(query) || it.nameFR.contains(query) })
     }
 
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int = 0

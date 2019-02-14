@@ -118,7 +118,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         if(viewModel.firstTime){ saveDataToViewModel() }
 
         binding.addMatter.setOnClickListner{ addMater() }
-        binding.addSemestre{ binding.spinner.setSelection(callbackFromViewModel.addEmptySemestre()) }
+        binding.addSemestre.setOnClickListner{ binding.spinner.setSelection(callbackFromViewModel.addEmptySemestre()) }
         return binding.root
     }
 
