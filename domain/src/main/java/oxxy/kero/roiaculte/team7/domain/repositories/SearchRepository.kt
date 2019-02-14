@@ -11,7 +11,7 @@ interface SearchRepository {
     suspend fun search(executeParams: String): Either<Failure.SearchFailure, None>
      fun observe(): Observable<List<String>>
     fun complete()
-     fun getMattersById(executeParams: Int): Either<Failure.ProvideUniversityFailure, List<Semestre>>
+     suspend fun getMattersById(executeParams: Int): Either<Failure.ProvideUniversityFailure, List<Semestre>>
     suspend fun getSuggestions(executeParams: String): Either<Failure.ProvideSuggestionFaillure, List<Suggestions>>
 
 
