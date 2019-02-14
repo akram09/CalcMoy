@@ -165,8 +165,8 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
 
     private fun showSearch(showSearch: Boolean) {
-        Log.v("fucking_error","showSearch ${showSearch.toString()}")
-        menu?.setGroupVisible(R.id.search_group,showSearch) }
+        Log.v("fucking_error","showSearch ${showSearch}")
+        if (::menu.isInitialized) menu.setGroupVisible(R.id.search_group,showSearch) }
 
     private fun setUpImage(image: Image?) {
         when(image){
