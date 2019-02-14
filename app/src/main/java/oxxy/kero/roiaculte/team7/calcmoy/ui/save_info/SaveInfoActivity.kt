@@ -15,6 +15,8 @@ class SaveInfoActivity :BaseActivity() {
 
     companion object { fun getIntent(context : Context) = Intent(context,SaveInfoActivity::class.java) }
 
+    private var callback : Fragment2CallbackkFromActivity? =  null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.save_info)
@@ -44,8 +46,16 @@ class SaveInfoActivity :BaseActivity() {
     }
 
     private fun showResult(data: String?) {
-        data.also {
+        data?.also {
             //TODO send "data" to fragment
+            if(callback != null) callback?.getUniversity(it)
+            else {
+                val fragment  = supportFragmentManager.findFragmentById(R.id.save_info_container)
+                if(fragment is Fragment2) {
+                    callback = fragment
+                    callback?.getUniversity(it)
+                }
+            }
         }
     }
 
@@ -56,6 +66,7 @@ class SaveInfoActivity :BaseActivity() {
 
     fun loadFragment2(bundle: Bundle) {
         val fragment2 = Fragment2.getInstance()
+        callback = fragment2
         fragment2.arguments = bundle
         supportFragmentManager.inTransaction {
             setCustomAnimations ( R.anim.entre_from_right,R.anim.exit_to_left,R.anim.entre_from_left,R.anim.exit_to_right )
@@ -63,6 +74,7 @@ class SaveInfoActivity :BaseActivity() {
             .add(R.id.save_info_container, fragment2)
         }
     }
+
     interface Fragment2CallbackkFromActivity {
         fun getUniversity(data : String)
     }

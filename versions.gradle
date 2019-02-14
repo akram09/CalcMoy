@@ -62,6 +62,7 @@ android.circle_image = "de.hdodenhof:circleimageview:$versions.circle_image"
 android.image_copper = "com.theartofdev.edmodo:android-image-cropper:$versions.image_copper"
 android.facebook_sdk = "com.facebook.android:facebook-login:$versions.facebook_sdk"
 android.swiper ="it.xabaras.android:recyclerview-swipedecorator:$versions.recycler_swiper"
+android.custom_fab = 'com.github.clans:fab:1.6.4'
 deps.android = android
 
 

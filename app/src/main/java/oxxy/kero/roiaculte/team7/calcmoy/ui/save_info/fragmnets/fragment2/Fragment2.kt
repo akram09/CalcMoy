@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.SearchManager
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.DialogInterface
 import android.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Color
@@ -38,9 +37,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragme
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Image
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
-import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.close
-import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.mapToFaculty
-import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toSChool
+import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.*
 import oxxy.kero.roiaculte.team7.domain.models.FacultyType
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.School
@@ -81,12 +78,10 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
     private val itemTouchHelper = ItemTouchHelper(callback)
     private var menu : Menu? = null
-    private var wich = 0
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
-
         binding.moduleRecyclerview.adapter = adapter
         binding.moduleRecyclerview.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         binding.moduleRecyclerview.layoutManager = LinearLayoutManager(context)
@@ -96,13 +91,11 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         (activity as? AppCompatActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setHasOptionsMenu(true)
 
-
         binding.spinner.addOnLayoutChangeListener{ _, _, _, _, _, _, _, _, _ ->
 
             val position = binding.spinner.selectedItemPosition
             if (position != -1 ) {
                 viewModel.withState {
-                    adapter.listOfMatters.clear()
                     adapter.replaceAll(it.semestres[position].matters)
                     callbackFromViewModel.setCurentSemstre(position)
                 }
@@ -113,50 +106,48 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         viewModel.observe(this){
             it?.also {
                 when (it.mattersState) {
-                    is Loading<*> -> {
-                        //TODO show progress  bare , hide recyclerView and disable spinner
-                        Log.v("fucking_error", "is loading now ....")
-                    }
-                    is Success<*> -> {
-                        //TODO hide progess bare , show recyclrView and enable spinner
-                        Log.v("fucking_error", "is Success now ....")
-                    }
+                    is Loading<*> -> { showLoading(true) }
+                    is Success<*> -> { showLoading(false) }
                 }
-                setUpRecyclerView(it.semestres , it.curentSemestre)
+                setUpRecyclerView(it.semestres , viewModel.curent)
                 setUpImage(it.image)
                 showSearch(it.showSearch)
             }
         }
 
-        if(viewModel.firstTime){
-            val name = arguments!!.getString(NAME)!!
-            val prename = arguments!!.getString(PRENAME)!!
-            val stage = arguments!!.getInt(STAGE).toSChool()
-            var year = arguments!!.getInt(YEAR)
-            val faculty =arguments?.getString(FACULTY)?.mapToFaculty(context!!)
-            val imageType = arguments!!.getInt(TYPE_IMAGE)
-            var image  : Image? = null
+        if(viewModel.firstTime){ saveDataToViewModel() }
 
-
-
-            if(imageType == IMAGE_URL ) image = Image.ImageUrl(arguments?.getString(IMAGE)!!)
-            else if (imageType == IMAGE_URI) image = Image.ImageUri(Uri.fromFile(File( arguments?.getString(IMAGE))))
-
-            viewModel.firstTime = false
-            callbackFromViewModel.saveDate(name,prename,year,stage ,faculty,image)
-        }
-
-        binding.fab.setOnClickListener{
-            AlertDialog.Builder(context)
-                .setTitle(R.string.adding)
-                .setItems(arrayOf(getString(R.string.semestre),getString(R.string.matter))){ _,choi: Int ->
-                    if (choi == 0) callbackFromViewModel.addEmptySemestre()
-                    else addMater()
-                }.show()
-
-        }
-
+        binding.addMatter.setOnClickListner{ addMater() }
+        binding.addSemestre{ binding.spinner.setSelection(callbackFromViewModel.addEmptySemestre()) }
         return binding.root
+    }
+
+    private fun showLoading(b: Boolean) {
+        if(b){
+            binding.loading.loading.visible()
+            binding.moduleRecyclerview.invisible()
+            binding.spinner.isClickable = false
+        }else {
+            binding.loading.loading.invisible()
+            binding.moduleRecyclerview.visible()
+            binding.spinner.isClickable = true
+        }
+    }
+
+    private fun saveDataToViewModel() {
+        val name = arguments!!.getString(NAME)!!
+        val prename = arguments!!.getString(PRENAME)!!
+        val stage = arguments!!.getInt(STAGE).toSChool()
+        var year = arguments!!.getInt(YEAR)
+        val faculty =arguments?.getString(FACULTY)?.mapToFaculty(context!!)
+        val imageType = arguments!!.getInt(TYPE_IMAGE)
+        var image  : Image? = null
+
+        if(imageType == IMAGE_URL ) image = Image.ImageUrl(arguments?.getString(IMAGE)!!)
+        else if (imageType == IMAGE_URI) image = Image.ImageUri(Uri.fromFile(File( arguments?.getString(IMAGE))))
+
+        viewModel.firstTime = false
+        callbackFromViewModel.saveDate(name,prename,year,stage ,faculty,image)
     }
 
     private fun addMater() {
@@ -219,13 +210,12 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     interface CalbackFromViewModel {
         fun setCurentSemstre(curent: Int)
-        fun addEmptySemestre()
+        fun addEmptySemestre() : Int
         fun addMatter(matter : Matter , curent: Int)
         fun removeMatter(matter : Matter ,curent: Int )
         fun removeSemestre(position:Int)
         fun saveDate(name : String, prenam : String, year : Int, school : School, facultyType: FacultyType?, image : Image?)
         fun loadUniversityMatters(id : Int)
-
     }
 }
 

@@ -101,6 +101,8 @@
     <string name="search">Search</string>
     <string name="adding">what do you want to add</string>
     <string name="matter">matter</string>
+    <string name="add_matter">add Module</string>
+    <string name="add_semestre">add Semestre</string>
 
 
 </resources>

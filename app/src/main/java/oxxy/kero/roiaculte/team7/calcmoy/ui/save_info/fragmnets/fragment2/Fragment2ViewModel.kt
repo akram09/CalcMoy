@@ -26,6 +26,8 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     private lateinit var school : School
     private var facultyType: FacultyType? = null
 
+    var curent : Int = 0
+
     var firstTime  =true
 
     override fun saveDate(name : String , prenam : String, year : Int , school : School, facultyType: FacultyType?, image : Image?){
@@ -59,22 +61,17 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     }
 
 
-    override fun setCurentSemstre(curent: Int) {
-        withState {
-            if (it.curentSemestre != curent) {
-                setState { copy(curentSemestre = curent) }
-                Log.v("fucking_error","setUp curent semestre ")
-            }
-        }
-    }
+    override fun setCurentSemstre(curent: Int) { this.curent = curent }
 
-    override fun addEmptySemestre() {
+    override fun addEmptySemestre(): Int {
+        var size = 0
         withState {
             val  list = it.semestres.toMutableList()
-            val size  = list.size
+            size  = list.size
             list.add(Semestre(size,ArrayList()))
             setState { copy(semestres = list,curentSemestre = size) }
         }
+        return size
     }
 
     override fun addMatter(matter: Matter, curent: Int) {
