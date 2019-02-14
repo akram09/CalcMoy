@@ -102,15 +102,18 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         withState {
             if(position>-1 && position<it.semestres.size){
                 val list = it.semestres.toMutableList()
-                var curent = it.curentSemestre
+                var curent = this.curent
                 list.removeAt(position)
                 if(curent>=position ) curent-=1
-                setState { copy(semestres = list,curentSemestre = curent)  }
+                setState { copy(semestres = list)  }
+                this.curent = curent
             }
         }
     }
 
     override fun loadUniversityMatters(id: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        scope.launchInteractor(getUniversityMatters,id.toString()){
+//            it.either(::handleGetUniversutyMatterFailure,::handleGetUniversutyMatterSuccess)
+//        }
     }
 }
