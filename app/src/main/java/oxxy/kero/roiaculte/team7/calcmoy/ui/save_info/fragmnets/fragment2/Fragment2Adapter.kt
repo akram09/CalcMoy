@@ -59,7 +59,7 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
         listOfMatters.beginBatchedUpdates()
         val size = listOfMatters.size()
         if(size != 0) {
-            for (i in (size-1)..0 ){
+            for (i in (size-1) downTo 0 ){
                 val matter =listOfMatters[i]
                 if(!matters.contains(matter)) listOfMatters.remove(matter)
             }
