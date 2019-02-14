@@ -124,11 +124,11 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     private fun showLoading(b: Boolean) {
         if(b){
-            binding.loading.loading.visible()
+            binding.loading.visible()
             binding.moduleRecyclerview.invisible()
             binding.spinner.isClickable = false
         }else {
-            binding.loading.loading.invisible()
+            binding.loading.invisible()
             binding.moduleRecyclerview.visible()
             binding.spinner.isClickable = true
         }
