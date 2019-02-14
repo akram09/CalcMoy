@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults,
                                              private val getUniversityMatters: GetUniversityModules)
-    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),0,null,false)),
+    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null,false)),
     Fragment2.CalbackFromViewModel{
 
     private lateinit var name: String
@@ -29,6 +29,7 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     var curent : Int = 0
 
     var firstTime  =true
+    var showSearch = false
 
     override fun saveDate(name : String , prenam : String, year : Int , school : School, facultyType: FacultyType?, image : Image?){
 
@@ -49,15 +50,18 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             scope.launchInteractor(getDefaultMatters, GetModulesDefaultParam(year, school, facultyType)) {
                 it.either(::handleDefaultFaillure, ::handleDafaultSuccess)
             }
-        }else  setState { copy(mattersState =Success(None()),semestres = listOf(Semestre(1, ArrayList())),curentSemestre = 0,showSearch = true) }
+        }else {
+            showSearch = true
+            setState { copy(mattersState =Success(None()),semestres = listOf(Semestre(1, ArrayList()))) }
+        }
     }
 
     private fun handleDafaultSuccess(list: List<Semestre>) {
-        setState { copy(mattersState =Success(None()),semestres = list,curentSemestre = 0) }
+        setState { copy(mattersState =Success(None()),semestres = list) }
     }
 
     private fun handleDefaultFaillure(getModulesDEfaultFailure: Failure.GetModulesDEfaultFailure) {
-        setState { copy(mattersState = Success(None()),semestres =ArrayList<Semestre>().oneElement(Semestre(0, ArrayList() )) ,curentSemestre = 0) }
+        setState { copy(mattersState = Success(None()),semestres =ArrayList<Semestre>().oneElement(Semestre(0, ArrayList() )) ) }
     }
 
 
@@ -69,7 +73,7 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             val  list = it.semestres.toMutableList()
             size  = list.size
             list.add(Semestre(size,ArrayList()))
-            setState { copy(semestres = list,curentSemestre = size) }
+            setState { copy(semestres = list) }
         }
         return size
     }

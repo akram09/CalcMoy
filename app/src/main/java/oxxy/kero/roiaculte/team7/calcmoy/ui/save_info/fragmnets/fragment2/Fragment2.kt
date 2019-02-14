@@ -10,7 +10,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.DividerItemDecoration
@@ -84,11 +83,8 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
         binding.moduleRecyclerview.adapter = adapter
-//        ViewCompat.setNestedScrollingEnabled(binding.moduleRecyclerview,false)
         binding.moduleRecyclerview.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
-        val layoutmanager = LinearLayoutManager(context)
-        layoutmanager.orientation = LinearLayoutManager.VERTICAL
-        binding.moduleRecyclerview.layoutManager = layoutmanager
+        binding.moduleRecyclerview.layoutManager = LinearLayoutManager(context)
         itemTouchHelper.attachToRecyclerView(binding.moduleRecyclerview)
 
         (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
@@ -101,7 +97,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             if (position != -1 ) {
                 viewModel.withState {
                     adapter.replaceAll(it.semestres[position].matters)
-//                    adapter.notifyDataSetChanged()
+                    binding.moduleRecyclerview.scrollTo(binding.moduleRecyclerview.scrollX,binding.moduleRecyclerview.scrollY)
                     callbackFromViewModel.setCurentSemstre(position)
                 }
             }
@@ -116,10 +112,9 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
                 }
                 setUpRecyclerView(it.semestres , viewModel.curent)
                 setUpImage(it.image)
-                showSearch(it.showSearch)
             }
         }
-89
+
         if(viewModel.firstTime){ saveDataToViewModel() }
 
         binding.addMatter.setOnClickListener{ addMater() }
@@ -167,14 +162,6 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     }
 
-    private fun showSearch(showSearch: Boolean) {
-        Log.v("fucking_error","showSearch ${showSearch}")
-        if (::menu.isInitialized){
-            menu.setGroupVisible(R.id.search_group,showSearch)
-            Log.v("fucking_error","show search setup")
-        }
-    }
-
     private fun setUpImage(image: Image?) {
         when(image){
             is Image.ImageUri ->{/*TODO load image uri*/}
@@ -207,7 +194,8 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
         inflater?.inflate(R.menu.save_info_menu, menu)
 
-        this.menu = menu
+        if(viewModel.showSearch ) menu.setGroupVisible(R.id.search_group,false)
+
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu.findItem(R.id.search).actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))

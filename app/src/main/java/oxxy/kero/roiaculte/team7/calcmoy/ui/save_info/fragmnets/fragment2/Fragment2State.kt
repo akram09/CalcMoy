@@ -6,4 +6,4 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Async
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 
-data class Fragment2State (val mattersState : Async<None> ,val semestres : List<Semestre>,val curentSemestre : Int , val image :Image?,val showSearch : Boolean) : State
+data class Fragment2State (val mattersState : Async<None> ,val semestres : List<Semestre>, val image :Image?) : State
