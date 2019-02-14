@@ -99,6 +99,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             if (position != -1 ) {
                 viewModel.withState {
                     adapter.replaceAll(it.semestres[position].matters)
+                    adapter.notifyDataSetChanged()
                     callbackFromViewModel.setCurentSemstre(position)
                 }
             }
@@ -166,7 +167,11 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     private fun showSearch(showSearch: Boolean) {
         Log.v("fucking_error","showSearch ${showSearch}")
-        if (::menu.isInitialized) menu.setGroupVisible(R.id.search_group,showSearch) }
+        if (::menu.isInitialized){
+            menu.setGroupVisible(R.id.search_group,showSearch)
+            Log.v("fucking_error","show search setup")
+        }
+    }
 
     private fun setUpImage(image: Image?) {
         when(image){
