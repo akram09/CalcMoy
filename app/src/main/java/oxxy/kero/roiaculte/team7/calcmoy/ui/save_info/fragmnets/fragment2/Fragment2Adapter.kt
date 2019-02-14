@@ -57,9 +57,11 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
 
     fun replaceAll(matters: List<Matter>) {
         listOfMatters.beginBatchedUpdates()
-        for( i in (listOfMatters.size()-1)..0){
-            val matter = listOfMatters[i]
-            if(!matters.contains(matter)) listOfMatters.remove(matter)
+        if(listOfMatters.size()!= 0) {
+            for (i in (listOfMatters.size() - 1)..0) {
+                val matter = listOfMatters[i]
+                if (!matters.contains(matter)) listOfMatters.remove(matter)
+            }
         }
         listOfMatters.addAll(matters)
         listOfMatters.endBatchedUpdates()
