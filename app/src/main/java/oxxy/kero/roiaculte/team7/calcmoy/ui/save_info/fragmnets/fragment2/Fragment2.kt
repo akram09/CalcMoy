@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.DividerItemDecoration
@@ -83,6 +84,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.save_info_fragment_2,container,false)
         binding.moduleRecyclerview.adapter = adapter
+        ViewCompat.setNestedScrollingEnabled(binding.moduleRecyclerview,false)
         binding.moduleRecyclerview.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
         val layoutmanager = LinearLayoutManager(context)
         layoutmanager.orientation = LinearLayoutManager.VERTICAL
@@ -99,7 +101,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             if (position != -1 ) {
                 viewModel.withState {
                     adapter.replaceAll(it.semestres[position].matters)
-                    adapter.notifyDataSetChanged()
+//                    adapter.notifyDataSetChanged()
                     callbackFromViewModel.setCurentSemstre(position)
                 }
             }
