@@ -22,7 +22,6 @@ class SaveInfoActivity :BaseActivity() , ColorPickerDialogListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.save_info)
         if(savedInstanceState == null) loadFragment1()
-        handleIntentSearch()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -48,15 +47,8 @@ class SaveInfoActivity :BaseActivity() , ColorPickerDialogListener {
 
     private fun showResult(data: String?) {
         data?.also {
-            //TODO send "data" to fragment
-            if(callback != null) callback?.getUniversity(it)
-            else {
-                val fragment  = supportFragmentManager.findFragmentById(R.id.save_info_container)
-                if(fragment is Fragment2) {
-                    callback = fragment
-                    callback?.getUniversity(it)
-                }
-            }
+            setUpCallback()
+            callback?.getUniversity(it)
         }
     }
 
@@ -76,12 +68,21 @@ class SaveInfoActivity :BaseActivity() , ColorPickerDialogListener {
         }
     }
 
+    private fun setUpCallback(){
+        if(callback!= null ) return
+        val fragment  = supportFragmentManager.findFragmentById(R.id.save_info_container)
+        if(fragment is Fragment2) {
+            callback = fragment
+        }
+    }
+
     override fun onDialogDismissed(dialogId: Int) {
 
     }
 
     override fun onColorSelected(dialogId: Int, color: Int) {
-
+        setUpCallback()
+        callback?.colorSelected(color)
     }
 
     interface Fragment2CallbackkFromActivity {

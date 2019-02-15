@@ -17,10 +17,12 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import de.hdodenhof.circleimageview.CircleImageView
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
@@ -40,12 +42,14 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Image
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.*
+import oxxy.kero.roiaculte.team7.data.firebase.UserId
 import oxxy.kero.roiaculte.team7.domain.models.FacultyType
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.School
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import java.io.File
 import java.lang.Exception
+import javax.inject.Inject
 
 class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivity{
     companion object { fun getInstance() = Fragment2() }
@@ -62,7 +66,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             val pos = binding.spinner.selectedItemPosition
             callbackFromViewModel.removeMatter(matter,pos)
             Snackbar.make(p0.itemView,R.string.delete_item,Snackbar.LENGTH_LONG).setAction(R.string.cancel){
-                callbackFromViewModel.addMatter(matter,pos)
+                callbackFromViewModel.addMatter(matter)
             }.show()
         }
 
@@ -80,6 +84,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
     private val itemTouchHelper = ItemTouchHelper(callback)
     private var dialogueBinding : DialogueAddModuleBinding? =null
+    @Inject lateinit var userId : UserId
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -157,12 +162,22 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         dialogueBinding  = DataBindingUtil.inflate(layoutInflater,R.layout.dialogue_add_module,null,false)
         builder.setView(dialogueBinding!!.root)
         dialogueBinding!!.addmodulePickColor.setOnClickListener{pickColor()}
-        dialogueBinding!!.addmoduleColor.setImageDrawable(ColorDrawable(R.color.default_matter_color))
-        builder.setPositiveButton(R.string.save_matter){_,_ ->
-            //TODO save matter
-//            callbackFromViewModel.addMatter(matter,binding.spinner.selectedItemPosition)
+        dialogueBinding!!.addmoduleColor.setImageDrawable(ColorDrawable(resources.getColor(R.color.default_matter_color)))
+        dialogueBinding!!.addMatterSave.setOnClickListener{
+            val name = dialogueBinding!!.addmoduleName.text.toString()
+            val coi = dialogueBinding!!.addmoduleCoei.text.toString()
+            val color = (dialogueBinding!!.addmoduleColor.drawable as? ColorDrawable)?.color ?: resources.getColor(R.color.default_matter_color)
+
+            if(TextUtils.isEmpty(name)){ onError(R.string.matter_empty) ; return@setOnClickListener }
+            if(TextUtils.isEmpty(coi)){ onError(R.string.coif_empty) ; return@setOnClickListener}
+
+            val colorHex = "#${Integer.toHexString(color)}"
+            val matter = Matter(0,name,coi,colorHex,binding.spinner.selectedItemPosition,0.0,userId.id)
+            Log.v("fucking_error","color --> $colorHex , user ID ---> ${userId.id}")
+            callbackFromViewModel.addMatter(matter)
         }
-        builder.show()
+        val alertDialog : AlertDialog = builder.create()
+        alertDialog.show()
     }
 
     private fun pickColor() {
@@ -174,9 +189,6 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
 
     override fun colorSelected(color: Int) {
-//        val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
-//        binding.couler.setImageDrawable(colorDrawable)
-
         showMessage("setting image")
         dialogueBinding?.addmoduleColor?.setImageDrawable(ColorDrawable(color))
     }
@@ -231,7 +243,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     interface CalbackFromViewModel {
         fun setCurentSemstre(curent: Int)
         fun addEmptySemestre() : Int
-        fun addMatter(matter : Matter , curent: Int)
+        fun addMatter(matter : Matter )
         fun removeMatter(matter : Matter ,curent: Int )
         fun removeSemestre(position:Int)
         fun saveDate(name : String, prenam : String, year : Int, school : School, facultyType: FacultyType?, image : Image?)

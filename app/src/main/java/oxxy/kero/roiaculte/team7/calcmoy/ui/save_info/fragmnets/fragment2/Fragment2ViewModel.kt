@@ -16,7 +16,7 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults,
-                                             private val getUniversityMatters: GetUniversityModules)
+                                             private val getUniversityMatters: ProvideUniversity)
     : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null)),
     Fragment2.CalbackFromViewModel{
 
@@ -78,11 +78,11 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         return size
     }
 
-    override fun addMatter(matter: Matter, curent: Int) {
+    override fun addMatter(matter: Matter) {
         withState {
-            if(curent>-1 && curent<it.semestres.size){
+            if(matter.semestre>-1 && matter.semestre<it.semestres.size){
                 val semestre = it.semestres
-                semestre[curent].matters.add(matter)
+                semestre[matter.semestre].matters.add(matter)
                 setState { copy(semestres =semestres ) }
             }
         }
@@ -112,8 +112,17 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     }
 
     override fun loadUniversityMatters(id: Int) {
-//        scope.launchInteractor(getUniversityMatters,id.toString()){
-//            it.either(::handleGetUniversutyMatterFailure,::handleGetUniversutyMatterSuccess)
-//        }
+        scope.launchInteractor(getUniversityMatters,id){
+            it.either(::handleGetUniversutyMatterFailure,::handleGetUniversutyMatterSuccess)
+        }
+    }
+
+    private fun handleGetUniversutyMatterSuccess(list: List<Semestre>) {
+        curent = 0
+        setState { copy(semestres = list) }
+    }
+
+    private fun handleGetUniversutyMatterFailure(provideUniversityFailure: Failure.ProvideUniversityFailure) {
+        
     }
 }

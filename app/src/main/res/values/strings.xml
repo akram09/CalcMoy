@@ -105,6 +105,8 @@
     <string name="add_semestre">add Semestre</string>
     <string name="color_pick">pick a color</string>
     <string name="save_matter">save matter</string>
+    <string name="matter_empty">matter name should not be empty</string>
+    <string name="coif_empty">coificient should not be empty</string>
 
 
 </resources>

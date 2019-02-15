@@ -14,13 +14,10 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideUserId(auth :FirebaseAuth):UserId?{
-        if(auth.currentUser?.uid==null){
-            return null
-        }else{
-            return UserId(auth.currentUser!!.uid)
-        }
+    fun provideUserId(auth :FirebaseAuth):UserId{
+        return UserId(auth.uid ?: "")
     }
+
     @Provides
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {

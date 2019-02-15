@@ -7,9 +7,9 @@ import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
 import android.util.Log
-import dagger.android.AndroidInjection
 import dagger.android.DaggerContentProvider
 import kotlinx.coroutines.*
+import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.ProvideSuggestions
 import oxxy.kero.roiaculte.team7.domain.interactors.Suggestions
 import javax.inject.Inject
@@ -18,15 +18,15 @@ class SuggetionsProvider : DaggerContentProvider() {
 
 
     @Inject lateinit var provideSuggestions: ProvideSuggestions
-//     var  scope: CoroutineScope= CoroutineScope(Dispatchers.Main)
+     var  scope: CoroutineScope= CoroutineScope(Dispatchers.Main)
 
-    private val listUni : ArrayList<Suggestions> by lazy {
-        val list = ArrayList<Suggestions>()
-        for ( i in 1..10){
-            list.add(Suggestions(i.toLong(),"univer : $i ","جامعة : $i"))
-        }
-        list
-    }
+//    private val listUni : ArrayList<Suggestions> by lazy {
+//        val list = ArrayList<Suggestions>()
+//        for ( i in 1..10){
+//            list.add(Suggestions(i.toLong(),"univer : $i ","جامعة : $i"))
+//        }
+//        list
+//    }
 
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? = null
@@ -41,11 +41,15 @@ class SuggetionsProvider : DaggerContentProvider() {
 
 
         val query = uri.lastPathSegment
-//        val job = scope.async { provideSuggestions(query) }
+        val job = scope.async {
+            val either = provideSuggestions(query)
+            if(either is Either.Right ) either.b
+            else emptyList()
+        }
         Log.v("fucking_provider","excute searching (query) $query")
 
-//        return getCursorFromList(job.await())
-        return getCursorFromList(listUni.filter { it.nameAR.contains(query) || it.nameFR.contains(query) })
+        return getCursorFromList(job.getCompleted())
+//        return getCursorFromList(listUni.filter { it.nameAR.contains(query) || it.nameFR.contains(query) })
     }
 
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int = 0

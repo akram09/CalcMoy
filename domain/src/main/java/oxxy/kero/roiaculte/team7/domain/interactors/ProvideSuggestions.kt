@@ -1,6 +1,5 @@
 package oxxy.kero.roiaculte.team7.domain.interactors
 
-import kotlinx.coroutines.CoroutineDispatcher
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.CouroutineDispatchers
 import oxxy.kero.roiaculte.team7.domain.functional.Either

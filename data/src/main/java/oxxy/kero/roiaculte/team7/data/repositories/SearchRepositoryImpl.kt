@@ -110,7 +110,8 @@ class SearchRepositoryImpl @Inject constructor(val database: FirebaseDatabase, v
                     var list = emptyList<Suggestions>()
                    for(data in p0.children){
                        val name = (data.child("universiteName").value as String) to (data.child("universiteNameFr").value as String)
-                       if(name.first.contains(executeParams.trim())
+                       if(name.first.contains(executeParams.trim()
+                           )
                            or name.second.contains(executeParams.trim())){
                                list += Suggestions(data.key?.toLongOrNull()!! ,name.second, name.first )
                            }
