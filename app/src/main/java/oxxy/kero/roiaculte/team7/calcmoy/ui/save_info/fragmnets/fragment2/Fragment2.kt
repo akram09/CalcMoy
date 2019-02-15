@@ -22,7 +22,6 @@ import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
-import de.hdodenhof.circleimageview.CircleImageView
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
