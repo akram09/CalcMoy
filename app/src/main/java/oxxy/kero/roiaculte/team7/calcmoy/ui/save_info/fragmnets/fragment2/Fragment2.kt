@@ -79,7 +79,6 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         }
     }
     private val itemTouchHelper = ItemTouchHelper(callback)
-    private lateinit var menu : Menu
     private var dialogueBinding : DialogueAddModuleBinding? =null
 
 
@@ -177,7 +176,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 //        val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
 //        binding.couler.setImageDrawable(colorDrawable)
 
-        dialogueBinding?.addmoduleColor.setImageDrawable(ColorDrawable(color))
+        dialogueBinding?.addmoduleColor?.setImageDrawable(ColorDrawable(color))
     }
 
     private fun setUpImage(image: Image?) {
