@@ -51,7 +51,6 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
     }
 
     override fun onBindViewHolder(holder: SemestresHolder, position: Int) {
-        Log.v("recycler_fucking_error","upDateView in position : $position")
         holder.upDateView(listOfMatters[position])
     }
 
@@ -71,16 +70,10 @@ class Fragment2Adapter : RecyclerView.Adapter<Fragment2Adapter.SemestresHolder>(
     class SemestresHolder(val binding: SaveInfoFragment2CardBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun upDateView(matter : Matter){
-            Log.v("recycler_fucking_error","start updating ....")
             binding.coif.text = "${binding.root.context?.getString(R.string.coif) ?: ""} : ${matter.coifficient}"
             binding.name.text = matter.name
             val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
             binding.couler.setImageDrawable(colorDrawable)
-
-            binding.couler.setOnClickListener{
-                //TODO choose color
-            }
-            Log.v("recycler_fucking_error","finish updating")
         }
     }
 }

@@ -18,7 +18,7 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
-    <style name="ToolBar" parent="Base.ThemeOverlay.AppCompat.Light">
+    <style name="ToolBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="actionMenuTextColor">@color/white</item>
     </style>
 

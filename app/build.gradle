@@ -62,6 +62,8 @@ dependencies {
     implementation deps.android.image_copper
     implementation deps.android.swiper
     implementation deps.android.custom_fab
+    implementation deps.android.color_picker
+
     implementation deps.dagger.core
     implementation deps.dagger.support
     kapt deps.dagger.kaptCompiler

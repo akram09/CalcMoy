@@ -7,6 +7,7 @@ import android.content.Context
 import android.databinding.DataBindingUtil
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -19,6 +20,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
@@ -78,6 +80,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
     private val itemTouchHelper = ItemTouchHelper(callback)
     private lateinit var menu : Menu
+    private var dialogueBinding : DialogueAddModuleBinding? =null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -152,14 +155,29 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     private fun addMater() {
         val builder = AlertDialog.Builder(context)
-        val dialogueBinding : DialogueAddModuleBinding = DataBindingUtil.inflate(layoutInflater,R.layout.dialogue_add_module,null,false)
-        builder.setView(dialogueBinding.root)
-        dialogueBinding.addmoduleColor.setOnClickListener{pickColor()}
+        dialogueBinding  = DataBindingUtil.inflate(layoutInflater,R.layout.dialogue_add_module,null,false)
+        builder.setView(dialogueBinding!!.root)
+        dialogueBinding!!.addmodulePickColor.setOnClickListener{pickColor()}
+        builder.setPositiveButton(R.string.save_matter){_,_ ->
+            //TODO save matter
+//            callbackFromViewModel.addMatter(matter,binding.spinner.selectedItemPosition)
+        }
         builder.show()
     }
 
     private fun pickColor() {
+        ColorPickerDialog.newBuilder()
+            .setDialogTitle(R.string.color_pick)
+            .setAllowCustom(true)
+            .setAllowPresets(true)
+            .show(activity)
+    }
 
+    override fun colorSelected(color: Int) {
+//        val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
+//        binding.couler.setImageDrawable(colorDrawable)
+
+        dialogueBinding?.addmoduleColor.setImageDrawable(ColorDrawable(color))
     }
 
     private fun setUpImage(image: Image?) {
@@ -189,12 +207,14 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     }
 
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
 
         inflater?.inflate(R.menu.save_info_menu, menu)
 
-        if(viewModel.showSearch ) menu.setGroupVisible(R.id.search_group,false)
+        menu.setGroupVisible(R.id.search_group,viewModel.showSearch)
 
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu.findItem(R.id.search).actionView as SearchView).apply {

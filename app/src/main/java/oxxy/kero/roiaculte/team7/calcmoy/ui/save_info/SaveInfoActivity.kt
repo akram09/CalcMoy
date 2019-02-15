@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1
@@ -11,7 +12,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2.Fragme
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.inTransaction
 
 
-class SaveInfoActivity :BaseActivity() {
+class SaveInfoActivity :BaseActivity() , ColorPickerDialogListener {
 
     companion object { fun getIntent(context : Context) = Intent(context,SaveInfoActivity::class.java) }
 
@@ -75,8 +76,17 @@ class SaveInfoActivity :BaseActivity() {
         }
     }
 
+    override fun onDialogDismissed(dialogId: Int) {
+
+    }
+
+    override fun onColorSelected(dialogId: Int, color: Int) {
+
+    }
+
     interface Fragment2CallbackkFromActivity {
         fun getUniversity(data : String)
+        fun colorSelected(color : Int)
     }
 
 }

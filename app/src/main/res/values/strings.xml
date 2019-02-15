@@ -94,7 +94,7 @@
     <string name="delete_item">item deleted</string>
     <string name="cancel">cancel</string>
     <string name="delete">delete</string>
-    <string name="coif">المعامل :</string>
+    <string name="coif">المعامل</string>
     <string name="search_hint">search for your universit</string>
     <string name="no_university">sorry no university with that name please fill your module by your selfe</string>
     <string name="university_not_found">sorry we can\'t find this university</string>
@@ -103,6 +103,8 @@
     <string name="matter">matter</string>
     <string name="add_matter">add Module</string>
     <string name="add_semestre">add Semestre</string>
+    <string name="color_pick">pick a color</string>
+    <string name="save_matter">save matter</string>
 
 
 </resources>

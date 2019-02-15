@@ -10,7 +10,7 @@
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:cardElevation="15dp" card_view:contentPadding="3dp">
+            card_view:cardElevation="4dp" card_view:contentPadding="3dp">
 
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

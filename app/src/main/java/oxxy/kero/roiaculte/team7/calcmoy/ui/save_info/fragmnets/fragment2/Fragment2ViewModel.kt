@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults,
                                              private val getUniversityMatters: GetUniversityModules)
-    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null,false)),
+    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null)),
     Fragment2.CalbackFromViewModel{
 
     private lateinit var name: String

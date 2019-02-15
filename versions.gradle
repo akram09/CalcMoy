@@ -63,6 +63,7 @@ android.image_copper = "com.theartofdev.edmodo:android-image-cropper:$versions.i
 android.facebook_sdk = "com.facebook.android:facebook-login:$versions.facebook_sdk"
 android.swiper ="it.xabaras.android:recyclerview-swipedecorator:$versions.recycler_swiper"
 android.custom_fab = 'com.github.clans:fab:1.6.4'
+android.color_picker = 'com.jaredrummler:colorpicker:1.0.0'
 deps.android = android
 
 
