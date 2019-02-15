@@ -101,8 +101,8 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
             val position = binding.spinner.selectedItemPosition
             if (position != -1 ) {
-                viewModel.withState {
-                    adapter.replaceAll(it.semestres[position].matters)
+                viewModel.withState { state ->
+                    adapter.replaceAll(state.semestres[position].matters)
                     binding.moduleRecyclerview.scrollTo(binding.moduleRecyclerview.scrollX,binding.moduleRecyclerview.scrollY)
                     callbackFromViewModel.setCurentSemstre(position)
                 }
@@ -171,7 +171,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             if(TextUtils.isEmpty(coi)){ onError(R.string.coif_empty) ; return@setOnClickListener}
 
             val colorHex = "#${Integer.toHexString(color)}"
-            val matter = Matter(0,name,coi,colorHex,binding.spinner.selectedItemPosition,0.0,userId.id)
+            val matter = Matter(0,name,coi.toInt(),colorHex,binding.spinner.selectedItemPosition,0.0,userId.id)
             Log.v("fucking_error","color --> $colorHex , user ID ---> ${userId.id}")
             callbackFromViewModel.addMatter(matter)
         }

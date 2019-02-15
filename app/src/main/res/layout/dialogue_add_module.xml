@@ -59,7 +59,7 @@
                         android:layout_weight="1"
                         android:ems="10"
                         android:hint="@string/coief"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:textDirection="rtl"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
