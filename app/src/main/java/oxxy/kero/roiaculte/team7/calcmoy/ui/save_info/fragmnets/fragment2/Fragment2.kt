@@ -157,6 +157,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         dialogueBinding  = DataBindingUtil.inflate(layoutInflater,R.layout.dialogue_add_module,null,false)
         builder.setView(dialogueBinding!!.root)
         dialogueBinding!!.addmodulePickColor.setOnClickListener{pickColor()}
+        dialogueBinding!!.addmoduleColor.setImageDrawable(ColorDrawable(R.color.default_matter_color))
         builder.setPositiveButton(R.string.save_matter){_,_ ->
             //TODO save matter
 //            callbackFromViewModel.addMatter(matter,binding.spinner.selectedItemPosition)
@@ -176,6 +177,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 //        val colorDrawable = ColorDrawable(Color.parseColor(matter.color))
 //        binding.couler.setImageDrawable(colorDrawable)
 
+        showMessage("setting image")
         dialogueBinding?.addmoduleColor?.setImageDrawable(ColorDrawable(color))
     }
 
