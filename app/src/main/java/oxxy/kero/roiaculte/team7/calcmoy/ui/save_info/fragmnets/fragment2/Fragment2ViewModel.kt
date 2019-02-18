@@ -125,4 +125,13 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     private fun handleGetUniversutyMatterFailure(provideUniversityFailure: Failure.ProvideUniversityFailure) {
         
     }
+
+    fun updateMatter(matter: Matter, adapterPosition: Int) {
+        setState {
+            val list = this.semestres.toMutableList()
+            list[matter.semestre].matters.removeAt(adapterPosition)
+            list[matter.semestre].matters.add(adapterPosition,matter)
+            copy(semestres = list)
+        }
+    }
 }

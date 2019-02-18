@@ -56,7 +56,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     private  lateinit var binding : SaveInfoFragment2Binding
     private val viewModel: Fragment2ViewModel by lazy { ViewModelProviders.of(this,viewModelFactory)[Fragment2ViewModel::class.java] }
     private val callbackFromViewModel : CalbackFromViewModel by lazy { viewModel }
-    private val adapter = Fragment2Adapter()
+    private val adapter : Fragment2Adapter by lazy { Fragment2Adapter(userId.id,viewModel) }
     private val callback : ItemTouchHelper.SimpleCallback =object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT){
         override fun onMove(p0: RecyclerView, p1: RecyclerView.ViewHolder, p2: RecyclerView.ViewHolder): Boolean = false
 
@@ -101,13 +101,11 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
             val position = binding.spinner.selectedItemPosition
             if (position != -1 ) {
-                viewModel.withState { state ->
-                    adapter.replaceAll(state.semestres[position].matters)
-                    binding.moduleRecyclerview.scrollTo(binding.moduleRecyclerview.scrollX,binding.moduleRecyclerview.scrollY)
+                viewModel.withState {
+                    changeAll(it.semestres[position].matters)
                     callbackFromViewModel.setCurentSemstre(position)
                 }
             }
-            Log.v("fucking_error","OnLayoutChangeListener element in adapter  ${adapter.listOfMatters.size()}")
         }
 
         viewModel.observe(this){
@@ -126,6 +124,10 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         binding.addMatter.setOnClickListener{ addMater() }
         binding.addSemestre.setOnClickListener{ binding.spinner.setSelection(callbackFromViewModel.addEmptySemestre()) }
         return binding.root
+    }
+
+    private fun changeAll(matters: MutableList<Matter>) {
+        adapter.replaceAll(matters)
     }
 
     private fun showLoading(b: Boolean) {
@@ -157,6 +159,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
 
     private fun addMater() {
+        var alertDialog : AlertDialog? =null
         val builder = AlertDialog.Builder(context)
         dialogueBinding  = DataBindingUtil.inflate(layoutInflater,R.layout.dialogue_add_module,null,false)
         builder.setView(dialogueBinding!!.root)
@@ -172,10 +175,9 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
             val colorHex = "#${Integer.toHexString(color)}"
             val matter = Matter(0,name,coi.toInt(),colorHex,binding.spinner.selectedItemPosition,0.0,userId.id)
-            Log.v("fucking_error","color --> $colorHex , user ID ---> ${userId.id}")
             callbackFromViewModel.addMatter(matter)
         }
-        val alertDialog : AlertDialog = builder.create()
+        alertDialog  = builder.create()
         alertDialog.show()
     }
 
@@ -188,7 +190,6 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
 
     override fun colorSelected(color: Int) {
-        showMessage("setting image")
         dialogueBinding?.addmoduleColor?.setImageDrawable(ColorDrawable(color))
     }
 

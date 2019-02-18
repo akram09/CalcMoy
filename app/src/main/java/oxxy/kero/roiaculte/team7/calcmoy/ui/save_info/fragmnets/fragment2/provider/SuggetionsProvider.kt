@@ -20,13 +20,6 @@ class SuggetionsProvider : DaggerContentProvider() {
     @Inject lateinit var provideSuggestions: ProvideSuggestions
      var  scope: CoroutineScope= CoroutineScope(Dispatchers.Main)
 
-//    private val listUni : ArrayList<Suggestions> by lazy {
-//        val list = ArrayList<Suggestions>()
-//        for ( i in 1..10){
-//            list.add(Suggestions(i.toLong(),"univer : $i ","جامعة : $i"))
-//        }
-//        list
-//    }
 
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? = null
@@ -37,7 +30,7 @@ class SuggetionsProvider : DaggerContentProvider() {
         selection: String?,
         selectionArgs: Array<String>?,
         sortOrder: String?
-    ): Cursor? {
+    ): Cursor?  {
 
 
         val query = uri.lastPathSegment
@@ -47,9 +40,12 @@ class SuggetionsProvider : DaggerContentProvider() {
             else emptyList()
         }
         Log.v("fucking_provider","excute searching (query) $query")
+        var list :List<Suggestions>?= null
+        runBlocking {
+            list = job.await()
+        }
 
-        return getCursorFromList(job.getCompleted())
-//        return getCursorFromList(listUni.filter { it.nameAR.contains(query) || it.nameFR.contains(query) })
+        return getCursorFromList(list!! )
     }
 
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int = 0
