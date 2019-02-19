@@ -1,8 +1,11 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Image
+import oxxy.kero.roiaculte.team7.calcmoy.utils.Async
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
@@ -16,9 +19,16 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults,
-                                             private val getUniversityMatters: ProvideUniversity)
+                                             private val getUniversityMatters: ProvideUniversity,
+                                             private val saveUser : SaveUser)
     : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null)),
     Fragment2.CalbackFromViewModel{
+
+    private val loadImageState : LiveData<Async<None>> by lazy {
+        val liveData = MutableLiveData<Async<None>>()
+        liveData.value = Loading()
+        liveData
+    }
 
     private lateinit var name: String
     private lateinit var prenam: String
@@ -126,6 +136,32 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         
     }
 
+    override fun saveImageToRemote() {
+        withState {
+            saveUser.observe((it.image!! as Image.ImageUrl).url,::onLoadImageFaill,::onLoadIMageSuccess,::onLoadImageComplete)
+        }
+    }
+
+    private fun onLoadImageComplete() {
+
+    }
+
+    private fun onLoadIMageSuccess(d: @ParameterName(name = "t") Double) {
+
+    }
+
+    private fun onLoadImageFaill(throwable: @ParameterName(name = "e") Throwable) {
+
+    }
+
+    override fun saveSemestresToRemote() {
+
+    }
+
+    override fun cancelLoadImage() {
+
+    }
+
     fun updateMatter(matter: Matter, adapterPosition: Int) {
         setState {
             val list = this.semestres.toMutableList()
@@ -133,5 +169,8 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             list[matter.semestre].matters.add(adapterPosition,matter)
             copy(semestres = list)
         }
+    }
+    private fun setLoadImageState(changer :Async<None>.()->Async<None> ){
+
     }
 }

@@ -93,16 +93,19 @@ class Fragment2Adapter(val id : String,val viewModel: Fragment2ViewModel) : Recy
                     null,
                     false)
                 builder.setView(dialogueBinding!!.root)
+                dialogueBinding!!.updatemoduleName.setText( matter.name )
+                dialogueBinding!!.updatemoduleCoei.setText( matter.coifficient.toString() )
+                dialogueBinding!!.updatemoduleColor.setImageDrawable(colorDrawable)
                 dialogueBinding!!.updatemoduleSave.setOnClickListener{
                     val name = dialogueBinding!!.updatemoduleName.text.toString()
                     val coif = dialogueBinding!!.updatemoduleCoei.text.toString()
 
                     if(TextUtils.isEmpty(name)) {
-                        Snackbar.make(binding.root,R.string.name_empty,Snackbar.LENGTH_SHORT).show()
+                        dialogueBinding!!.updatemoduleName.setError(binding.coif.context.getString(R.string.name_empty))
                         return@setOnClickListener
                     }
                     if(TextUtils.isEmpty(coif)) {
-                        Snackbar.make(binding.root,R.string.coief,Snackbar.LENGTH_SHORT).show()
+                        dialogueBinding!!.updatemoduleName.setError(binding.coif.context.getString(R.string.coif_empty))
                         return@setOnClickListener
                     }
                     val color = (dialogueBinding!!.updatemoduleColor.drawable as? ColorDrawable)?.color ?: binding.root.resources.getColor(R.color.default_matter_color)

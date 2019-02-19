@@ -237,7 +237,30 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId  == android.R.id.home ) close()
+        else if(item?.itemId == R.id.next){
+            viewModel.withState {
+                if(it.image != null && it.image is Image.ImageUri){
+                    loadImage()
+                }else {
+                    callbackFromViewModel.saveSemestresToRemote()
+                }
+            }
+
+        }
+
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun loadImage() {
+        val alertDialog : AlertDialog? = null
+        val builder = AlertDialog.Builder(context)
+
+        val view = LayoutInflater.from(context).inflate(R.layout.load_image_progress,null)
+        builder.setView(view)
+        builder.setPositiveButton(R.string.cancel){_,_->
+            callbackFromViewModel.cancelLoadImage()
+        }
+
     }
 
     interface CalbackFromViewModel {
@@ -248,6 +271,10 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         fun removeSemestre(position:Int)
         fun saveDate(name : String, prenam : String, year : Int, school : School, facultyType: FacultyType?, image : Image?)
         fun loadUniversityMatters(id : Int)
+
+        fun saveImageToRemote()
+        fun saveSemestresToRemote()
+        fun cancelLoadImage()
     }
 }
 
