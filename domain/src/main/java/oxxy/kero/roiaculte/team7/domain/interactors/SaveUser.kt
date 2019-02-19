@@ -10,8 +10,9 @@ import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
 import oxxy.kero.roiaculte.team7.domain.repositories.DataModelingRepository
+import javax.inject.Inject
 
-class SaveUser(schedulers: AppRxSchedulers, dispatchers: CouroutineDispatchers, val repo:DataModelingRepository)
+class SaveUser  @Inject constructor(schedulers: AppRxSchedulers, dispatchers: CouroutineDispatchers,private val repo:DataModelingRepository)
     : ObservableCompleteInteractor<Double , String>(schedulers)
     , EitherInteractor<SaveUserParam, None, Failure.SaveUserFailure>{
 
