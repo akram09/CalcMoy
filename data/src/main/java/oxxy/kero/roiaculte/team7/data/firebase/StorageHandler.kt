@@ -22,7 +22,7 @@ class StorageHandler @Inject constructor(val storage:FirebaseStorage ) {
     fun saveFile(uri : Uri, id:String):Observable<Double> {
         return Observable.create {
             observer->
-           var  reference = storage.reference.child("images").child("$id.jpg")
+           val  reference = storage.reference.child("images").child("$id.jpg")
             reference.putFile(uri).addOnProgressListener {
                 if(it.error==null) {
                     if (!observer.isDisposed) {
@@ -35,11 +35,11 @@ class StorageHandler @Inject constructor(val storage:FirebaseStorage ) {
                     }
                 }
             }.addOnCompleteListener{
-                if(it.isSuccessful){
-                    observer.onComplete()
-                }else{
-                    observer.onError(it.exception?.cause!!)
+                if(!observer.isDisposed) {
+                    if (it.isSuccessful) observer.onComplete()
+                    else observer.onError(it.exception?.cause ?: Throwable())
                 }
+
             }
         }
     }

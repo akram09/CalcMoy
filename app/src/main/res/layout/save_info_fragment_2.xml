@@ -35,6 +35,7 @@
                     app:srcCompat="@drawable/add_acount_cover_holder" />
 
                 <android.support.v7.widget.Toolbar
+                        app:contentInsetStartWithNavigation="0dp"
                         android:theme="@style/ToolBar"
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"

@@ -1,8 +1,14 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
+import android.content.ContentResolver
+import android.content.Context
+import android.provider.MediaStore
 import android.util.Log
+import io.reactivex.disposables.Disposable
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Image
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Async
@@ -17,6 +23,14 @@ import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.School
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
+import android.graphics.Bitmap
+import android.content.Context.MODE_PRIVATE
+import com.facebook.FacebookSdk.getApplicationContext
+import android.content.ContextWrapper
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults,
                                              private val getUniversityMatters: ProvideUniversity,
@@ -24,11 +38,14 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null)),
     Fragment2.CalbackFromViewModel{
 
-    private val loadImageState : LiveData<Async<None>> by lazy {
-        val liveData = MutableLiveData<Async<None>>()
+    private val loadImageState : MutableLiveData<Async<Double>> by lazy {
+        val liveData = MutableLiveData<Async<Double>>()
         liveData.value = Loading()
         liveData
     }
+
+    private var disposable : Disposable? = null
+    private var loadImageObserver : Observer<Async<Double>>? = null
 
     private lateinit var name: String
     private lateinit var prenam: String
@@ -136,22 +153,35 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         
     }
 
-    override fun saveImageToRemote() {
+    override fun saveImageToRemote(contentResolver: ContentResolver,name :String) {
+
+
         withState {
-            saveUser.observe((it.image!! as Image.ImageUrl).url,::onLoadImageFaill,::onLoadIMageSuccess,::onLoadImageComplete)
+            val uri = (it.image!! as Image.ImageUri).uri
+//            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,uri)
+//            val url = saveToInternalStorage(bitmap,name)
+
+            Log.v("fucking_loading","path --> ${uri.path}")
+
+            disposable =saveUser.observe(uri.path,::onLoadImageFaill,::onLoadIMageSuccess,::onLoadImageComplete)
         }
+        Log.v("fucking_loading","saving image to remote")
     }
 
     private fun onLoadImageComplete() {
-
+        Log.v("fucking_loading","OnComplete")
+        loadImageState.value = Success(100.0)
     }
 
-    private fun onLoadIMageSuccess(d: @ParameterName(name = "t") Double) {
-
+    private fun onLoadIMageSuccess(d:  Double) {
+        Log.v("fucking_loading","OnSuccess")
+        loadImageState.value = Success(d)
     }
 
-    private fun onLoadImageFaill(throwable: @ParameterName(name = "e") Throwable) {
-
+    private fun onLoadImageFaill(throwable: Throwable) {
+        Log.v("fucking_loading","Faill")
+        Log.v("fucking_loading",throwable.message)
+        loadImageState.value = Fail(Failure.SaveImageFailure.UknownFailure(null))
     }
 
     override fun saveSemestresToRemote() {
@@ -159,7 +189,13 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     }
 
     override fun cancelLoadImage() {
+        disposable?.dispose()
+        loadImageState.removeObserver(loadImageObserver!!)
+    }
 
+    fun observeLoadingImage(owner: LifecycleOwner,observer: Observer<Async<Double>>){
+        loadImageObserver = observer
+        loadImageState.observe(owner,observer)
     }
 
     fun updateMatter(matter: Matter, adapterPosition: Int) {
@@ -170,7 +206,27 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             copy(semestres = list)
         }
     }
-    private fun setLoadImageState(changer :Async<None>.()->Async<None> ){
 
+    private fun saveToInternalStorage(bitmapImage: Bitmap,name : String): String {
+        val cw = ContextWrapper(getApplicationContext())
+        val directory = cw.getDir("profil_dir", Context.MODE_PRIVATE)
+        val mypath = File(directory, name)
+
+        var fos: FileOutputStream? = null
+        try {
+            fos = FileOutputStream(mypath)
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                fos!!.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+        }
+        return directory.absolutePath
     }
+
 }

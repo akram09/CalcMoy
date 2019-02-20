@@ -2,7 +2,9 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.app.AlertDialog
 import android.app.SearchManager
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.ContentResolver
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.graphics.Canvas
@@ -21,6 +23,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import oxxy.kero.roiaculte.team7.calcmoy.R
@@ -42,6 +46,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.*
 import oxxy.kero.roiaculte.team7.data.firebase.UserId
+import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.models.FacultyType
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.School
@@ -49,6 +54,7 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import java.io.File
 import java.lang.Exception
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivity{
     companion object { fun getInstance() = Fragment2() }
@@ -252,7 +258,6 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
     }
 
     private fun loadImage() {
-        val alertDialog : AlertDialog? = null
         val builder = AlertDialog.Builder(context)
 
         val view = LayoutInflater.from(context).inflate(R.layout.load_image_progress,null)
@@ -260,6 +265,24 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         builder.setPositiveButton(R.string.cancel){_,_->
             callbackFromViewModel.cancelLoadImage()
         }
+        builder.setTitle(R.string.upload_image)
+
+        val progress = view.findViewById<ProgressBar>(R.id.loading_image)
+        val percentage = view.findViewById<TextView>(R.id.loadig_percentage)
+
+        viewModel.observeLoadingImage(this, Observer {
+            when(it){
+                is Success -> {
+                    val percen = it()
+                    Log.v("fucking_loading","Success --> $percen")
+                    percentage.text = percen.toString()
+                    progress.progress = percen.roundToInt()
+                }
+                is Failure -> onError(R.string.faill_image)
+            }
+        })
+        builder.show()
+        callbackFromViewModel.saveImageToRemote(activity!!.contentResolver,"${userId.id}.png")
 
     }
 
@@ -272,7 +295,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         fun saveDate(name : String, prenam : String, year : Int, school : School, facultyType: FacultyType?, image : Image?)
         fun loadUniversityMatters(id : Int)
 
-        fun saveImageToRemote()
+        fun saveImageToRemote(contentResolver: ContentResolver,name :String)
         fun saveSemestresToRemote()
         fun cancelLoadImage()
     }
