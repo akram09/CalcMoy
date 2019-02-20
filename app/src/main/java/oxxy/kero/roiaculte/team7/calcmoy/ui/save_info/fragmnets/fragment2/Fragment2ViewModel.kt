@@ -27,6 +27,7 @@ import android.graphics.Bitmap
 import android.content.Context.MODE_PRIVATE
 import com.facebook.FacebookSdk.getApplicationContext
 import android.content.ContextWrapper
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -158,12 +159,13 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
 
         withState {
             val uri = (it.image!! as Image.ImageUri).uri
-//            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,uri)
-//            val url = saveToInternalStorage(bitmap,name)
-
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,uri)
+            val baos =ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
             Log.v("fucking_loading","path --> ${uri.path}")
 
-            disposable =saveUser.observe(uri.path,::onLoadImageFaill,::onLoadIMageSuccess,::onLoadImageComplete)
+            disposable =saveUser.observe(data,::onLoadImageFaill,::onLoadIMageSuccess,::onLoadImageComplete)
         }
         Log.v("fucking_loading","saving image to remote")
     }
@@ -181,6 +183,7 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     private fun onLoadImageFaill(throwable: Throwable) {
         Log.v("fucking_loading","Faill")
         Log.v("fucking_loading",throwable.message)
+        throwable.printStackTrace()
         loadImageState.value = Fail(Failure.SaveImageFailure.UknownFailure(null))
     }
 
@@ -205,28 +208,6 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             list[matter.semestre].matters.add(adapterPosition,matter)
             copy(semestres = list)
         }
-    }
-
-    private fun saveToInternalStorage(bitmapImage: Bitmap,name : String): String {
-        val cw = ContextWrapper(getApplicationContext())
-        val directory = cw.getDir("profil_dir", Context.MODE_PRIVATE)
-        val mypath = File(directory, name)
-
-        var fos: FileOutputStream? = null
-        try {
-            fos = FileOutputStream(mypath)
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            try {
-                fos!!.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-        }
-        return directory.absolutePath
     }
 
 }

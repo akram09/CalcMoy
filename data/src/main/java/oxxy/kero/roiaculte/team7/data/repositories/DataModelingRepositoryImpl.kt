@@ -40,8 +40,8 @@ class DataModelingRepositoryImpl @Inject constructor( val storage:StorageHandler
         }
     }
 
-    override fun updateFile(p: String): Observable<Double> {
-     return storage.saveFile(Uri.parse(p), remote.getUserId()!!)
+    override fun updateFile(p: ByteArray): Observable<Double> {
+     return storage.saveFile(p, remote.getUserId()!!)
     }
 
 //    override suspend fun getUrl(): Either<Failure.SaveImageFailure, String> {

@@ -13,7 +13,7 @@ import oxxy.kero.roiaculte.team7.domain.repositories.DataModelingRepository
 import javax.inject.Inject
 
 class SaveUser  @Inject constructor(schedulers: AppRxSchedulers, dispatchers: CouroutineDispatchers,private val repo:DataModelingRepository)
-    : ObservableCompleteInteractor<Double , String>(schedulers)
+    : ObservableCompleteInteractor<Double , ByteArray>(schedulers)
     , EitherInteractor<SaveUserParam, None, Failure.SaveUserFailure>{
 
     override val dispatcher= dispatchers.io
@@ -22,7 +22,7 @@ class SaveUser  @Inject constructor(schedulers: AppRxSchedulers, dispatchers: Co
       return repo.saveUser(executeParams)
     }
 
-    override fun buildObservable(p: String): Observable<Double> {
+    override fun buildObservable(p: ByteArray): Observable<Double> {
      return repo.updateFile(p)
     }
 }

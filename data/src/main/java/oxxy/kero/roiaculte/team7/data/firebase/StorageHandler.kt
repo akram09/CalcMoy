@@ -19,11 +19,11 @@ import kotlin.math.roundToLong
 class StorageHandler @Inject constructor(val storage:FirebaseStorage ) {
 
 
-    fun saveFile(uri : Uri, id:String):Observable<Double> {
+    fun saveFile(bytes :ByteArray, id:String):Observable<Double> {
         return Observable.create {
             observer->
            val  reference = storage.reference.child("images").child("$id.jpg")
-            reference.putFile(uri).addOnProgressListener {
+            reference.putBytes(bytes).addOnProgressListener {
                 if(it.error==null) {
                     if (!observer.isDisposed) {
                         observer.onNext(((it.bytesTransferred.toDouble() /
