@@ -2,6 +2,8 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import oxxy.kero.roiaculte.team7.calcmoy.ui.main.MainActivity
+import oxxy.kero.roiaculte.team7.calcmoy.ui.main.MainFragmentsModule
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationModule
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationScoop
@@ -27,5 +29,7 @@ abstract class ActivitysBuilder {
 
     @ContributesAndroidInjector(modules = [SaveInfoFragmentBuilder::class])
     abstract fun provideSaveInfo() : SaveInfoActivity
+    @ContributesAndroidInjector(modules = [MainFragmentsModule::class])
+   abstract fun provideMainActivity():MainActivity
 
 }

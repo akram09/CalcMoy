@@ -58,7 +58,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.main.MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
