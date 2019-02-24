@@ -27,6 +27,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
+import kotlinx.android.synthetic.*
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.DialogueAddModuleBinding
@@ -70,6 +71,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
             val matter  = adapter.listOfMatters[p0.adapterPosition]
             val pos = binding.spinner.selectedItemPosition
             callbackFromViewModel.removeMatter(matter,pos)
+            Log.v("fucking_save_info","semstres --> ${matter.semestre}")
             Snackbar.make(p0.itemView,R.string.delete_item,Snackbar.LENGTH_LONG).setAction(R.string.cancel){
                 callbackFromViewModel.addMatter(matter)
             }.show()
@@ -79,6 +81,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
 
             RecyclerViewSwipeDecorator.Builder(context,c,binding.moduleRecyclerview,viewHolder,dX,dY,actionState,isCurrentlyActive)
                 .addSwipeLeftBackgroundColor(R.color.red_delete)
+                .addSwipeRightBackgroundColor(R.color.red_delete)
                 .addSwipeLeftActionIcon(R.drawable.delete)
                 .addSwipeLeftLabel(getString(R.string.delete))
                 .setSwipeLeftLabelColor(Color.WHITE)
@@ -122,6 +125,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
                 }
                 setUpRecyclerView(it.semestres , viewModel.curent)
                 setUpImage(it.image)
+                if(it.saveInfoState is Success) goToMain()
             }
         }
 
@@ -130,6 +134,10 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         binding.addMatter.setOnClickListener{ addMater() }
         binding.addSemestre.setOnClickListener{ binding.spinner.setSelection(callbackFromViewModel.addEmptySemestre()) }
         return binding.root
+    }
+
+    private fun goToMain() {
+        (activity as? SaveInfoActivity)?.goToMain()
     }
 
     private fun changeAll(matters: MutableList<Matter>) {
@@ -161,7 +169,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         else if (imageType == IMAGE_URI) image = Image.ImageUri(Uri.fromFile(File( arguments?.getString(IMAGE))))
 
         viewModel.firstTime = false
-        callbackFromViewModel.saveDate(name,prename,year,stage ,faculty,image)
+        callbackFromViewModel.saveDate(name,prename,userId.id,year,stage ,faculty,image)
     }
 
     private fun addMater() {
@@ -223,10 +231,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         }catch (e : Exception){
             onError(R.string.university_not_found)
         }
-
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -248,7 +253,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
                 if(it.image != null && it.image is Image.ImageUri){
                     loadImage()
                 }else {
-                    callbackFromViewModel.saveSemestresToRemote()
+                    callbackFromViewModel.saveSemestresToRemote(false)
                 }
             }
 
@@ -265,7 +270,7 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         builder.setPositiveButton(R.string.cancel){_,_->
             callbackFromViewModel.cancelLoadImage()
         }
-        builder.setTitle(R.string.upload_image)
+        builder.setTitle(R.string.upload_img)
 
         val progress = view.findViewById<ProgressBar>(R.id.loading_image)
         val percentage = view.findViewById<TextView>(R.id.loadig_percentage)
@@ -292,11 +297,11 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         fun addMatter(matter : Matter )
         fun removeMatter(matter : Matter ,curent: Int )
         fun removeSemestre(position:Int)
-        fun saveDate(name : String, prenam : String, year : Int, school : School, facultyType: FacultyType?, image : Image?)
+        fun saveDate(name : String, prenam : String,id: String, year : Int, school : School, facultyType: FacultyType?, image : Image?)
         fun loadUniversityMatters(id : Int)
 
         fun saveImageToRemote(contentResolver: ContentResolver,name :String)
-        fun saveSemestresToRemote()
+        fun saveSemestresToRemote(hasSubmitImg :Boolean)
         fun cancelLoadImage()
     }
 }

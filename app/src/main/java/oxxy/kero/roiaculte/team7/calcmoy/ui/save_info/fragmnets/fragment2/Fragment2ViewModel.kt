@@ -1,11 +1,9 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2
 
 import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.content.ContentResolver
-import android.content.Context
 import android.provider.MediaStore
 import android.util.Log
 import io.reactivex.disposables.Disposable
@@ -18,25 +16,15 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.oneElement
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.*
-import oxxy.kero.roiaculte.team7.domain.models.FacultyType
-import oxxy.kero.roiaculte.team7.domain.models.Matter
-import oxxy.kero.roiaculte.team7.domain.models.School
-import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 import android.graphics.Bitmap
-import android.content.Context.MODE_PRIVATE
-import com.facebook.FacebookSdk.getApplicationContext
-import android.content.ContextWrapper
+import oxxy.kero.roiaculte.team7.domain.models.*
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults,
                                              private val getUniversityMatters: ProvideUniversity,
                                              private val saveUser : SaveUser)
-    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null)),
+    : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null,Loading())),
     Fragment2.CalbackFromViewModel{
 
     private val loadImageState : MutableLiveData<Async<Double>> by lazy {
@@ -53,19 +41,21 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     private var year: Int =0
     private lateinit var school : School
     private var facultyType: FacultyType? = null
+    private  lateinit var userId : String
 
     var curent : Int = 0
 
     var firstTime  =true
     var showSearch = false
 
-    override fun saveDate(name : String , prenam : String, year : Int , school : School, facultyType: FacultyType?, image : Image?){
+    override fun saveDate(name : String , prenam : String,id: String, year : Int , school : School, facultyType: FacultyType?, image : Image?){
 
         this.name = name
         this.prenam = prenam
         this.year = year
         this.school = school
         this.facultyType = facultyType
+        this.userId =id
 
         Log.v("fucking_error","name --> $name")
         Log.v("fucking_error","prenam --> $prenam")
@@ -91,7 +81,6 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     private fun handleDefaultFaillure(getModulesDEfaultFailure: Failure.GetModulesDEfaultFailure) {
         setState { copy(mattersState = Success(None()),semestres =ArrayList<Semestre>().oneElement(Semestre(0, ArrayList() )) ) }
     }
-
 
     override fun setCurentSemstre(curent: Int) { this.curent = curent }
 
@@ -155,8 +144,6 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     }
 
     override fun saveImageToRemote(contentResolver: ContentResolver,name :String) {
-
-
         withState {
             val uri = (it.image!! as Image.ImageUri).uri
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver,uri)
@@ -173,6 +160,7 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
     private fun onLoadImageComplete() {
         Log.v("fucking_loading","OnComplete")
         loadImageState.value = Success(100.0)
+        saveSemestresToRemote(true)
     }
 
     private fun onLoadIMageSuccess(d:  Double) {
@@ -187,11 +175,27 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         loadImageState.value = Fail(Failure.SaveImageFailure.UknownFailure(null))
     }
 
-    override fun saveSemestresToRemote() {
+    override fun saveSemestresToRemote(hasSubmitImg :Boolean) {
+        withState {
+            var imgUrl  =""
+            if(it.image  != null && it.image is Image.ImageUrl ) imgUrl  = it.image.url
+            val user= User(userId,name,prenam,school,year.toString(),it.semestres.size,imgUrl,0.0)
+            scope.launchInteractor(saveUser, SaveUserParam(hasSubmitImg,user,it.semestres)){ it.either(::handleSaveInfoFaillure,::handleSaveInfoSuccess) }
+        }
+    }
 
+    private fun handleSaveInfoSuccess(none: None) {
+        Log.v("fucking_save_info","onSuccess we should go to main")
+        setState{ copy(saveInfoState =  Success(None())) }
+    }
+
+    private fun handleSaveInfoFaillure(saveUserFailure: Failure.SaveUserFailure) {
+        Log.v("fucking_save_info","onSaveInfoError !!!")
+        setState { copy(saveInfoState = Fail(saveUserFailure)) }
     }
 
     override fun cancelLoadImage() {
+        Log.v("fucking_save_info","loadImage cancceld")
         disposable?.dispose()
         loadImageState.removeObserver(loadImageObserver!!)
     }
@@ -209,5 +213,4 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             copy(semestres = list)
         }
     }
-
 }

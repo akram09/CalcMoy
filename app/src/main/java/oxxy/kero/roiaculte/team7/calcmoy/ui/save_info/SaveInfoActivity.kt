@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseActivity
+import oxxy.kero.roiaculte.team7.calcmoy.ui.main.MainActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1.Fragment1
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2.Fragment2
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.inTransaction
@@ -40,7 +41,6 @@ class SaveInfoActivity :BaseActivity() , ColorPickerDialogListener {
             Intent.ACTION_VIEW -> {
                 // Handle a suggestions click (because the suggestions all use ACTION_VIEW)
                 showResult(intent.dataString)
-                showMessage("getting modules for ${intent.dataString}")
             }
         }
     }
@@ -76,13 +76,16 @@ class SaveInfoActivity :BaseActivity() , ColorPickerDialogListener {
         }
     }
 
-    override fun onDialogDismissed(dialogId: Int) {
-
-    }
+    override fun onDialogDismissed(dialogId: Int) {}
 
     override fun onColorSelected(dialogId: Int, color: Int) {
         setUpCallback()
         callback?.colorSelected(color)
+    }
+
+    fun goToMain(){
+        startActivity(MainActivity.getIntent(this))
+        finish()
     }
 
     interface Fragment2CallbackkFromActivity {
