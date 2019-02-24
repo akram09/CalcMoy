@@ -13,6 +13,7 @@
         <include
             layout="@layout/main"
             android:layout_width="match_parent"
+            android:id="@+id/main_activity_included"
             android:layout_height="match_parent" />
 
         <android.support.design.widget.NavigationView

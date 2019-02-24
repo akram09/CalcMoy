@@ -10,6 +10,6 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 
 interface DataModelingRepository {
     suspend fun getDefaultModules(executeParams: GetModulesDefaultParam): Either<Failure.GetModulesDEfaultFailure, List<Semestre>>
-    fun updateFile(p: String): Observable<Double>
+    fun updateFile(p: ByteArray): Observable<Double>
     suspend fun saveUser(executeParams: SaveUserParam): Either<Failure.SaveUserFailure, None>
 }

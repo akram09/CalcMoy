@@ -108,6 +108,8 @@
     <string name="matter_empty">matter name should not be empty</string>
     <string name="coif_empty">coificient should not be empty</string>
     <string name="update_matter">update</string>
+    <string name="upload_image">uploading image please wait !!</string>
+    <string name="faill_image">faille on loading image !!</string>
 
 
 </resources>

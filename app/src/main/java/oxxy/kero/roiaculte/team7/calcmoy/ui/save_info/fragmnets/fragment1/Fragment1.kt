@@ -1,18 +1,23 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +30,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toInt
 import com.squareup.picasso.Target
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.LOGIN
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.toSChool
 import java.lang.Exception
@@ -37,6 +43,7 @@ class Fragment1 : BaseFragment() {
         const val IMAGE_URI =0
         const val IMAGE_URL =1
         const val IMAGE_DEFAULT =1
+        const val PERMISION_REQUEST = 4
 
         const val NAME = "name"
         const val PRENAME = "prename"
@@ -93,10 +100,7 @@ class Fragment1 : BaseFragment() {
         }
 
         binding.signeInImage.setOnClickListener{
-            CropImage.activity()
-                .setCropShape ( CropImageView.CropShape.OVAL )
-                .setAspectRatio(1,1 )
-                .start(context!!,this)
+            loadImage()
         }
 
         binding.signeInNextBtn.setOnClickListener(){
@@ -146,6 +150,21 @@ class Fragment1 : BaseFragment() {
         }
 
         return binding.root
+    }
+
+    private fun loadImage() {
+
+        if(ContextCompat.checkSelfPermission(context!!,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity as SaveInfoActivity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),PERMISION_REQUEST)
+            Log.v("wtf_is_happning","permission not granted")
+            return
+        }
+
+        Log.v("wtf_is_happning","open crop image")
+        CropImage.activity()
+            .setCropShape ( CropImageView.CropShape.OVAL )
+            .setAspectRatio(1,1 )
+            .start(context!!,this)
     }
 
     private fun showDialogueLicy2_3(bundlle: Bundle) {
@@ -198,6 +217,17 @@ class Fragment1 : BaseFragment() {
                 val result :CropImage.ActivityResult = CropImage.getActivityResult(data)
                 imageUri = result.uri
                 binding.signeInImage.setImageURI(imageUri)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            PERMISION_REQUEST ->{
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    loadImage()
+                }
             }
         }
     }
