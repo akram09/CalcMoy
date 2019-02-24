@@ -2,10 +2,12 @@ package oxxy.kero.roiaculte.team7.data.database
 
 import android.arch.persistence.room.RoomDatabase
 import android.database.sqlite.SQLiteException
+import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.GetUsersList
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
@@ -37,6 +39,25 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
      }
     }
 
+    suspend fun getUserList(): Either<Failure.GetUsersFailure , List<User>>
+            = suspendCoroutine{
+        var list:Either<Failure.GetUsersFailure , List<User>> = Either.Right(emptyList())
+        try {
+            list = Either.Right(database.userDao().getAllUsers().map {
+            User(it.id
+              , it.name , it.prename , it.school , it.year , it.semestre , it.imageUrl , it.moyenneGenerale )
+        })
+
+
+        }catch (e:SQLiteException){
+            it.resume(Either.Left(Failure.GetUsersFailure(e)))
+        }finally {
+            it.resume(list)
+        }
+    }
+    fun observeConectedUser():Observable<String>{
+        return database.userDao().getActifUser().toObservable()
+    }
     fun getMatters():List<MatterEntity>{
         return database.matterDao().getModulesByUserId()
     }

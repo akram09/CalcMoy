@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import oxxy.kero.roiaculte.team7.calcmoy.ui.main.mainfragment.MainViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.login.LoginViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.fragment.signin.SigneInViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.ui.splash_screen.SplashViewModel
@@ -41,6 +42,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(Fragment2ViewModel::class)
     internal abstract fun provideSaveInfo2(viewModel : Fragment2ViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    internal abstract fun provideMainViewModel(viewModel: MainViewModel) : ViewModel
 
 //    Fragment2ViewModel
 }

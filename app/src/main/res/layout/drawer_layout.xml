@@ -40,12 +40,145 @@
                     android:layout_below="@+id/includeHeader"
                     android:layout_marginTop="8dp"/>
 
-                <android.support.v7.widget.RecyclerView
+                <LinearLayout
                     android:id="@+id/drawer_settingsrecycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/drawer_userrecycler"
-                    android:layout_marginTop="8dp"/>
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp">
+                    <android.support.constraint.ConstraintLayout
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+
+                        <View android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                        android:id="@+id/view_onclick_add_user"></View>
+                        <android.support.constraint.Guideline
+                                android:id="@+id/guideline27"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintGuide_percent="0.82" />
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginBottom="3dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginTop="3dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_add_black_24dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/guideline27"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="8dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/add_user"
+                                android:textDirection="rtl"
+                                android:textSize="25sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/guideline27"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                    <android.support.constraint.ConstraintLayout
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+
+                        <View android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:id="@+id/view_onclick_setting"></View>
+                        <android.support.constraint.Guideline
+                                android:id="@+id/guideline29"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintGuide_percent="0.82" />
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginBottom="3dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginTop="3dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_settings_black_24dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/guideline29"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="8dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/setting"
+                                android:textDirection="rtl"
+                                android:textSize="25sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/guideline29"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                    <android.support.constraint.ConstraintLayout
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp">
+
+                        <View android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:id="@+id/view_onclick_contact_us"></View>
+                        <android.support.constraint.Guideline
+                                android:id="@+id/guideline30"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:layout_constraintGuide_percent="0.82" />
+
+                        <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginBottom="3dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginTop="3dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/drawer_contact_us"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/guideline30"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_marginStart="8dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/contact_us"
+                                android:textDirection="rtl"
+                                android:textSize="25sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/guideline30"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout
+                    >
+                </LinearLayout>
+
 
 
             </RelativeLayout>

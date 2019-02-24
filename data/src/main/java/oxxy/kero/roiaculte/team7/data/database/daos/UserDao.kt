@@ -20,5 +20,9 @@ interface UserDao {
 
     @Query("Update User SET isConnected = :connected WHERE Id = :id")
     fun update(id :String , connected:Boolean)
+    @Query("SELECT * FROM User ")
+    fun getAllUsers():List<UserEntity>
 
+    @Query("SELECT Id From User WHERE isConnected = 1 ")
+    fun getActifUser():Flowable<String >
 }

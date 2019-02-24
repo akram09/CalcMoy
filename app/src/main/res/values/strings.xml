@@ -9,7 +9,9 @@
         <item>ثانوية</item>
         <item>جامعة</item>
     </string-array>
-
+    <string name="add_user">أضف حساب</string>
+    <string name="setting">ادارة الحسابات</string>
+    <string name="contact_us">راسلنا</string>
     <string name="field_required">يجب ملأ هده الخانة</string>
     <string name="choose_faculty">إختر الشعبة</string>
     <string name="confirme">تأكيد</string>
@@ -110,6 +112,8 @@
     <string name="update_matter">update</string>
     <string name="faill_image">faille on loading image !!</string>
     <string name="upload_img">uploading image please wait !!</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
 </resources>

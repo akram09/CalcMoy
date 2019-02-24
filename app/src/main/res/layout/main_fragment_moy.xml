@@ -76,7 +76,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/signe_in_holder" />
 
-                    <com.lylc.widget.circularprogressbar.CircularProgressBar
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         app:layout_constraintBottom_toTopOf="@+id/guideline36"
@@ -171,7 +171,7 @@
                         app:layout_constraintStart_toStartOf="@+id/guideline37"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.lylc.widget.circularprogressbar.CircularProgressBar
+                    <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginBottom="8dp"

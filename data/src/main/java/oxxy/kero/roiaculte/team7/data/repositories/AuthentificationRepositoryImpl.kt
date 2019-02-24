@@ -79,6 +79,7 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
                 val user = authentificator.checkUserRemote(id)
                  if( user!=null){
                      local.addUserDao(user)
+                     //Todo  add get Modules
                      Log.e("errr", "user added successfully")
                  }
 

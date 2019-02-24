@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/main_menu_add"
+          android:icon="@drawable/add_plus_button"
+          android:title="Add"
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+          app:showAsAction="always"></item>
+
+</menu>

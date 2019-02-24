@@ -11,6 +11,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseActivity
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.SplashScreenBinding
+import oxxy.kero.roiaculte.team7.calcmoy.ui.main.MainActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.registration.RegistrationActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.SaveInfoActivity
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
@@ -56,13 +57,12 @@ class SplashFragment : BaseFragment() {
                     activity?.finish()
                 }
                 UserState.USER_REGISTRED_NOT_SAVED ->{
-                    showMessage("go to save info")
                     startActivity(SaveInfoActivity.getIntent(context!!))
                     activity?.finish()
                 }
                 UserState.USER_REGISTRED_SAVED -> {
-                    showMessage("go to main ")
-                    //TODO go to main
+                    startActivity(MainActivity.getIntent(context!!))
+                    activity?.finish()
                 }
                 else -> return
             }

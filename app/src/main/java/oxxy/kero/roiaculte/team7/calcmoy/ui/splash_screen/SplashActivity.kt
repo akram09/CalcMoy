@@ -12,8 +12,8 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.splash_screen_containner)
-        startActivity(MainActivity.getIntent(this))
-//        setFragment()
+//        startActivity(MainActivity.getIntent(this))
+        setFragment()
     }
 
     private fun setFragment() {

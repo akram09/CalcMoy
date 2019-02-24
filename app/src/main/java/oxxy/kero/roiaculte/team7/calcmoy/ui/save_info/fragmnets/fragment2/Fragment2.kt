@@ -299,7 +299,6 @@ class Fragment2 : BaseFragment() , SaveInfoActivity.Fragment2CallbackkFromActivi
         fun removeSemestre(position:Int)
         fun saveDate(name : String, prenam : String,id: String, year : Int, school : School, facultyType: FacultyType?, image : Image?)
         fun loadUniversityMatters(id : Int)
-
         fun saveImageToRemote(contentResolver: ContentResolver,name :String)
         fun saveSemestresToRemote(hasSubmitImg :Boolean)
         fun cancelLoadImage()

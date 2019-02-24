@@ -134,6 +134,8 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
                                     (p0.child("school").value as Long).toInt()
                                 ), p0.child("year").value as String, (p0.child("semestre").value as Long).toInt(),
                                 p0.child("ImageUrl").value as String, true, p0.child("moyenneGenerale").value as Double
+                                //TODO  TypeCastException null cannot be cast to non-null type kotlin.String
+                                //TODO fixe it
                             )
                         } else null
                     )
