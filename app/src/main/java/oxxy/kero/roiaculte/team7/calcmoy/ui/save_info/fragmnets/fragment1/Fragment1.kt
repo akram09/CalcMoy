@@ -80,9 +80,7 @@ class Fragment1 : BaseFragment() {
                 is Image.ImageUrl -> if(image.url != "" )Picasso.get().load(image.url).into(object : Target{
                     override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
                     override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
-                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                        binding.signeInImage.setImageBitmap(bitmap)
-                    }
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) { binding.signeInImage.setImageBitmap(bitmap) }
                 })
                 is Image.ImageUri -> {
                     imageUri = image.uri

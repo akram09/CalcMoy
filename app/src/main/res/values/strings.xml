@@ -114,6 +114,8 @@
     <string name="upload_img">uploading image please wait !!</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="add_acount">Add Acount</string>
+    <string name="manage_acount">Manage Acount</string>
 
 
 </resources>

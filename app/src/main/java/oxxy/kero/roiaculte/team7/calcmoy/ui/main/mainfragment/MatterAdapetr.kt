@@ -47,6 +47,19 @@ class MatterAdapetr : RecyclerView.Adapter<MatterAdapetr.MatterHolder>() {
         return MatterHolder(binding)
     }
 
+    fun replaceAll(matter : List<Matter>){
+        matters.beginBatchedUpdates()
+        if(matters.size() >0) {
+            for (i in (matters.size() - 1) downTo 0) {
+                val mat = matters[i]
+                if (!matter.contains(mat)) matters.remove(mat)
+            }
+        }
+
+        matters.addAll(matter)
+        matters.endBatchedUpdates()
+    }
+
     override fun getItemCount(): Int  = matters.size()
 
     override fun onBindViewHolder(p0: MatterHolder, position: Int) {

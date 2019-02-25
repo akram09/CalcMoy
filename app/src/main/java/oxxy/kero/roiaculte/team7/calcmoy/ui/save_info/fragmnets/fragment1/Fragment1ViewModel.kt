@@ -1,6 +1,5 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment1
 
-import android.net.Uri
 import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.domain.exception.Failure

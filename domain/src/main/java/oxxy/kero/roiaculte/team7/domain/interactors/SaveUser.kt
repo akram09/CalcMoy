@@ -1,8 +1,6 @@
 package oxxy.kero.roiaculte.team7.domain.interactors
 
-import com.sun.net.httpserver.Authenticator
 import io.reactivex.Observable
-import kotlinx.coroutines.CoroutineDispatcher
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.AppRxSchedulers
 import oxxy.kero.roiaculte.team7.domain.functional.CouroutineDispatchers
