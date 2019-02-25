@@ -42,7 +42,7 @@ class Fragment1 : BaseFragment() {
         fun getInstance() = Fragment1()
         const val IMAGE_URI =0
         const val IMAGE_URL =1
-        const val IMAGE_DEFAULT =1
+        const val IMAGE_DEFAULT =2
         const val PERMISION_REQUEST = 4
 
         const val NAME = "name"
@@ -133,7 +133,7 @@ class Fragment1 : BaseFragment() {
                 }else{
                     viewModel.withState {
                         val img= it.image
-                        if(it.image != null && img is Image.ImageUrl){
+                        if(img != null && img is Image.ImageUrl){
                             bundlle.putInt(TYPE_IMAGE, IMAGE_URL)
                             bundlle.putString(IMAGE,img.url)
                         }else{

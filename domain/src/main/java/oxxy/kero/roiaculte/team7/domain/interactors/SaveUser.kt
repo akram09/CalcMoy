@@ -12,7 +12,8 @@ import oxxy.kero.roiaculte.team7.domain.models.User
 import oxxy.kero.roiaculte.team7.domain.repositories.DataModelingRepository
 import javax.inject.Inject
 
-class SaveUser  @Inject constructor(schedulers: AppRxSchedulers, dispatchers: CouroutineDispatchers,private val repo:DataModelingRepository)
+class SaveUser  @Inject constructor(schedulers: AppRxSchedulers, dispatchers: CouroutineDispatchers
+                                    ,private val repo:DataModelingRepository)
     : ObservableCompleteInteractor<Double , ByteArray>(schedulers)
     , EitherInteractor<SaveUserParam, None, Failure.SaveUserFailure>{
 

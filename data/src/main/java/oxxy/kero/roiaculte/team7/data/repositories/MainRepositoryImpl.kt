@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.data.database.LocalData
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.MainInfoResult
 import oxxy.kero.roiaculte.team7.domain.interactors.UserActif
 import oxxy.kero.roiaculte.team7.domain.models.User
 import oxxy.kero.roiaculte.team7.domain.repositories.MainRepository
@@ -29,5 +30,9 @@ class MainRepositoryImpl @Inject constructor(val auth:FirebaseAuth , val localDa
        return localData.observeConectedUser().map {
            UserActif(it)
        }
+    }
+
+    override fun getMainInfo(): Either<Failure.MainInfoFailure, MainInfoResult> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

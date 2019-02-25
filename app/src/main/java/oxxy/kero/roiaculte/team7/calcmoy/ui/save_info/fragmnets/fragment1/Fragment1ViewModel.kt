@@ -33,6 +33,6 @@ class Fragment1ViewModel @Inject constructor(private val userInfo : ProvideUserI
     }
 
     private fun handleFaillure(noUserInfo: Failure.NoUserInfo) {
-
+        Log.e("fucking_error", "hello failure ")
     }
 }

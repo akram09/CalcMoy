@@ -55,6 +55,8 @@ sealed class Failure {
         class UknownFAilure(val  e:Exception? ) : GetUserInfoFromRemote()
     }
     class GetUsersFailure(val e:Exception?):Failure()
+    class MainInfoFailure(val e:Exception?): Failure()
+
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()

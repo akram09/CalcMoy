@@ -133,9 +133,9 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
                                 p0.child("prename").value as String, SchoolConverterClass().fromIntToSchool(
                                     (p0.child("school").value as Long).toInt()
                                 ), p0.child("year").value as String, (p0.child("semestre").value as Long).toInt(),
-                                p0.child("ImageUrl").value as String, true, p0.child("moyenneGenerale").value as Double
-                                //TODO  TypeCastException null cannot be cast to non-null type kotlin.String
-                                //TODO fixe it
+                                p0.child("imageUrl").value as String, true,
+                                (p0.child("moyenneGenerale").value as? Double)
+                                    ?: (p0.child("moyenneGenerale").value as Long).toDouble()
                             )
                         } else null
                     )
@@ -162,7 +162,7 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
         return suspendCoroutine {
             var displayName = auth.currentUser?.displayName
             var imageUrl = auth.currentUser?.photoUrl
-            if ((displayName == null) and (imageUrl == null) or ((displayName == "") and (imageUrl == Uri.EMPTY))) {
+            if ((displayName == null) or (imageUrl == null) or ((displayName == "") or (imageUrl == Uri.EMPTY))) {
                 it.resume(Either.Left(Failure.NoUserInfo()))
             } else {
                 if (displayName == null) displayName = ""
@@ -196,8 +196,11 @@ class AuthentificationFirebase @Inject constructor(private val auth : FirebaseAu
                         if(data.hasChildren()){
                             listMatter += data.children.map {
                                 MatterEntity(0 , it.child("name").value as String  ,
-                                    (it.child("coifficient").value as Long).toInt() , it.child("color").value as String ,
-                                    (it.child("semestre").value as Long).toInt() , it.child("moyenne").value as Double ,
+                                    (it.child("coifficient").value as Long).toInt()
+                                    , it.child("color").value as String ,
+                                    (it.child("semestre").value as Long).toInt()
+                                    , (it.child("moyenne").value as? Double)
+                                        ?: (it.child("moyenne").value as Long).toDouble(),
                                     it.child("userId").value as String )
                             }
                         }

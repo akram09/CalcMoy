@@ -3,7 +3,9 @@ package oxxy.kero.roiaculte.team7.data.repositories
 
 import android.util.Log
 import com.google.android.gms.common.api.GoogleApi
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import oxxy.kero.roiaculte.team7.data.database.LocalAuthentificator
 import oxxy.kero.roiaculte.team7.data.firebase.AuthentificationFirebase
@@ -50,6 +52,11 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
                 if( user!=null){
                     local.addUserDao(user)
                     Log.e("errr", "user added successfully")
+                    val either  = getUserInfoFromRemote()
+                    if(either.isLeft){
+                        Log.e("errr", "errrororororoorro when getting modules ")
+
+                    }
                 }
 
             }else {
@@ -81,6 +88,11 @@ class AuthentificationRepositoryImpl @Inject constructor(private val authentific
                      local.addUserDao(user)
                      //Todo  add get Modules
                      Log.e("errr", "user added successfully")
+                     val either  = getUserInfoFromRemote()
+                     if(either.isLeft){
+                         Log.e("errr", "errrororororoorro when getting modules ")
+
+                     }
                  }
 
             }else {
