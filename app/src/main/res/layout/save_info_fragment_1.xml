@@ -61,16 +61,16 @@
 
                 <!--android:text="@{user.Name}"-->
                 <EditText
-                    android:id="@+id/signe_in_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:background="#00ffffff"
-                    android:ems="10"
-                    android:hint="@string/name"
-                    android:inputType="textPersonName"
-                    android:textDirection="rtl" />
+                        android:id="@+id/signe_in_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="#00ffffff"
+                        android:ems="10"
+                        android:hint="@string/name"
+                        android:inputType="textPersonName"
+                        android:textDirection="rtl" android:textColor="#000" android:textColorHint="#808080"/>
 
                 <ImageView
                     android:id="@+id/imageView1"
@@ -95,16 +95,16 @@
                 <!--android:text="@{user.Prename}"-->
 
                 <EditText
-                    android:id="@+id/signeInPrenom"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:background="#00ffffff"
-                    android:ems="10"
-                    android:hint="@string/famillyname"
-                    android:inputType="textPersonName"
-                    android:textDirection="rtl" />
+                        android:id="@+id/signeInPrenom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:background="#00ffffff"
+                        android:ems="10"
+                        android:hint="@string/famillyname"
+                        android:inputType="textPersonName"
+                        android:textDirection="rtl" android:textColor="#000" android:textColorHint="#808080"/>
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -126,13 +126,14 @@
                 android:paddingTop="5dp">
 
                 <Spinner
-                    android:id="@+id/signeInStage"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:entries="@array/stage"
-                    android:gravity="right"
-                    android:spinnerMode="dropdown" />
+                        android:id="@+id/signeInStage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:entries="@array/stage"
+                        style="@style/Widget.AppCompat.Light.ActionBar"
+                        android:gravity="right"
+                        android:spinnerMode="dropdown" android:popupBackground="#000" android:backgroundTint="#000"/>
 
             </LinearLayout>
 
@@ -148,12 +149,12 @@
                 android:paddingTop="5dp">
 
                 <Spinner
-                    android:id="@+id/signeInYear"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:spinnerMode="dropdown" />
+                        android:id="@+id/signeInYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:spinnerMode="dropdown" android:backgroundTint="#000"/>
 
             </LinearLayout>
 

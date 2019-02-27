@@ -106,16 +106,16 @@
                 android:layout_weight="1">
 
                 <EditText
-                    android:id="@+id/login_email"
-                    style="@android:style/Widget.DeviceDefault.AutoCompleteTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:completionThreshold="2"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textDirection="rtl" />
+                        android:id="@+id/login_email"
+                        style="@android:style/Widget.DeviceDefault.AutoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:completionThreshold="2"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="#000" android:textColorHint="#808080"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -125,16 +125,16 @@
                 android:layout_weight="1">
 
                 <EditText
-                    android:id="@+id/login_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    android:imeActionId="6"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textDirection="rtl" />
+                        android:id="@+id/login_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:imeActionId="6"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColorHint="#808080"/>
 
             </android.support.design.widget.TextInputLayout>
 
