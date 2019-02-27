@@ -8,6 +8,7 @@ import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.GetUsersList
+import oxxy.kero.roiaculte.team7.domain.interactors.MainGetSemestreResult
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
@@ -60,5 +61,32 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
     }
     fun getMatters():List<MatterEntity>{
         return database.matterDao().getModulesByUserId()
+    }
+
+    suspend fun getMatterConnected():Either<Failure.MainInfoFailure , MainGetSemestreResult> = suspendCoroutine {
+        var list = emptyList<Semestre>()
+        var curentmatter = emptyList<Matter>()
+        try {
+            val id = database.userDao().getIDConnectedUser()
+          val MatterList = database.matterDao().getMattersConnected(id).sortedBy {
+              it.semestre
+          }
+           val int =0
+            do{
+                curentmatter = MatterList.filter {
+                    it.semestre==int
+                }.map {
+                    Matter(it.MatterId , it.name , it.coifficient , it.color , it.semestre , it.moyenne, it.userId)
+                }
+                if(curentmatter.isEmpty()){
+                list +=Semestre( int , curentmatter.toMutableList())
+                }
+                }while (!curentmatter.isEmpty())
+
+        }catch (e:SQLiteException){
+            it.resume(Either.Left(Failure.MainInfoFailure(e)))
+        }finally {
+            it.resume(Either.Right(MainGetSemestreResult(list.size , list ) ))
+        }
     }
 }

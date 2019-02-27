@@ -5,12 +5,15 @@ import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.data.database.LocalData
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.Events
+import oxxy.kero.roiaculte.team7.domain.interactors.MainGetSemestreResult
 import oxxy.kero.roiaculte.team7.domain.interactors.UserActif
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
 import oxxy.kero.roiaculte.team7.domain.repositories.MainRepository
 import javax.inject.Inject
 
-class MainRepositoryImpl @Inject constructor(val auth:FirebaseAuth , val localData: LocalData) :MainRepository{
+class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localData: LocalData) :MainRepository{
    var syncer :FirebaseAuth.AuthStateListener?= null
     override fun addUserSyncer(onDisconnected:()->Unit) {
         val lambda :(FirebaseAuth)->Unit = {onDisconnected()}
@@ -31,7 +34,11 @@ class MainRepositoryImpl @Inject constructor(val auth:FirebaseAuth , val localDa
        }
     }
 
-//    override fun getMainInfo(): Either<Failure.MainInfoFailure, MainInfoResult> {
-//        TODO("not implemented") | Settings | File Templates.
-//    }
+    override suspend fun getMainInfoSemestre(): Either<Failure.MainInfoFailure, MainGetSemestreResult> {
+        return localData.getMatterConnected()
+    }
+
+    override suspend fun getMainInfoEents(): Either<Failure.MainInfoFailure, Events> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

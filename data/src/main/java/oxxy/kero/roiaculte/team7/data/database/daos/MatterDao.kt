@@ -11,4 +11,6 @@ interface MatterDao{
     fun insertMatters(materList:List<MatterEntity>)
     @Query("SELECT * FROM Matters ")
     fun getModulesByUserId():List<MatterEntity>
+    @Query("SELECT * FROM Matters  WHERE userId = :id")
+    fun getMattersConnected( id:String): List<MatterEntity>
 }

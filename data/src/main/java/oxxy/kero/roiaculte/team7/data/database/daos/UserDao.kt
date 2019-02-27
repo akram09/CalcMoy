@@ -25,4 +25,7 @@ interface UserDao {
 
     @Query("SELECT Id From User WHERE isConnected = 1 ")
     fun getActifUser():Flowable<String >
+
+    @Query("SELECT Id FROM User Where isConnected = 1")
+    fun getIDConnectedUser():String
 }
