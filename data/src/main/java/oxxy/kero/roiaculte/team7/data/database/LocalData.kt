@@ -2,6 +2,7 @@ package oxxy.kero.roiaculte.team7.data.database
 
 import android.arch.persistence.room.RoomDatabase
 import android.database.sqlite.SQLiteException
+import android.util.Log
 import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
@@ -66,12 +67,18 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
     suspend fun getMatterConnected():Either<Failure.MainInfoFailure , MainGetSemestreResult> = suspendCoroutine {
         var list = emptyList<Semestre>()
         var curentmatter = emptyList<Matter>()
+        Log.e("errr", "enterd")
         try {
             val id = database.userDao().getIDConnectedUser()
+            Log.e("errr", id)
           val MatterList = database.matterDao().getMattersConnected(id).sortedBy {
               it.semestre
           }
-           val int =0
+            Log.e("errr", MatterList.size.toString())
+            MatterList.forEach{
+                Log.e("errr", it.semestre.toString())
+            }
+           var int =0
             do{
                 curentmatter = MatterList.filter {
                     it.semestre==int
@@ -81,8 +88,8 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
                 if(curentmatter.isEmpty()){
                 list +=Semestre( int , curentmatter.toMutableList())
                 }
+                int++
                 }while (!curentmatter.isEmpty())
-
         }catch (e:SQLiteException){
             it.resume(Either.Left(Failure.MainInfoFailure(e)))
         }finally {

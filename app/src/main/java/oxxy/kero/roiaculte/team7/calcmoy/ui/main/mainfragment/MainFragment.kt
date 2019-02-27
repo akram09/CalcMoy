@@ -65,14 +65,16 @@ class MainFragment: BaseFragment() {
 
     private fun handleSemestres(semestres: List<Semestre>?) {
         val curent = callbacck.getCurentSemestre()
-        val matters = semestres!![curent].matters
-        matters.sortBy { it.coifficient }
-        val sendedList = ArrayList<Matter>()
-        val  size = if(matters.size>5) 5 else matters.size
-        for(i in 0..size ){
-            sendedList.add(matters[i])
+        if(curent <semestres?.size ?: 0) {
+            val matters = semestres !![curent].matters
+            matters.sortBy { it.coifficient }
+            val sendedList = ArrayList<Matter>()
+            val size = if (matters.size > 5) 5 else matters.size
+            for (i in 0 until size) {
+                sendedList.add(matters[i])
+            }
+            semestrAdapter.replaceAll(sendedList)
         }
-        semestrAdapter.replaceAll(sendedList)
     }
 
     private fun handleEventsState(evensAsync: Async<None>?) {

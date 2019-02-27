@@ -13,9 +13,11 @@ import oxxy.kero.roiaculte.team7.data.firebase.RemoteDatabase
 import oxxy.kero.roiaculte.team7.data.firebase.StorageHandler
 import oxxy.kero.roiaculte.team7.data.repositories.AuthentificationRepositoryImpl
 import oxxy.kero.roiaculte.team7.data.repositories.DataModelingRepositoryImpl
+import oxxy.kero.roiaculte.team7.data.repositories.MainRepositoryImpl
 import oxxy.kero.roiaculte.team7.data.repositories.SearchRepositoryImpl
 import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
 import oxxy.kero.roiaculte.team7.domain.repositories.DataModelingRepository
+import oxxy.kero.roiaculte.team7.domain.repositories.MainRepository
 import oxxy.kero.roiaculte.team7.domain.repositories.SearchRepository
 import javax.inject.Singleton
 
@@ -31,4 +33,7 @@ class DataModule {
    @Singleton
    fun provideDataRepo(storage:StorageHandler, remote:RemoteDatabase, local:LocalData ) : DataModelingRepository
            = DataModelingRepositoryImpl( storage , remote , local)
+    @Provides
+    @Singleton
+    fun provideMainRepo(auth :FirebaseAuth , local: LocalData): MainRepository = MainRepositoryImpl(auth , local)
 }

@@ -5,6 +5,7 @@ import oxxy.kero.roiaculte.team7.domain.functional.CouroutineDispatchers
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.repositories.MainRepository
+import sun.rmi.runtime.Log
 import javax.inject.Inject
 
 class MainGetSemestre  @Inject constructor(dispatchers: CouroutineDispatchers , val repo: MainRepository)
@@ -12,7 +13,8 @@ class MainGetSemestre  @Inject constructor(dispatchers: CouroutineDispatchers , 
     override val dispatcher =dispatchers.io
     override val ResultDispatcher = dispatchers.main
     override suspend fun invoke(executeParams: None): Either<Failure.MainInfoFailure, MainGetSemestreResult> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        println("entered")
+          return repo.getMainInfoSemestre()
+     }
 }
 data class MainGetSemestreResult(val numberSemestre :Int , val semestres: List<Semestre>)

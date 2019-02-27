@@ -1,6 +1,7 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.splash_screen
 
 import android.os.Bundle
+import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.MainActivity
