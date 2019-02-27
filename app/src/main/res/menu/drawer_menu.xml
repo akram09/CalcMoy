@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/drawer_add_acount"
+            android:icon="@drawable/drawer_plus"
+            android:title="@string/add_acount"/>
+
+    <item
+            android:id="@+id/drawer_settings"
+            android:icon="@drawable/drawer_acounts_settings"
+            android:title="@string/manage_acount"/>
+
+    <item
+            android:id="@+id/drawer_contact_us"
+            android:icon="@drawable/drawer_contact_us"
+            android:title="@string/contact_us"/>
+</menu>

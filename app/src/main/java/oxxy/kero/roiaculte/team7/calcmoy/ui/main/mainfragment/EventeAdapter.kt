@@ -39,26 +39,22 @@ class EventeAdapter : RecyclerView.Adapter<EventeAdapter.EventHolder>() {
     private val matters : SortedList<Event> = SortedList(Event::class.java,callback)
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): EventHolder {
-        val inflater = LayoutInflater.from(p0.context)
-        val binding : MainFragmentMainEventCardBinding = DataBindingUtil.inflate(inflater,
-            R.layout.main_fragment_main_moy_card,p0,false)
-        return EventHolder(binding)
+    val inflater = LayoutInflater.from(p0.context)
+    val binding : MainFragmentMainEventCardBinding = DataBindingUtil.inflate(inflater,
+        R.layout.main_fragment_main_moy_card,p0,false)
+    return EventHolder(binding)
+}
+
+override fun getItemCount(): Int  = matters.size()
+
+override fun onBindViewHolder(p0: EventHolder, position: Int) {
+    p0.upDateView(matters[position])
+}
+
+inner class EventHolder(val viewHolderBinding : MainFragmentMainEventCardBinding)  : RecyclerView.ViewHolder(viewHolderBinding.root){
+
+    fun upDateView(event : Event){
+        //TODO update view
     }
-
-    override fun getItemCount(): Int  = matters.size()
-
-    override fun onBindViewHolder(p0: EventHolder, position: Int) {
-        p0.upDateView(matters[position])
-    }
-
-    inner class EventHolder(val viewHolderBinding : MainFragmentMainEventCardBinding)  : RecyclerView.ViewHolder(viewHolderBinding.root){
-
-
-        fun upDateView(event : Event){
-            //TODO updateView later
-            //TODO add matter color in event model
-//            val color = ColorDrawable(Color.parseColor(event.))
-//            viewHolderBinding.imageColor.setImageDrawable(color)
-        }
-    }
+}
 }
