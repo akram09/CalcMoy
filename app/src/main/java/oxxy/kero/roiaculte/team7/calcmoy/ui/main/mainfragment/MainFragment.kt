@@ -3,7 +3,9 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.main.mainfragment
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +16,6 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Async
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
-import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.invisible
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.visible
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.models.Event
@@ -55,8 +56,9 @@ class MainFragment: BaseFragment() {
         binding.mainNoterecycler.layoutManager = LinearLayoutManager(context)
         binding.mainEventrecycler.layoutManager= LinearLayoutManager(context)
 
-        binding.mainEventrecycler.setHasFixedSize(true)
-        binding.mainNoterecycler.setHasFixedSize(true)
+//        binding.mainNoterecycler.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+//        binding.mainEventrecycler.addItemDecoration(DividerItemDecoration(context,LinearLayoutManager.VERTICAL))
+
     }
 
     private fun handleEvents(events: List<Event>?) {
@@ -64,10 +66,12 @@ class MainFragment: BaseFragment() {
     }
 
     private fun handleSemestres(semestres: List<Semestre>?) {
+        Log.v("fucking_errr","size is --> ${semestres?.size}")
         val curent = callbacck.getCurentSemestre()
         if(curent <semestres?.size ?: 0) {
             val matters = semestres !![curent].matters
             matters.sortBy { it.coifficient }
+            Log.v("fucking_errr","size is --> ${matters.size}")
             val sendedList = ArrayList<Matter>()
             val size = if (matters.size > 5) 5 else matters.size
             for (i in 0 until size) {
@@ -81,11 +85,11 @@ class MainFragment: BaseFragment() {
         when(evensAsync){
             is Loading ->{
                 binding.loadingEvents.visible()
-                binding.mainEventrecycler.invisible()
+                binding.mainEventrecycler.visibility = View.INVISIBLE
             }
 
             is Success ->{
-                binding.loadingEvents.invisible()
+                binding.loadingEvents.visibility = View.INVISIBLE
                 binding.mainEventrecycler.visible()
             }
 
@@ -99,11 +103,11 @@ class MainFragment: BaseFragment() {
         when(matterState){
             is Loading ->{
                 binding.loadingMatter.visible()
-                binding.mainNoterecycler.invisible()
+                binding.mainNoterecycler.visibility = View.INVISIBLE
             }
 
             is Success ->{
-                binding.loadingMatter.invisible()
+                binding.loadingMatter.visibility = View.INVISIBLE
                 binding.mainNoterecycler.visible()
             }
 

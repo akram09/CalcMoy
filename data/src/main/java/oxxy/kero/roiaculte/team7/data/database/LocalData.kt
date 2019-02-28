@@ -67,17 +67,11 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
     suspend fun getMatterConnected():Either<Failure.MainInfoFailure , MainGetSemestreResult> = suspendCoroutine {
         var list = emptyList<Semestre>()
         var curentmatter = emptyList<Matter>()
-        Log.e("errr", "enterd")
         try {
             val id = database.userDao().getIDConnectedUser()
-            Log.e("errr", id)
           val MatterList = database.matterDao().getMattersConnected(id).sortedBy {
               it.semestre
           }
-            Log.e("errr", MatterList.size.toString())
-            MatterList.forEach{
-                Log.e("errr", it.semestre.toString())
-            }
            var int =0
             do{
                 curentmatter = MatterList.filter {
@@ -85,7 +79,7 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
                 }.map {
                     Matter(it.MatterId , it.name , it.coifficient , it.color , it.semestre , it.moyenne, it.userId)
                 }
-                if(curentmatter.isEmpty()){
+                if(!curentmatter.isEmpty()){
                 list +=Semestre( int , curentmatter.toMutableList())
                 }
                 int++

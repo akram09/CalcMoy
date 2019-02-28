@@ -24,7 +24,8 @@
                 app:menu="@menu/drawer_menu"
                 app:headerLayout="@layout/drawer_header"
 
-                android:fitsSystemWindows="true">
+                android:fitsSystemWindows="true" app:itemIconTint="#000"
+                app:itemTextColor="#000" android:background="#fff">
             <!--app:headerLayout="@layout/drawer_header" >-->
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>
