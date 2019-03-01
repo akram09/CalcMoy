@@ -6,7 +6,6 @@ import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseActivity
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.MainActivity
-import oxxy.kero.roiaculte.team7.calcmoy.ui.main.TestActivity
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.inTransaction
 
 class SplashActivity : BaseActivity() {
