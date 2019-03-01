@@ -54,17 +54,9 @@ sealed class Failure {
         class NetworkFailure(val e: Exception?):GetUserInfoFromRemote()
         class UknownFAilure(val  e:Exception? ) : GetUserInfoFromRemote()
     }
-    class GetUsersFailure(val e:Exception?):Failure()
+    class DataBaseError(val e:Exception?):Failure()
     class MainInfoFailure(val e:Exception?): Failure()
-    class AddModuleFailure(val e:Exception?):Failure()
-    class UpdateMatterFailure(val e:Exception?):Failure()
 
-//    class NetworkConnection: Failure()
-//    class ServerError: Failure()
-//    abstract class FirebaseError(val t:Exception? ):Failure()
-//    class DataBaseError(val  t:Throwable):Failure()
-//    /** * Extend this class for feature specific failures.*/
-//    abstract class FeatureFailure: Failure()
 
 }
 

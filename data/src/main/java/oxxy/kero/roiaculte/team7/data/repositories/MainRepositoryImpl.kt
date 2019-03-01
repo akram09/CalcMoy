@@ -9,6 +9,7 @@ import oxxy.kero.roiaculte.team7.domain.interactors.Events
 import oxxy.kero.roiaculte.team7.domain.interactors.MainGetSemestreResult
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.interactors.UserActif
+import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
@@ -26,7 +27,7 @@ class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localD
         auth.removeAuthStateListener { syncer }
     }
 
-    override suspend fun getUsersList(): Either<Failure.GetUsersFailure, List<User>> {
+    override suspend fun getUsersList(): Either<Failure.DataBaseError, List<User>> {
     return localData.getUserList()
     }
 
@@ -41,14 +42,22 @@ class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localD
     }
 
     override suspend fun getMainInfoEents(): Either<Failure.MainInfoFailure, Events> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return localData.getEvents()
     }
 
-    override suspend fun addModule(matter: Matter): Either<Failure.AddModuleFailure, None> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun addModule(matter: Matter): Either<Failure.DataBaseError, None> {
+       return localData.addModule(matter)
     }
 
-    override suspend fun updateMatter(matter: Matter): Either<Failure.UpdateMatterFailure, None> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun updateMatter(matter: Matter): Either<Failure.DataBaseError, None> {
+     return localData.updateModule(matter)
+    }
+
+    override suspend fun updateEvent(event: Event): Either<Failure.DataBaseError, None> {
+      return localData.updateEvent(event)
+    }
+
+    override suspend fun addEvent(event: Event): Either<Failure.DataBaseError, None> {
+       return localData.addEvent(event)
     }
 }

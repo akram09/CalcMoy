@@ -12,13 +12,13 @@ import javax.inject.Inject
 
 class GetUsersList
     @Inject constructor(schedulers: AppRxSchedulers , dispatchers: CouroutineDispatchers
-    , val repo :MainRepository):EitherInteractor<None , List<User>, Failure.GetUsersFailure>
+    , val repo :MainRepository):EitherInteractor<None , List<User>, Failure.DataBaseError>
     , ObservableInteractor<UserActif, None>(schedulers)
 {
     override val dispatcher = dispatchers.io
     override val ResultDispatcher = dispatchers.main
 
-    override suspend fun invoke(executeParams: None): Either<Failure.GetUsersFailure, List<User>> {
+    override suspend fun invoke(executeParams: None): Either<Failure.DataBaseError, List<User>> {
        return repo.getUsersList()
     }
 

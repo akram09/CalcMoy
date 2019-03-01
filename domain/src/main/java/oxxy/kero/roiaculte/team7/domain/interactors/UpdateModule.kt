@@ -9,10 +9,10 @@ import oxxy.kero.roiaculte.team7.domain.repositories.MainRepository
 import javax.inject.Inject
 
 class UpdateModule @Inject constructor(dispatchers: CouroutineDispatchers , val repo :MainRepository)
-    : EitherInteractor<Matter, None , Failure.UpdateMatterFailure> {
+    : EitherInteractor<Matter, None , Failure.DataBaseError> {
     override val dispatcher= dispatchers.io
     override val ResultDispatcher = dispatchers.main
-    override suspend fun invoke(executeParams: Matter): Either<Failure.UpdateMatterFailure, None> {
+    override suspend fun invoke(executeParams: Matter): Either<Failure.DataBaseError, None> {
        return repo.updateMatter(executeParams)
     }
 }

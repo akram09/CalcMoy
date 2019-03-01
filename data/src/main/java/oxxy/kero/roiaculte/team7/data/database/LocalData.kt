@@ -4,13 +4,17 @@ import android.arch.persistence.room.RoomDatabase
 import android.database.sqlite.SQLiteException
 import android.util.Log
 import io.reactivex.Observable
+import oxxy.kero.roiaculte.team7.data.Util.RoomNoneCrudToEither
+import oxxy.kero.roiaculte.team7.data.database.entities.EventEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.Events
 import oxxy.kero.roiaculte.team7.domain.interactors.GetUsersList
 import oxxy.kero.roiaculte.team7.domain.interactors.MainGetSemestreResult
 import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
@@ -41,9 +45,9 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
      }
     }
 
-    suspend fun getUserList(): Either<Failure.GetUsersFailure , List<User>>
+    suspend fun getUserList(): Either<Failure.DataBaseError , List<User>>
             = suspendCoroutine{
-        var list:Either<Failure.GetUsersFailure , List<User>> = Either.Right(emptyList())
+        var list:Either<Failure.DataBaseError, List<User>> = Either.Right(emptyList())
         try {
             list = Either.Right(database.userDao().getAllUsers().map {
             User(it.id
@@ -52,7 +56,7 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
 
 
         }catch (e:SQLiteException){
-            it.resume(Either.Left(Failure.GetUsersFailure(e)))
+            it.resume(Either.Left(Failure.DataBaseError(e)))
         }finally {
             it.resume(list)
         }
@@ -63,6 +67,40 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
     fun getMatters():List<MatterEntity>{
         return database.matterDao().getModulesByUserId()
     }
+    suspend fun getEvents():Either<Failure.MainInfoFailure , Events> = suspendCoroutine{
+          var events :List<EventEntity> = emptyList()
+        try{
+            val id = database.userDao().getIDConnectedUser()
+            events = database.eventDao().getEventByUser(id)
+        }catch (e:SQLiteException ){
+            it.resume(Either.Left(Failure.MainInfoFailure(e)))
+        }finally {
+            it.resume(Either.Right(events.map { Event(it.id , it.type, it.time , it.place , it.matterId , it.userId) }))
+        }
+
+    }
+    suspend fun addEvent(event :Event)= RoomNoneCrudToEither(crud = database.eventDao()::addEvent
+     , param =  event.let {
+            EventEntity(type = it.type ,time= it.time , place = it.place , matterId = it.matterId ,userId = it.userId)
+        }
+    )
+    suspend fun updateEvent(event :Event) = RoomNoneCrudToEither(database.eventDao()::updateEvent ,
+        event.let {
+            EventEntity(it.id , it.type ,it.time, it.place , it.matterId , it.userId)
+        })
+
+    suspend fun addModule(module :Matter):Either<Failure.DataBaseError , None>
+            = RoomNoneCrudToEither(param = listOf(module.let {
+        MatterEntity(name=it.name , coifficient = it.coifficient , userId = it.userId , color = it.color , semestre =
+        it.semestre , moyenne = it.moyenne)
+    }),crud = database.matterDao()::insertMatters )
+
+    suspend fun updateModule(module :Matter):Either<Failure.DataBaseError , None>
+            = RoomNoneCrudToEither(param = module.let {
+        MatterEntity(MatterId = it.id , name = it.name , coifficient = it.coifficient
+            ,userId = it.userId , color = it.color , moyenne = it.moyenne, semestre = it.semestre)
+    }
+        ,  crud =  database.matterDao()::updateMatter)
 
     suspend fun getMatterConnected():Either<Failure.MainInfoFailure , MainGetSemestreResult> = suspendCoroutine {
         var list = emptyList<Semestre>()
