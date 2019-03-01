@@ -61,4 +61,7 @@ class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localD
     override suspend fun getProfileInfo(): Either<Failure.DataBaseError, ProfileUserResult> {
        return localData.getProfileInfo()
     }
+    override  suspend fun  deleteMatter(matter :Matter):Either<Failure.DataBaseError , None>{
+        return  localData.deleteModule(matter)
+    }
 }

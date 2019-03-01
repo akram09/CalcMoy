@@ -130,6 +130,10 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
     }
         ,  crud =  database.matterDao()::updateMatter, after = this::recalculateAverage)
 
+    suspend  fun deleteModule(module: Matter):Either<Failure.DataBaseError , None> = RoomNoneCrudToEither(
+        database.matterDao()::deleteMater , module.let { MatterEntity(it.id , it.name , it.coifficient , it.color,
+            it.semestre , it.moyenne , it.userId) }, after = this::recalculateAverage
+    )
     suspend fun getMatterConnected():Either<Failure.MainInfoFailure , MainGetSemestreResult> = suspendCoroutine {
         var list = emptyList<Semestre>()
         var curentmatter = emptyList<Matter>()

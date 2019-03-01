@@ -21,4 +21,5 @@ suspend fun getMainInfoSemestre():Either<Failure.MainInfoFailure , MainGetSemest
  suspend fun updateEvent(event : Event) :Either<Failure.DataBaseError ,None>
  suspend fun addEvent(event :Event) :Either<Failure.DataBaseError ,None>
   suspend  fun getProfileInfo():Either<Failure.DataBaseError , ProfileUserResult>
+  suspend fun deleteMatter(matter :Matter):Either<Failure.DataBaseError , None>
 }

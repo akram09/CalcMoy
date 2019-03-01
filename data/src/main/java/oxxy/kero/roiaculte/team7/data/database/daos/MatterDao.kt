@@ -1,9 +1,6 @@
 package oxxy.kero.roiaculte.team7.data.database.daos
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
-import android.arch.persistence.room.Update
+import android.arch.persistence.room.*
 import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 @Dao
@@ -16,4 +13,6 @@ interface MatterDao{
     fun getMattersConnected( id:String): List<MatterEntity>
     @Update
     fun updateMatter(matter :MatterEntity)
+    @Delete
+    fun deleteMater(matter: MatterEntity)
 }
