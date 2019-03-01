@@ -7,12 +7,17 @@ import oxxy.kero.roiaculte.team7.domain.interactors.None
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-suspend fun<P>  RoomNoneCrudToEither(crud: (P)->Unit  , param:P):Either<Failure.DataBaseError , None> = suspendCoroutine{
+suspend fun<P>  RoomNoneCrudToEither(crud: (P)->Unit  , param:P
+        , after : (()->Unit)? =null):Either<Failure.DataBaseError , None> = suspendCoroutine{
     try {
         crud(param)
+        if(after!=null){
+            after()
+        }
     }catch (e:SQLiteException){
         it.resume(Either.Left(Failure.DataBaseError(e)))
     }finally {
         it.resume(Either.Right(None()))
+
     }
 }

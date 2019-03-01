@@ -34,4 +34,6 @@ interface UserDao {
 
     @Query("SELECT GenMoy ,Prename , Name , ImageUrl , Semestre From User WHERE isConnected = 1  ")
     fun getProfileInfo():ProfileUser
+    @Query("UPDATE User SET GenMoy  = :moyene WHERE isConnected = 1")
+    fun updateMoyenne( moyene:Double )
 }

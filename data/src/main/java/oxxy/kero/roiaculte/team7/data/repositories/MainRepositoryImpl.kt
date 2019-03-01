@@ -58,7 +58,6 @@ class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localD
     override suspend fun addEvent(event: Event): Either<Failure.DataBaseError, None> {
        return localData.addEvent(event)
     }
-    //todo test this function
     override suspend fun getProfileInfo(): Either<Failure.DataBaseError, ProfileUserResult> {
        return localData.getProfileInfo()
     }

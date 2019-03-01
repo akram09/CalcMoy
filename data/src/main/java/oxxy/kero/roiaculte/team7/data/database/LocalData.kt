@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteException
 import android.util.Log
 import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.data.Util.RoomNoneCrudToEither
+import oxxy.kero.roiaculte.team7.data.Util.calculateAverage
 import oxxy.kero.roiaculte.team7.data.database.entities.EventEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.ProfileUser
@@ -62,6 +63,12 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
     fun observeConectedUser():Observable<String>{
         return database.userDao().getActifUser().toObservable()
     }
+
+    fun recalculateAverage(){
+        val id  = database.userDao().getIDConnectedUser()
+        var list = database.matterDao().getMattersConnected(id)
+        database.userDao().updateMoyenne(list.calculateAverage())
+    }
     fun getMatters():List<MatterEntity>{
         return database.matterDao().getModulesByUserId()
     }
@@ -88,7 +95,7 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
             for (i in 1..user.semestre){
             var somee =0.0 ; var sommeCoef =0
                 listMatter.filter { it.semestre ==i-1 }.forEach {
-                somee +=it.moyenne
+                somee +=it.moyenne*it.coifficient
                     sommeCoef  += it.coifficient
             }
                 listMoy += somee /sommeCoef
@@ -114,14 +121,14 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
             = RoomNoneCrudToEither(param = listOf(module.let {
         MatterEntity(name=it.name , coifficient = it.coifficient , userId = it.userId , color = it.color , semestre =
         it.semestre , moyenne = it.moyenne)
-    }),crud = database.matterDao()::insertMatters )
+    }),crud = database.matterDao()::insertMatters , after = this::recalculateAverage )
 
     suspend fun updateModule(module :Matter):Either<Failure.DataBaseError , None>
             = RoomNoneCrudToEither(param = module.let {
         MatterEntity(MatterId = it.id , name = it.name , coifficient = it.coifficient
             ,userId = it.userId , color = it.color , moyenne = it.moyenne, semestre = it.semestre)
     }
-        ,  crud =  database.matterDao()::updateMatter)
+        ,  crud =  database.matterDao()::updateMatter, after = this::recalculateAverage)
 
     suspend fun getMatterConnected():Either<Failure.MainInfoFailure , MainGetSemestreResult> = suspendCoroutine {
         var list = emptyList<Semestre>()
