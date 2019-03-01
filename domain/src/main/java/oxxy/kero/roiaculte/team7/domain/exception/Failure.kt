@@ -56,7 +56,8 @@ sealed class Failure {
     }
     class GetUsersFailure(val e:Exception?):Failure()
     class MainInfoFailure(val e:Exception?): Failure()
-
+    class AddModuleFailure(val e:Exception?):Failure()
+    class UpdateMatterFailure(val e:Exception?):Failure()
 
 //    class NetworkConnection: Failure()
 //    class ServerError: Failure()
