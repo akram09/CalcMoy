@@ -5,10 +5,7 @@ import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.data.database.LocalData
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
-import oxxy.kero.roiaculte.team7.domain.interactors.Events
-import oxxy.kero.roiaculte.team7.domain.interactors.MainGetSemestreResult
-import oxxy.kero.roiaculte.team7.domain.interactors.None
-import oxxy.kero.roiaculte.team7.domain.interactors.UserActif
+import oxxy.kero.roiaculte.team7.domain.interactors.*
 import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
@@ -41,6 +38,7 @@ class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localD
         return localData.getMatterConnected()
     }
 
+
     override suspend fun getMainInfoEents(): Either<Failure.MainInfoFailure, Events> {
         return localData.getEvents()
     }
@@ -59,5 +57,9 @@ class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localD
 
     override suspend fun addEvent(event: Event): Either<Failure.DataBaseError, None> {
        return localData.addEvent(event)
+    }
+    //todo test this function
+    override suspend fun getProfileInfo(): Either<Failure.DataBaseError, ProfileUserResult> {
+       return localData.getProfileInfo()
     }
 }

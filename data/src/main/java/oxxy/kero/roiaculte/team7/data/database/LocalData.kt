@@ -7,13 +7,11 @@ import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.data.Util.RoomNoneCrudToEither
 import oxxy.kero.roiaculte.team7.data.database.entities.EventEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
+import oxxy.kero.roiaculte.team7.data.database.entities.ProfileUser
 import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
-import oxxy.kero.roiaculte.team7.domain.interactors.Events
-import oxxy.kero.roiaculte.team7.domain.interactors.GetUsersList
-import oxxy.kero.roiaculte.team7.domain.interactors.MainGetSemestreResult
-import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.interactors.*
 import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
@@ -78,6 +76,29 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
             it.resume(Either.Right(events.map { Event(it.id , it.type, it.time , it.place , it.matterId , it.userId) }))
         }
 
+    }
+
+    suspend fun getProfileInfo():Either<Failure.DataBaseError , ProfileUserResult> = suspendCoroutine{
+  var user =ProfileUser("", "", "", 0, 0.0)
+         var listMoy  = emptyList<Double>()
+        try {
+             user= database.userDao().getProfileInfo()
+            val id = database.userDao().getIDConnectedUser()
+             var listMatter = database.matterDao().getMattersConnected(id)
+            for (i in 1..user.semestre){
+            var somee =0.0 ; var sommeCoef =0
+                listMatter.filter { it.semestre ==i-1 }.forEach {
+                somee +=it.moyenne
+                    sommeCoef  += it.coifficient
+            }
+                listMoy += somee /sommeCoef
+            }
+        }catch (e:SQLiteException){
+            it.resume(Either.Left(Failure.DataBaseError(e)))
+        }finally {
+           it.resume(Either.Right(ProfileUserResult(user.name , user.prename , user.imageUrl , user.moyenneGenerale
+           , user.semestre , listMoy)))
+        }
     }
     suspend fun addEvent(event :Event)= RoomNoneCrudToEither(crud = database.eventDao()::addEvent
      , param =  event.let {

@@ -5,6 +5,7 @@ import android.service.autofill.UserData
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
+import oxxy.kero.roiaculte.team7.data.database.entities.ProfileUser
 import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 
 @Dao
@@ -26,6 +27,11 @@ interface UserDao {
     @Query("SELECT Id From User WHERE isConnected = 1 ")
     fun getActifUser():Flowable<String >
 
+
     @Query("SELECT Id FROM User Where isConnected = 1")
     fun getIDConnectedUser():String
+
+
+    @Query("SELECT GenMoy ,Prename , Name , ImageUrl , Semestre From User WHERE isConnected = 1  ")
+    fun getProfileInfo():ProfileUser
 }

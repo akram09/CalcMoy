@@ -15,6 +15,10 @@ data class UserEntity(@PrimaryKey @ColumnInfo(name = "Id")val id:String
                       @ColumnInfo(name="ImageUrl")val imageUrl :String,
                       val isConnected:Boolean,
                       @ColumnInfo(name="GenMoy")val moyenneGenerale :Double)
+data class ProfileUser(
+    @ColumnInfo(name= "Name") val name:String ,@ColumnInfo(name = "Prename") val prename :String
+    ,@ColumnInfo(name="ImageUrl") val imageUrl:String ,@ColumnInfo(name="Semestre") val semestre: Int ,
+    @ColumnInfo(name="GenMoy") val moyenneGenerale: Double )
 class SchoolConverterClass{
     @TypeConverter
     fun fromIntToSchool(entier:Int):School{

@@ -3,10 +3,7 @@ package oxxy.kero.roiaculte.team7.domain.repositories
 import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
-import oxxy.kero.roiaculte.team7.domain.interactors.Events
-import oxxy.kero.roiaculte.team7.domain.interactors.MainGetSemestreResult
-import oxxy.kero.roiaculte.team7.domain.interactors.None
-import oxxy.kero.roiaculte.team7.domain.interactors.UserActif
+import oxxy.kero.roiaculte.team7.domain.interactors.*
 import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
@@ -23,5 +20,5 @@ suspend fun getMainInfoSemestre():Either<Failure.MainInfoFailure , MainGetSemest
  suspend fun updateMatter(matter: Matter):Either<Failure.DataBaseError ,None>
  suspend fun updateEvent(event : Event) :Either<Failure.DataBaseError ,None>
  suspend fun addEvent(event :Event) :Either<Failure.DataBaseError ,None>
-
+  suspend  fun getProfileInfo():Either<Failure.DataBaseError , ProfileUserResult>
 }
