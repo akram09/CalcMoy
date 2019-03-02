@@ -4,6 +4,8 @@ import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import at.grabner.circleprogress.CircleProgressView
 
 
 fun View.cancelTransition() {
@@ -20,3 +22,8 @@ fun View.invisible() { this.visibility = View.GONE }
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
+fun Pair<CircleProgressView, TextView>.setValeur(double :Double){
+    val int  = ((double *10).toInt()/10.0)
+    this.first.setValue(int.toFloat())
+    this.second.text= int.toString()
+}

@@ -122,7 +122,8 @@ ext.deps = deps
 def addRepos(RepositoryHandler handler) {
     handler.google()
     handler.jcenter()
-    handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots'
+        url "https://jitpack.io"}
     handler.maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
 }
 

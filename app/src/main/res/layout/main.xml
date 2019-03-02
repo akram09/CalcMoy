@@ -14,7 +14,9 @@
                 android:background="@color/colorPrimary"
                 android:textAlignment="viewEnd"
                 android:layoutDirection="rtl"
+                android:shadowColor="#A6A6A6"
                 android:theme="@style/ToolBar"
+                android:elevation="12dp"
                 app:titleTextAppearance="@style/Base.TextAppearance.AppCompat.Headline"
         />
 
