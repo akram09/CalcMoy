@@ -4,8 +4,8 @@ import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.None
-import oxxy.kero.roiaculte.team7.domain.interactors.ProvideUserInfo
-import oxxy.kero.roiaculte.team7.domain.interactors.UserInfo
+import oxxy.kero.roiaculte.team7.domain.interactors.saveinfo.ProvideUserInfo
+import oxxy.kero.roiaculte.team7.domain.interactors.saveinfo.UserInfo
 import oxxy.kero.roiaculte.team7.domain.interactors.launchInteractor
 import oxxy.kero.roiaculte.team7.domain.models.School
 import javax.inject.Inject

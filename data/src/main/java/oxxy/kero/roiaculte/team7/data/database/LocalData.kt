@@ -1,11 +1,8 @@
 package oxxy.kero.roiaculte.team7.data.database
 
-import android.arch.persistence.room.RoomDatabase
 import android.database.sqlite.SQLiteException
-import android.util.Log
 import io.reactivex.Observable
-import oxxy.kero.roiaculte.team7.data.Util.RoomNoneCrudToEither
-import oxxy.kero.roiaculte.team7.data.Util.calculateAverage
+import oxxy.kero.roiaculte.team7.data.Util.*
 import oxxy.kero.roiaculte.team7.data.database.entities.EventEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.MatterEntity
 import oxxy.kero.roiaculte.team7.data.database.entities.ProfileUser
@@ -13,11 +10,13 @@ import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.*
+import oxxy.kero.roiaculte.team7.domain.interactors.main.Events
+import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestreResult
+import oxxy.kero.roiaculte.team7.domain.interactors.profile.ProfileUserResult
 import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
-import java.lang.Exception
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -34,8 +33,8 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
                  list1 +=semestre.matters
             }
             database.matterDao().insertMatters(list1.map {
-                MatterEntity(name =  it.name ,coifficient =  it.coifficient ,color =  it.color
-                    ,semestre =  it.semestre ,moyenne = it.moyenne ,userId =  it.userId)
+                it.toMatterEntity()
+
             })
      }catch (e:SQLiteException){
           it.resume(Either.Left(Failure.SaveUserFailure.DataBaseFailure(e)))
@@ -69,9 +68,7 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
         var list = database.matterDao().getMattersConnected(id)
         database.userDao().updateMoyenne(list.calculateAverage())
     }
-    fun getMatters():List<MatterEntity>{
-        return database.matterDao().getModulesByUserId()
-    }
+
     suspend fun getEvents():Either<Failure.MainInfoFailure , Events> = suspendCoroutine{
           var events :List<EventEntity> = emptyList()
         try{
@@ -80,7 +77,7 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
         }catch (e:SQLiteException ){
             it.resume(Either.Left(Failure.MainInfoFailure(e)))
         }finally {
-            it.resume(Either.Right(events.map { Event(it.id , it.type, it.time , it.place , it.matterId , it.userId) }))
+            it.resume(Either.Right(events.map { it.toEvent()}))
         }
 
     }
@@ -103,36 +100,30 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
         }catch (e:SQLiteException){
             it.resume(Either.Left(Failure.DataBaseError(e)))
         }finally {
-           it.resume(Either.Right(ProfileUserResult(user.name , user.prename , user.imageUrl , user.moyenneGenerale
-           , user.semestre , listMoy)))
+           it.resume(Either.Right(
+               ProfileUserResult(
+                   user.name, user.prename, user.imageUrl, user.moyenneGenerale
+                   , user.semestre, listMoy
+               )
+           ))
         }
     }
     suspend fun addEvent(event :Event)= RoomNoneCrudToEither(crud = database.eventDao()::addEvent
-     , param =  event.let {
-            EventEntity(type = it.type ,time= it.time , place = it.place , matterId = it.matterId ,userId = it.userId)
-        }
+     , param =  event.toEventEntity()
     )
     suspend fun updateEvent(event :Event) = RoomNoneCrudToEither(database.eventDao()::updateEvent ,
-        event.let {
-            EventEntity(it.id , it.type ,it.time, it.place , it.matterId , it.userId)
-        })
+        event.toEventEntityWithId())
 
     suspend fun addModule(module :Matter):Either<Failure.DataBaseError , None>
-            = RoomNoneCrudToEither(param = listOf(module.let {
-        MatterEntity(name=it.name , coifficient = it.coifficient , userId = it.userId , color = it.color , semestre =
-        it.semestre , moyenne = it.moyenne)
-    }),crud = database.matterDao()::insertMatters , after = this::recalculateAverage )
+            = RoomNoneCrudToEither(param = listOf(module.toMatterEntity()
+    ),crud = database.matterDao()::insertMatters , after = this::recalculateAverage )
 
     suspend fun updateModule(module :Matter):Either<Failure.DataBaseError , None>
-            = RoomNoneCrudToEither(param = module.let {
-        MatterEntity(MatterId = it.id , name = it.name , coifficient = it.coifficient
-            ,userId = it.userId , color = it.color , moyenne = it.moyenne, semestre = it.semestre)
-    }
+            = RoomNoneCrudToEither(param = module.toMatterEntityWithId()
         ,  crud =  database.matterDao()::updateMatter, after = this::recalculateAverage)
 
     suspend  fun deleteModule(module: Matter):Either<Failure.DataBaseError , None> = RoomNoneCrudToEither(
-        database.matterDao()::deleteMater , module.let { MatterEntity(it.id , it.name , it.coifficient , it.color,
-            it.semestre , it.moyenne , it.userId) }, after = this::recalculateAverage
+        database.matterDao()::deleteMater , module.toMatterEntityWithId(), after = this::recalculateAverage
     )
     suspend fun getMatterConnected():Either<Failure.MainInfoFailure , MainGetSemestreResult> = suspendCoroutine {
         var list = emptyList<Semestre>()
@@ -147,7 +138,7 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
                 curentmatter = MatterList.filter {
                     it.semestre==int
                 }.map {
-                    Matter(it.MatterId , it.name , it.coifficient , it.color , it.semestre , it.moyenne, it.userId)
+                    it.toMatter()
                 }
                 if(!curentmatter.isEmpty()){
                 list +=Semestre( int , curentmatter.toMutableList())
@@ -157,7 +148,12 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
         }catch (e:SQLiteException){
             it.resume(Either.Left(Failure.MainInfoFailure(e)))
         }finally {
-            it.resume(Either.Right(MainGetSemestreResult(list.size , list ) ))
+            it.resume(Either.Right(
+                MainGetSemestreResult(
+                    list.size,
+                    list
+                )
+            ))
         }
     }
 }

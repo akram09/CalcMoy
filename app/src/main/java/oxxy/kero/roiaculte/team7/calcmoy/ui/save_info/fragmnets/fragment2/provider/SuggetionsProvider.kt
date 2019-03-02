@@ -1,7 +1,6 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.save_info.fragmnets.fragment2.provider
 
 import android.app.SearchManager
-import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.MatrixCursor
@@ -10,8 +9,8 @@ import android.util.Log
 import dagger.android.DaggerContentProvider
 import kotlinx.coroutines.*
 import oxxy.kero.roiaculte.team7.domain.functional.Either
-import oxxy.kero.roiaculte.team7.domain.interactors.ProvideSuggestions
-import oxxy.kero.roiaculte.team7.domain.interactors.Suggestions
+import oxxy.kero.roiaculte.team7.domain.interactors.saveinfo.ProvideSuggestions
+import oxxy.kero.roiaculte.team7.domain.interactors.saveinfo.Suggestions
 import javax.inject.Inject
 
 class SuggetionsProvider : DaggerContentProvider() {

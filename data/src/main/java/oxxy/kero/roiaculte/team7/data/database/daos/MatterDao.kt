@@ -7,11 +7,9 @@ import oxxy.kero.roiaculte.team7.domain.models.Matter
 interface MatterDao{
     @Insert
     fun insertMatters(materList:List<MatterEntity>)
-    @Query("SELECT * FROM Matters ")
-    fun getModulesByUserId():List<MatterEntity>
     @Query("SELECT * FROM Matters  WHERE userId = :id")
     fun getMattersConnected( id:String): List<MatterEntity>
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateMatter(matter :MatterEntity)
     @Delete
     fun deleteMater(matter: MatterEntity)

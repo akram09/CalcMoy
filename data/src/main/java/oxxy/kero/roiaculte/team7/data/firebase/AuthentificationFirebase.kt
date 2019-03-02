@@ -3,7 +3,6 @@ package oxxy.kero.roiaculte.team7.data.firebase
 
 import android.net.Uri
 import android.util.Log
-import com.google.firebase.FirebaseError
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.*
 import com.google.firebase.database.DataSnapshot
@@ -17,10 +16,7 @@ import oxxy.kero.roiaculte.team7.data.database.entities.UserEntity
 import oxxy.kero.roiaculte.team7.domain.exception.*
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.None
-import oxxy.kero.roiaculte.team7.domain.interactors.UserInfo
-import oxxy.kero.roiaculte.team7.domain.models.User
-import oxxy.kero.roiaculte.team7.domain.models.UserState
-import java.lang.ref.PhantomReference
+import oxxy.kero.roiaculte.team7.domain.interactors.saveinfo.UserInfo
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine

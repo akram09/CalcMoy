@@ -18,12 +18,14 @@ import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.*
 import javax.inject.Inject
 import android.graphics.Bitmap
+import oxxy.kero.roiaculte.team7.domain.interactors.saveinfo.*
 import oxxy.kero.roiaculte.team7.domain.models.*
 import java.io.ByteArrayOutputStream
 
 class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : GetModulesDefaults,
                                              private val getUniversityMatters: ProvideUniversity,
-                                             private val saveUser : SaveUser)
+                                             private val saveUser : SaveUser
+)
     : BaseViewModel<Fragment2State>(Fragment2State(Loading(),ArrayList(),null,Loading())),
     Fragment2.CalbackFromViewModel{
 
@@ -65,7 +67,9 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
         if(image != null) setState { copy(image = image) }
 
         if(school != School.UNIVERSITE) {
-            scope.launchInteractor(getDefaultMatters, GetModulesDefaultParam(year, school, facultyType)) {
+            scope.launchInteractor(getDefaultMatters,
+                GetModulesDefaultParam(year, school, facultyType)
+            ) {
                 it.either(::handleDefaultFaillure, ::handleDafaultSuccess)
             }
         }else {
@@ -180,7 +184,9 @@ class Fragment2ViewModel @Inject constructor(private val getDefaultMatters : Get
             var imgUrl  =""
             if(it.image  != null && it.image is Image.ImageUrl ) imgUrl  = it.image.url
             val user= User(userId,name,prenam,school,year.toString(),it.semestres.size,imgUrl,0.0)
-            scope.launchInteractor(saveUser, SaveUserParam(hasSubmitImg,user,it.semestres)){ it.either(::handleSaveInfoFaillure,::handleSaveInfoSuccess) }
+            scope.launchInteractor(saveUser,
+                SaveUserParam(hasSubmitImg, user, it.semestres)
+            ){ it.either(::handleSaveInfoFaillure,::handleSaveInfoSuccess) }
         }
     }
 

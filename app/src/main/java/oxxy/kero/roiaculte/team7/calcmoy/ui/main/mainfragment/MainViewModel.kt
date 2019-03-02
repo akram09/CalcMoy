@@ -7,8 +7,8 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.*
-import oxxy.kero.roiaculte.team7.domain.models.Matter
-import oxxy.kero.roiaculte.team7.domain.models.Semestre
+import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestre
+import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestreResult
 import javax.inject.Inject
 
 class MainViewModel @Inject

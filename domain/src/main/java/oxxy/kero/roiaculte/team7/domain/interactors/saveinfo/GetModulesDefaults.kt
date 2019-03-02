@@ -1,8 +1,9 @@
-package oxxy.kero.roiaculte.team7.domain.interactors
+package oxxy.kero.roiaculte.team7.domain.interactors.saveinfo
 
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.CouroutineDispatchers
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.EitherInteractor
 import oxxy.kero.roiaculte.team7.domain.models.FacultyType
 import oxxy.kero.roiaculte.team7.domain.models.School
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
@@ -10,7 +11,8 @@ import oxxy.kero.roiaculte.team7.domain.repositories.DataModelingRepository
 import javax.inject.Inject
 
 class GetModulesDefaults  @Inject constructor(val repo:DataModelingRepository, dispatchers: CouroutineDispatchers )
-    :EitherInteractor<GetModulesDefaultParam, List<Semestre>, Failure.GetModulesDEfaultFailure> {
+    :
+    EitherInteractor<GetModulesDefaultParam, List<Semestre>, Failure.GetModulesDEfaultFailure> {
 
     override val dispatcher = dispatchers.io
     override val ResultDispatcher= dispatchers.main

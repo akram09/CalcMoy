@@ -6,6 +6,10 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.*
+import oxxy.kero.roiaculte.team7.domain.interactors.authentification.RegistrationModel
+import oxxy.kero.roiaculte.team7.domain.interactors.authentification.SignInCredentiel
+import oxxy.kero.roiaculte.team7.domain.interactors.authentification.SignInParam
+import oxxy.kero.roiaculte.team7.domain.interactors.authentification.SignInUseCase
 import oxxy.kero.roiaculte.team7.domain.models.UserState
 import javax.inject.Inject
 
@@ -18,14 +22,18 @@ class SigneInViewModel @Inject constructor(private val signInUseCase: SignInUseC
         setState {
             SignInState(this.email,this.password,this.repeatPassword,Loading())
         }
-        scope.launchInteractor(signInUseCase, RegistrationModel(email,password)){it.either(::handleSignInFaillure,::handleSignInWithEmailSuccess)}
+        scope.launchInteractor(signInUseCase,
+            RegistrationModel(email, password)
+        ){it.either(::handleSignInFaillure,::handleSignInWithEmailSuccess)}
     }
 
     fun signInWithCredentil(token : String , type : Int){
         setState {
             SignInState(this.email,this.password,this.repeatPassword,Loading())
         }
-        scope.launchInteractor(signInCredentiel, SignInParam(token,type)){ it.either(::handleSignInFaillure,::handleCredentielPasst)}
+        scope.launchInteractor(signInCredentiel,
+            SignInParam(token, type)
+        ){ it.either(::handleSignInFaillure,::handleCredentielPasst)}
     }
 
     private fun handleCredentielPasst(none: None) {

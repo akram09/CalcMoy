@@ -10,14 +10,8 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Schedulers.AppCoroutineDispatcher
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Schedulers.AppRxSchedulersImpl
 import oxxy.kero.roiaculte.team7.domain.functional.AppRxSchedulers
 import oxxy.kero.roiaculte.team7.domain.functional.CouroutineDispatchers
-import oxxy.kero.roiaculte.team7.domain.interactors.SignInUseCase
-import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
 import javax.inject.Singleton
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import oxxy.kero.roiaculte.team7.calcmoy.AndroidApplication
-import oxxy.kero.roiaculte.team7.calcmoy.R
 
 
 @Module

@@ -4,9 +4,11 @@ import io.reactivex.Observable
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.Either
 import oxxy.kero.roiaculte.team7.domain.interactors.*
+import oxxy.kero.roiaculte.team7.domain.interactors.main.Events
+import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestreResult
+import oxxy.kero.roiaculte.team7.domain.interactors.profile.ProfileUserResult
 import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
-import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
 
 interface MainRepository {

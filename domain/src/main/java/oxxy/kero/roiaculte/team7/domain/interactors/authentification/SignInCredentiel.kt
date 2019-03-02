@@ -1,13 +1,15 @@
-package oxxy.kero.roiaculte.team7.domain.interactors
+package oxxy.kero.roiaculte.team7.domain.interactors.authentification
 
-import kotlinx.coroutines.CoroutineDispatcher
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.CouroutineDispatchers
 import oxxy.kero.roiaculte.team7.domain.functional.Either
+import oxxy.kero.roiaculte.team7.domain.interactors.EitherInteractor
+import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.repositories.AuthentificationRepository
 import javax.inject.Inject
 
-class SignInCredentiel @Inject constructor(dispatchers:CouroutineDispatchers, private val repo:AuthentificationRepository) :EitherInteractor<SignInParam, None, Failure.SignInCredentielFailure> {
+class SignInCredentiel @Inject constructor(dispatchers:CouroutineDispatchers, private val repo:AuthentificationRepository) :
+    EitherInteractor<SignInParam, None, Failure.SignInCredentielFailure> {
     override val dispatcher= dispatchers.io
     override val ResultDispatcher= dispatchers.main
 
