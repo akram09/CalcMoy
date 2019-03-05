@@ -1,5 +1,7 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.main
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
@@ -9,8 +11,14 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.main.eventsfragment.EventsFragment
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.mainfragment.MainFragment
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.modulesfragment.ModulesFragment
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.moyennefragment.MoyenneFragment
-import oxxy.kero.roiaculte.team7.calcmoy.utils.Event
+import oxxy.kero.roiaculte.team7.calcmoy.utils.*
+import oxxy.kero.roiaculte.team7.data.database.LocalData
+import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.GetUsersList
+import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.interactors.launchInteractor
+import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestre
+import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestreResult
 import javax.inject.Inject
 
 enum class WhichFragment {
@@ -31,9 +39,13 @@ data class MainActivityState(val navigationFragment:Event<Pair<Int  , BaseFragme
 ):State
 
 class MainActivityViewModel @Inject constructor(
+    val getSemestre: MainGetSemestre
 //    val getUsersList: GetUsersList
 ) : BaseViewModel<MainActivityState>
     (MainActivityState()), MainActivityCallback{
+     var semestres :MutableLiveData<Async<MainGetSemestreResult>>
+             =MutableLiveData()
+
      private var pastInt  = 0
     override fun onNavigationBottomClicked(id: Int) {
        setState {
@@ -74,5 +86,16 @@ class MainActivityViewModel @Inject constructor(
 
     override fun getShowAddButton() :Boolean {
       return  state.value?.showAddMenu?.peekContent()!!
+    }
+    fun update(){
+        scope.launchInteractor(getSemestre , None()){
+            it.either({
+                semestres.value = Fail(it)
+                Log.e("errr", "errrr")
+            }, {
+                semestres.value =Success(it)
+                Log.e("errr", "erooroor")
+            })
+        }
     }
 }

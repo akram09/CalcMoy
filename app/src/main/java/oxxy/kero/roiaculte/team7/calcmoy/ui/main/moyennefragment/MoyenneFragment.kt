@@ -19,6 +19,8 @@ lateinit var  binding :MainFragmentMoyBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment_moy, container, false)
+
+
         return binding.root
     }
 

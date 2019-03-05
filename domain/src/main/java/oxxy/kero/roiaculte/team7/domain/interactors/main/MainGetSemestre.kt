@@ -15,7 +15,6 @@ class MainGetSemestre  @Inject constructor(dispatchers: CouroutineDispatchers , 
     override val dispatcher =dispatchers.io
     override val ResultDispatcher = dispatchers.main
     override suspend fun invoke(executeParams: None): Either<Failure.MainInfoFailure, MainGetSemestreResult> {
-        println("entered")
           return repo.getMainInfoSemestre()
      }
 }
