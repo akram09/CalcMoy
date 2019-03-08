@@ -11,6 +11,7 @@ import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestreResult
 import oxxy.kero.roiaculte.team7.domain.interactors.profile.ProfileUserResult
 import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
 import oxxy.kero.roiaculte.team7.domain.repositories.MainRepository
 import javax.inject.Inject
@@ -65,5 +66,9 @@ class MainRepositoryImpl @Inject constructor( val auth:FirebaseAuth , val localD
     }
     override  suspend fun  deleteMatter(matter :Matter):Either<Failure.DataBaseError , None>{
         return  localData.deleteModule(matter)
+    }
+
+    override fun getSemestres(): Observable<List<Semestre>> {
+      return localData.observeMatters()
     }
 }

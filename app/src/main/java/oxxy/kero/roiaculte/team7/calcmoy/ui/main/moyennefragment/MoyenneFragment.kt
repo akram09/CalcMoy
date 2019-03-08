@@ -15,12 +15,14 @@ import com.squareup.picasso.Picasso
 import oxxy.kero.roiaculte.team7.calcmoy.R
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseFragment
 import oxxy.kero.roiaculte.team7.calcmoy.databinding.MainFragmentMoyBinding
+import oxxy.kero.roiaculte.team7.calcmoy.ui.main.MainActivity
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.setValeur
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 
 class MoyenneFragment :BaseFragment(){
     companion object {
@@ -30,7 +32,6 @@ lateinit var  binding :MainFragmentMoyBinding
     val viewModel :ProfileViewModel by lazy {
       ViewModelProviders.of(this, viewModelFactory)[ProfileViewModel::class.java]
     }
-
     val callback :ProfileCallback
     get() = viewModel
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,8 +46,18 @@ lateinit var  binding :MainFragmentMoyBinding
                 is Loading -> showLoading()
             }
         }
+        (activity as MainActivity).callback.observeSemestre(::handleSuccess , ::handleFailure)
         return binding.root
     }
+
+    private fun handleFailure(throwable: Throwable) {
+
+    }
+
+    private fun handleSuccess(list: List<Semestre>) {
+          Log.e("errr", list.size.toString())
+    }
+
     private fun showLoading(){
       binding.mainProfileSemestreRecyclerview.visibility = View.INVISIBLE
         binding.mainProfileModulesRecyclerview.visibility= View.INVISIBLE
@@ -78,7 +89,7 @@ lateinit var  binding :MainFragmentMoyBinding
         binding.mainProfileSemestreRecyclerview.apply {
             setHasFixedSize(true)
             layoutManager=LinearLayoutManager(context ).apply { orientation = VERTICAL }
-            adapter = MoyenneSemestreAdapter(semestres ,context)
+            adapter = MoyenneSemestreAdapter(semestres ,context, callback::setSemestre )
         }
         }
     private fun showError( fail:Fail<None,Failure.DataBaseError>){
@@ -87,5 +98,6 @@ lateinit var  binding :MainFragmentMoyBinding
 
 }
 interface ProfileCallback{
-
+   fun setSemestres(list :List<Semestre>)
+    fun setSemestre(whichSemestre:Int)
 }

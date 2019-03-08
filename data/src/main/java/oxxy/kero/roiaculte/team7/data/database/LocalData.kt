@@ -156,4 +156,24 @@ class LocalData @Inject constructor(val database: CalcMoyDatabase){
             ))
         }
     }
+    fun observeMatters():Observable<List<Semestre>>{
+        val id = database.userDao().getIDConnectedUser()
+      return   database.matterDao().observeConnected(id).map {
+            var list = emptyList<Semestre>()
+            var curentmatter = emptyList<Matter>()
+            var int =0
+            do{
+                curentmatter = it.filter {
+                    it.semestre==int
+                }.map {
+                    it.toMatter()
+                }
+                if(!curentmatter.isEmpty()){
+                    list +=Semestre( int , curentmatter.toMutableList())
+                }
+                int++
+            }while (!curentmatter.isEmpty())
+            list
+        }.toObservable()
+    }
 }

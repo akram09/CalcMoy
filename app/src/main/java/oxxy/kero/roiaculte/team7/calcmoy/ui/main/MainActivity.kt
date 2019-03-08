@@ -1,5 +1,6 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.main
 
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
@@ -19,10 +20,12 @@ import oxxy.kero.roiaculte.team7.calcmoy.ui.main.eventsfragment.EventsFragment
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.mainfragment.MainFragment
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.modulesfragment.ModulesFragment
 import oxxy.kero.roiaculte.team7.calcmoy.ui.main.moyennefragment.MoyenneFragment
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 private const val LOG_TAG ="MAIN_ACTIVITY"
 class MainActivity :BaseActivity(){
-    val viewModel :MainActivityViewModel by lazy { ViewModelProviders.of(this)[MainActivityViewModel::class.java] }
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    val viewModel :MainActivityViewModel by lazy { ViewModelProviders.of(this , viewModelFactory)[MainActivityViewModel::class.java] }
     val callback :MainActivityCallback by lazy { viewModel }
     companion object { fun getIntent(context : Context)= Intent(context ,MainActivity::class.java) }
 
@@ -103,4 +106,5 @@ interface MainActivityCallback{
     fun init()
     fun onNavigationBottomClicked(id:Int)
     fun getShowAddButton():Boolean
+    fun observeSemestre(handleSuccess:(List<Semestre>) -> Unit, handleFailure:(e:Throwable)->Unit  )
 }

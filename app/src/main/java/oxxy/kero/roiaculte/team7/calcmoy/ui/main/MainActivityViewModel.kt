@@ -17,8 +17,10 @@ import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.GetUsersList
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.interactors.launchInteractor
+import oxxy.kero.roiaculte.team7.domain.interactors.main.GetObservableSemestres
 import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestre
 import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestreResult
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 
 enum class WhichFragment {
@@ -39,12 +41,12 @@ data class MainActivityState(val navigationFragment:Event<Pair<Int  , BaseFragme
 ):State
 
 class MainActivityViewModel @Inject constructor(
-//    val getSemestre: MainGetSemestre
+    val getSemestre:GetObservableSemestres
 //    val getUsersList: GetUsersList
 ) : BaseViewModel<MainActivityState>
     (MainActivityState()), MainActivityCallback{
-     var semestres :MutableLiveData<Async<MainGetSemestreResult>>
-             =MutableLiveData()
+//     var semestres :MutableLiveData<Async<MainGetSemestreResult>>
+//             =MutableLiveData()
 
      private var pastInt  = 0
     override fun onNavigationBottomClicked(id: Int) {
@@ -87,7 +89,11 @@ class MainActivityViewModel @Inject constructor(
     override fun getShowAddButton() :Boolean {
       return  state.value?.showAddMenu?.peekContent()!!
     }
-//    fun update(){
+
+    override fun observeSemestre(handleSuccess: (List<Semestre>) -> Unit, handleFailure: (e: Throwable) -> Unit) {
+        getSemestre.observe(None(), handleFailure , handleSuccess)
+    }
+    //    fun update(){
 //        scope.launchInteractor(getSemestre , None()){
 //            it.either({
 //                semestres.value = Fail(it)

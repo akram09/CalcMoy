@@ -50,13 +50,12 @@
                         android:orientation="vertical"
                         app:layout_constraintGuide_percent="0.5" />
 
-                    <LinearLayout
+                    <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
                         android:background="#949494"
-                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/guideline35"
                         app:layout_constraintTop_toTopOf="parent"/>
@@ -76,7 +75,6 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="@+id/guideline35"
                             app:layout_constraintTop_toTopOf="parent"
-
                             app:srcCompat="@drawable/signe_in_holder"/>
 
                     <at.grabner.circleprogress.CircleProgressView

@@ -3,6 +3,7 @@ package oxxy.kero.roiaculte.team7.domain.interactors
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.*
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.functional.AppRxSchedulers
@@ -18,6 +19,15 @@ interface Interactor<in P>{
     val  dispatcher: CoroutineDispatcher
     val ResultDispatcher :CoroutineDispatcher
     suspend operator fun invoke(executeParams: P)
+}
+abstract  class SubjectInteractor<Type  , in Params>(private val schedulers:AppRxSchedulers){
+    private val subject =BehaviorSubject.create<Type>()
+    protected abstract fun buildObservable(p:Params):Observable<Type>
+    fun observe(p:Params ,  FailureObserver:(e:Throwable)->Unit , SuccesObserver:(t:Type)->Unit):Disposable{
+        return buildObservable(p).subscribeOn(schedulers.computation)
+            .observeOn(schedulers.main)
+            .subscribe(SuccesObserver , FailureObserver)
+    }
 }
 
 abstract class ObservableInteractor<Type , in Params>(private val schedulers:AppRxSchedulers){

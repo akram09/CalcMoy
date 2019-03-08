@@ -9,6 +9,7 @@ import oxxy.kero.roiaculte.team7.domain.interactors.main.MainGetSemestreResult
 import oxxy.kero.roiaculte.team7.domain.interactors.profile.ProfileUserResult
 import oxxy.kero.roiaculte.team7.domain.models.Event
 import oxxy.kero.roiaculte.team7.domain.models.Matter
+import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import oxxy.kero.roiaculte.team7.domain.models.User
 
 interface MainRepository {
@@ -24,4 +25,5 @@ suspend fun getMainInfoSemestre():Either<Failure.MainInfoFailure , MainGetSemest
  suspend fun addEvent(event :Event) :Either<Failure.DataBaseError ,None>
   suspend  fun getProfileInfo():Either<Failure.DataBaseError , ProfileUserResult>
   suspend fun deleteMatter(matter :Matter):Either<Failure.DataBaseError , None>
+ fun getSemestres():Observable<List<Semestre>>
 }
