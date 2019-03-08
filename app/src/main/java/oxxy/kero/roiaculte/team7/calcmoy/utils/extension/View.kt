@@ -25,5 +25,12 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
 fun Pair<CircleProgressView, TextView>.setValeur(double :Double){
     val int  = ((double *10).toInt()/10.0)
     this.first.setValue(int.toFloat())
-    this.second.text= int.toString()
+    var valeur :Int
+    try{
+        valeur =int.toInt()
+        this.second.text= valeur.toString()
+    }catch (e:TypeCastException){
+        this.second.text = int.toString()
+    }
+
 }

@@ -67,7 +67,7 @@ lateinit var  binding :MainFragmentMoyBinding
                 .into(binding.imageView)
         }
         (  binding.mainProfileMoygenProgressview to binding.mainProfileMoygenTextview ).setValeur(moyenne)
-        binding.mainProfileNameTextview.text = "$name  $prename"
+        binding.mainProfileNameTextview.text = "$name  , \n$prename"
         binding.mainProfileMarkTextview.text = when {
             moyenne<5.0 -> "دون المتوسط"
             moyenne<10.0 -> "متوسط"

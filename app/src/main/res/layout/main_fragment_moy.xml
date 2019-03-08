@@ -68,7 +68,7 @@
                         android:orientation="horizontal"
                         app:layout_constraintGuide_percent="0.8" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                             android:id="@+id/imageView"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
@@ -76,7 +76,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="@+id/guideline35"
                             app:layout_constraintTop_toTopOf="parent"
-                            android:layout_marginTop="20dp"
+
                             app:srcCompat="@drawable/signe_in_holder"/>
 
                     <at.grabner.circleprogress.CircleProgressView
@@ -147,6 +147,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="7dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline34"
                 app:layout_constraintStart_toStartOf="@+id/guideline33"
                 app:layout_constraintTop_toBottomOf="@+id/cardView2" />
