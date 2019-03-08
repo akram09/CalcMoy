@@ -1,9 +1,11 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.main.moyennefragment
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -22,6 +24,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.setValeur
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 
 class MoyenneFragment :BaseFragment(){
@@ -47,6 +50,13 @@ lateinit var  binding :MainFragmentMoyBinding
             }
         }
         (activity as MainActivity).callback.observeSemestre(::handleSuccess , ::handleFailure)
+        viewModel.semestres.observe(this ,
+            Observer<List<Matter>> {
+                Log.e("errr", "hello ${it?.size.toString()}")
+                binding.mainProfileModulesRecyclerview.setHasFixedSize(true)
+                binding.mainProfileModulesRecyclerview.layoutManager = LinearLayoutManager(context , LinearLayoutManager.VERTICAL, false)
+                binding.mainProfileModulesRecyclerview.adapter= ModulesAdapter(context!!, it!!)
+            })
         return binding.root
     }
 
@@ -55,7 +65,7 @@ lateinit var  binding :MainFragmentMoyBinding
     }
 
     private fun handleSuccess(list: List<Semestre>) {
-          Log.e("errr", list.size.toString())
+       callback.setSemestres(list)
     }
 
     private fun showLoading(){

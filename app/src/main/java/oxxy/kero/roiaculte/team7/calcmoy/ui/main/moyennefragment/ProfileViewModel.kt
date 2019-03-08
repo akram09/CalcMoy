@@ -2,6 +2,7 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.main.moyennefragment
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import io.reactivex.subjects.BehaviorSubject
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
@@ -18,11 +19,8 @@ import javax.inject.Inject
 
 class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<MoyenneState>(MoyenneState())
     , ProfileCallback{
-    val whichSemestre :MutableLiveData<Int> by lazy {
-        val livedata= MutableLiveData<Int>()
-        livedata.value = 0
-        livedata
-    }
+    var whichSemestre = 0
+    var list :List<Semestre> = emptyList()
     val semestres:MutableLiveData<List<Matter>> by lazy {
         val livedata = MutableLiveData<List<Matter>>()
         livedata
@@ -48,10 +46,14 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
     }
 
     override fun setSemestres(list: List<Semestre>) {
-       semestres.value = list[whichSemestre.value!!].matters
+        this.list= list
+       semestres.value = list[whichSemestre].matters
     }
 
     override fun setSemestre(whichSemestre: Int) {
-      this.whichSemestre.value= whichSemestre
+        Log.e("errr", whichSemestre.toString())
+      this.whichSemestre = whichSemestre
+        semestres.postValue(list[whichSemestre].matters)
+//        semestres.value = list[whichSemestre].matters
     }
 }
