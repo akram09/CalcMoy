@@ -39,7 +39,7 @@ data class MainActivityState(val navigationFragment:Event<Pair<Int  , BaseFragme
 ):State
 
 class MainActivityViewModel @Inject constructor(
-    val getSemestre: MainGetSemestre
+//    val getSemestre: MainGetSemestre
 //    val getUsersList: GetUsersList
 ) : BaseViewModel<MainActivityState>
     (MainActivityState()), MainActivityCallback{
@@ -87,15 +87,15 @@ class MainActivityViewModel @Inject constructor(
     override fun getShowAddButton() :Boolean {
       return  state.value?.showAddMenu?.peekContent()!!
     }
-    fun update(){
-        scope.launchInteractor(getSemestre , None()){
-            it.either({
-                semestres.value = Fail(it)
-                Log.e("errr", "errrr")
-            }, {
-                semestres.value =Success(it)
-                Log.e("errr", "erooroor")
-            })
-        }
-    }
+//    fun update(){
+//        scope.launchInteractor(getSemestre , None()){
+//            it.either({
+//                semestres.value = Fail(it)
+//                Log.e("errr", "errrr")
+//            }, {
+//                semestres.value =Success(it)
+//                Log.e("errr", "erooroor")
+//            })
+//        }
+//    }
 }

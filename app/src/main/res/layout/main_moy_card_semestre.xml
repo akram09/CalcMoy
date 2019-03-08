@@ -5,12 +5,14 @@
         android:id="@+id/cardView"
         app:cardBackgroundColor="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="80dp"
         app:cardCornerRadius="8dp"
         android:layout_marginTop="16dp"
+        app:cardElevation="5dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline34"
         app:layout_constraintStart_toStartOf="@+id/guideline33"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+        >
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -41,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:text="الفصل الأول"
+                android:text="الفصل "
                 android:textColor="#000"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -55,6 +57,7 @@
                 android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
+                android:id="@+id/main_profile_semestre_recyclerview_progressview"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 app:cpv_rimColor="#E9ECEA"
@@ -62,12 +65,22 @@
                 app:cpv_barWidth="12dp"
                 app:cpv_rimWidth="12dp"
                 app:cpv_textColor="#70BACC"
-                app:cpv_textSize="45sp"
                 app:cpv_outerContourSize="0dp"
                 app:cpv_innerContourSize="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline37"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+        <TextView  android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:textColor="#70BACC"
+                   android:textSize="25sp"
+                   android:text="24.5"
+                   android:id="@+id/main_profile_semestre_textview"
+                   android:textStyle="bold"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintLeft_toLeftOf="parent"
+                   app:layout_constraintRight_toLeftOf="@id/linearLayout8"/>
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

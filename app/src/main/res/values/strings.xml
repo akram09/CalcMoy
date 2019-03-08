@@ -40,6 +40,13 @@
     <string name="change_name">تغيير إسم المقياس</string>
     <string name="change_coei">تغيير المعامل</string>
     <string name="change_color">تغيير اللون</string>
+    <string-array name="number_profile">
+        <item>الأول</item>
+       <item>الثاني</item>
+        <item>الثالث</item>
+        <item>الرابع</item>
+        <item>الخامس</item>
+    </string-array>
     <string name="open_drawer">open-drawer</string>
     <string name="close_drawer">close_drawer</string>
 
