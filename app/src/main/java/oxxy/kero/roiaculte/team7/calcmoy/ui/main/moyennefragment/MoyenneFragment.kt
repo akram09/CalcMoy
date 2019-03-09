@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
+import android.widget.LinearLayout.HORIZONTAL
 import android.widget.LinearLayout.VERTICAL
 import android.widget.TextView
 import at.grabner.circleprogress.CircleProgressView
@@ -98,7 +99,7 @@ lateinit var  binding :MainFragmentMoyBinding
         }
         binding.mainProfileSemestreRecyclerview.apply {
             setHasFixedSize(true)
-            layoutManager=LinearLayoutManager(context ).apply { orientation = VERTICAL }
+            layoutManager=LinearLayoutManager(context ).apply { orientation = HORIZONTAL }
             adapter = MoyenneSemestreAdapter(semestres ,context, callback::setSemestre )
         }
         }

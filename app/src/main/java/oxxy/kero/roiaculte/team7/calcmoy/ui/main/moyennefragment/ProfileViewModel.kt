@@ -54,6 +54,5 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
         Log.e("errr", whichSemestre.toString())
       this.whichSemestre = whichSemestre
         semestres.postValue(list[whichSemestre].matters)
-//        semestres.value = list[whichSemestre].matters
     }
 }

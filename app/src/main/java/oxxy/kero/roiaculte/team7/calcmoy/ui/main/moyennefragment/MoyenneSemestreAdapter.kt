@@ -1,6 +1,8 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.main.moyennefragment
 
 import android.content.Context
+import android.support.design.card.MaterialCardView
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -23,12 +25,16 @@ class MoyenneSemestreAdapter(val list: List<Double> , val context :Context  , va
     }
 
     inner class MoyenneSemestreViewHolder(itemView:View ):RecyclerView.ViewHolder(itemView){
+        val cardView: CardView = itemView.findViewById(R.id.cardView)
         val whichSmestre :TextView = itemView.findViewById(R.id.textView18)
          val moyenne :Pair<CircleProgressView , TextView> = itemView
              .findViewById<CircleProgressView>(R.id.main_profile_semestre_recyclerview_progressview) to itemView
              .findViewById(R.id.main_profile_semestre_textview)
         fun update(double: Double , text:String , listener:(Int)->Unit , int :Int){
-            itemView.setOnClickListener { listener(int) }
+            itemView.setOnClickListener {
+                cardView.setBackgroundColor(context.resources.getColor(R.color.design_fab_stroke_top_outer_color))
+                cardView.elevation =0f
+                listener(int) }
             whichSmestre.text =whichSmestre.text.toString()+text
             moyenne.setValeur(double)
         }

@@ -33,7 +33,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="23dp"
                 app:cardCornerRadius="8dp"
-                app:cardElevation="12dp"
+                android:elevation="0dp"
                 app:cardBackgroundColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/guideline34"
                 app:layout_constraintStart_toStartOf="@+id/guideline33"
