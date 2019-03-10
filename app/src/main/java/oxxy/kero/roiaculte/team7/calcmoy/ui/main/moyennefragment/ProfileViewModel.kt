@@ -22,7 +22,9 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
 
     /**
      * this will store the current list of semestre  that we observe from the mainactivity
-     *
+     * here we have to liste because we have 2 sources  and we donnt know who will arrive the first
+     * so we  store them untill both of them are ready and we modify the state
+     * @author akramkero
      */
     var list :List<Semestre> = emptyList()
     var listMoyenne :List<Double> = emptyList()
@@ -75,13 +77,13 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
     /**
      * this function is the implementation of the function  defined in the callback in the fragment
      * its is here to set the list of smestres
+     * we check firstly if the moyennelist is empty if it is empty we cant modify the state until both listes are ready
+     * if not we mofify the state
      */
     override fun setSemestres(list: List<Semestre>) {
        if(listMoyenne.isEmpty()){
-           Log.e("errr", "semestres came first")
            this.list = list
        }else{
-           Log.e("errr", "sorry i camed late ")
            this.list = list
            setState {
                copy(semestres = listMoyenne to list , isLoading = false)

@@ -38,10 +38,13 @@ lateinit var  binding :MainFragmentMoyBinding
     }
     val callback :ProfileCallback
     get() = viewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment_moy, container, false)
-
+        /**
+         * here we are observing the state defined in the viewmodel
+         */
         viewModel.observe(this ){
             it!!
             when (it.data) {
@@ -49,11 +52,16 @@ lateinit var  binding :MainFragmentMoyBinding
                 is Success<*> -> showSucces(it.imageUrl , it.moyenne , it.name , it.prename )
                 is Loading -> showLoading()
             }
+            /**
+             * we check if the semestres are ready to be pushed in the recyclerview
+             */
             if(it.semestres!=null){
-
                 showMatters(it.semestres)
             }
         }
+        /**
+         * and here we observe the semestres list deined in the mainActivityViewModel
+         */
         (activity as MainActivity).callback.observeSemestre(::handleSuccess , ::handleFailure)
 
 
@@ -95,14 +103,31 @@ lateinit var  binding :MainFragmentMoyBinding
                 .placeholder(R.drawable.signe_in_holder)
                 .into(binding.imageView)
         }
-        (  binding.mainProfileMoygenProgressview to binding.mainProfileMoygenTextview ).setValeur(moyenne)
-        binding.mainProfileNameTextview.text = "$name  , \n$prename"
+        (  binding.mainProfileMoygenProgressview to binding.mainProfileMoygenTextview ).setValeur(moyenne, context!!)
+        binding.mainProfileNameTextview.text = "$name $prename"
+        //todo make a chekc on the name and prename so that we dont have bigger name
+
         binding.mainProfileMarkTextview.text = when {
-            moyenne<5.0 -> "دون المتوسط"
-            moyenne<10.0 -> "متوسط"
-            moyenne<14.0 -> "جيد"
-            moyenne<18.0 -> "جيد جدا"
-            else -> "ممتاز"
+            moyenne<5.0 -> {
+                binding.mainProfileMarkTextview.setTextColor(resources.getColor(R.color.red_delete))
+                "دون المتوسط"
+            }
+            moyenne<10.0 -> {
+                binding.mainProfileMarkTextview.setTextColor(resources.getColor(R.color.blue))
+                "متوسط"
+            }
+            moyenne<14.0 -> {
+                binding.mainProfileMarkTextview.setTextColor(resources.getColor(R.color.green))
+                "جيد"
+            }
+            moyenne<18.0 -> {
+                binding.mainProfileMarkTextview.setTextColor(resources.getColor(R.color.black_green))
+                "جيد جدا"
+            }
+            else -> {
+                binding.mainProfileMarkTextview.setTextColor(resources.getColor(R.color.yellow))
+                "ممتاز"
+            }
         }
 
         }
@@ -112,5 +137,4 @@ lateinit var  binding :MainFragmentMoyBinding
 }
 interface ProfileCallback{
    fun setSemestres(list :List<Semestre>)
-
 }

@@ -41,7 +41,7 @@ class MoyennesAdapter(val context : Context, val moyenneList :List<Double> , val
        private val expandable :ExpandableLayout = itemView.findViewById(R.id.expandable_layout)
         fun updateCard(moyenn :Double, text:String , matters :List<Matter>){
             textView.text =  "${textView.text} $text"
-            circularandMoyenne.setValeur(moyenn)
+            circularandMoyenne.setValeur(moyenn , context)
             recyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context , LinearLayout.VERTICAL , false )

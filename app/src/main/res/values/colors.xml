@@ -6,5 +6,9 @@
     <color name="white">#FFF</color>
     <color name="red_delete">#FFD50000</color>
     <color name="default_matter_color"> #FFAA00FF</color>
+    <color name="green">#50C878</color>
+    <color name="black_green">#0B6623</color>
+    <color name="blue">#70BACC</color>
+    <color name="yellow">#FFC0</color>
 </resources>
 

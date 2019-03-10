@@ -25,11 +25,22 @@ class ModulesAdapter (val context : Context,val list: List<Matter>):RecyclerView
        p0.update(list[p1].moyenne , list[p1].name)
     }
 
-    class MatterViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class MatterViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         private val  moyenne : TextView = itemView.findViewById(R.id.main_profile_semestre_matter_moy)
         private val moduleName :TextView = itemView.findViewById(R.id.main_profile_semestre_matters)
         fun update (double: Double , nom:String){
             moyenne.text =double.toString()
+            moyenne.setTextColor(context.resources.getColor(
+                when {
+                    double<5.0 -> {
+                        R.color.red_delete
+                    }
+                    double<10.0 -> R.color.blue
+                    double<14.0 -> R.color.green
+                    double<18.0 ->R.color.black_green
+                    else ->R.color.yellow
+                }
+            ))
             moduleName.text = nom
         }
     }
