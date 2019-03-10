@@ -25,6 +25,7 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
      *
      */
     var list :List<Semestre> = emptyList()
+    var listMoyenne :List<Double> = emptyList()
 
     init {
         /**
@@ -52,18 +53,40 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
      * and configure the state so that the view can change now
      */
    private  fun handleSuccess(result :ProfileUserResult){
-      setState {
-          copy(data = Success(None()) ,imageUrl = result.ImageUrl , name = result.name , prename = result.prename ,
-              moyenne = result.moyenne , semestres = result.moyenneDeChaqueSEmestre)
-      }
+
+        if(list.isEmpty()){
+            Log.e("errr", "moyenne came first ")
+            listMoyenne = result.moyenneDeChaqueSEmestre
+            setState {
+                copy(data = Success(None()) ,imageUrl = result.ImageUrl , name = result.name , prename = result.prename ,
+                    moyenne = result.moyenne )
+            }
+        }else{
+            listMoyenne = result.moyenneDeChaqueSEmestre
+            setState {
+                copy(data = Success(None()) ,imageUrl = result.ImageUrl , name = result.name , prename = result.prename ,
+                    moyenne = result.moyenne  , semestres = listMoyenne to list
+                )
+            }
+        }
+
     }
 
     /**
-     * this finction is the implementation of the function  defined in the callback in the fragment
+     * this function is the implementation of the function  defined in the callback in the fragment
      * its is here to set the list of smestres
      */
     override fun setSemestres(list: List<Semestre>) {
-        this.list= list
+       if(listMoyenne.isEmpty()){
+           Log.e("errr", "semestres came first")
+           this.list = list
+       }else{
+           Log.e("errr", "sorry i camed late ")
+           this.list = list
+           setState {
+               copy(semestres = listMoyenne to list)
+           }
+       }
     }
 
 }

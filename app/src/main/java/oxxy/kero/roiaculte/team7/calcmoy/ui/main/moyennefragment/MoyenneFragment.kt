@@ -43,12 +43,17 @@ lateinit var  binding :MainFragmentMoyBinding
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment_moy, container, false)
         viewModel.observe(this ){
-            Log.e("errr", "entered")
+            Log.e("errr", "entere first time")
             it!!
             when (it.data) {
                  is Fail<*,*> ->showError(it.data as Fail<None, Failure.DataBaseError>)
-                is Success<*> -> showSucces(it.imageUrl , it.moyenne , it.name , it.prename , it.semestres)
+                is Success<*> -> showSucces(it.imageUrl , it.moyenne , it.name , it.prename )
                 is Loading -> showLoading()
+            }
+            if(it.semestres!=null){
+                Log.e("errr", "entered in success")
+                Log.e("errr", it.semestres.toString())
+                showMatters(it.semestres)
             }
         }
         (activity as MainActivity).callback.observeSemestre(::handleSuccess , ::handleFailure)
@@ -57,14 +62,23 @@ lateinit var  binding :MainFragmentMoyBinding
         return binding.root
     }
 
+     fun showMatters(metadata: Pair<List<Double>,List<Semestre>>) {
+        Log.e("errr", "hello bitch ")
+        binding.mainProfileSemestreRecyclerview.apply {
+//            setHasFixedSize(true)
+            layoutManager =LinearLayoutManager(context , LinearLayoutManager.VERTICAL , false)
+            adapter = MoyennesAdapter(context , metadata.first , metadata.second)
+
+        }
+
+    }
+
     private fun handleFailure(throwable: Throwable) {
 
     }
 
     private fun handleSuccess(list: List<Semestre>) {
-
-
-
+   callback.setSemestres(list)
     }
 
     private fun showLoading(){
@@ -72,7 +86,7 @@ lateinit var  binding :MainFragmentMoyBinding
         binding.cardView2.visibility = View.INVISIBLE
         binding.cicularProfile.visibility= View.VISIBLE
     }
-    private fun showSucces(image :String , moyenne:Double , name:String , prename:String , semestres:List<Double>){
+    private fun showSucces(image :String , moyenne:Double , name:String , prename:String ){
 
         binding.cardView2.visibility = View.VISIBLE
         binding.cicularProfile.visibility= View.INVISIBLE

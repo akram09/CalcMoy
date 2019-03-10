@@ -94,11 +94,16 @@
                 app:layout_constraintTop_toBottomOf="@id/guideline45"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/expandable_layout"
+                app:el_duration="1000"
+                app:el_parallax="0.5"
         app:layout_constraintRight_toRightOf="parent">
             <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:id="@+id/main_profile_semestre_recyclerview_matters"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                    android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
 
         </net.cachapa.expandablelayout.ExpandableLayout>
     </android.support.constraint.ConstraintLayout>
