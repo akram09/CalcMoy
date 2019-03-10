@@ -32,5 +32,15 @@ fun Pair<CircleProgressView, TextView>.setValeur(double :Double){
     }catch (e:TypeCastException){
         this.second.text = int.toString()
     }
-
+}
+fun Pair<CircleProgressView?, TextView?>.setValue(double :Double?){
+    val int  = ((double?: 0.0 *10).toInt()/10.0)
+    this.first?.setValue(int.toFloat())
+    var valeur :Int
+    try{
+        valeur =int.toInt()
+        this.second?.text= valeur.toString()
+    }catch (e:TypeCastException){
+        this.second?.text = int.toString()
+    }
 }

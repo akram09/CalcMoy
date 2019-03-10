@@ -19,13 +19,22 @@ import javax.inject.Inject
 
 class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<MoyenneState>(MoyenneState())
     , ProfileCallback{
+
     var whichSemestre = 0
+    /**
+     * this will store the current list of semestre  that we observe from the mainactivity
+     *
+     */
     var list :List<Semestre> = emptyList()
-    val semestres:MutableLiveData<List<Matter>> by lazy {
-        val livedata = MutableLiveData<List<Matter>>()
-        livedata
-    }
+
+//    val semestres:MutableLiveData<List<Matter>> by lazy {
+//        val livedata = MutableLiveData<List<Matter>>()
+//        livedata
+//    }
     init {
+        /**
+         * this will some loading action while we send the request to get profileInfo
+          */
         setState {
             copy(data = Loading())
         }
@@ -33,11 +42,20 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
             it.either(this::handleFailure , this::handleSuccess)
         }
     }
+
+    /**
+     * handle getProfile Data failure
+     */
     private fun handleFailure(failure:Failure.DataBaseError ){
        setState {
            copy(data =Fail(failure))
        }
     }
+
+    /**
+     * handle getProfile Data Success
+     * and configure the state so that the view can change now
+     */
    private  fun handleSuccess(result :ProfileUserResult){
       setState {
           copy(data = Success(None()) ,imageUrl = result.ImageUrl , name = result.name , prename = result.prename ,
@@ -45,14 +63,18 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
       }
     }
 
+    /**
+     * this finction is the implementation of the function  defined in the callback in the fragment
+     * its is here to set the list of smestres
+     */
     override fun setSemestres(list: List<Semestre>) {
         this.list= list
-       semestres.value = list[whichSemestre].matters
+//       semestres.value = list[whichSemestre].matters
     }
-
-    override fun setSemestre(whichSemestre: Int) {
-        Log.e("errr", whichSemestre.toString())
-      this.whichSemestre = whichSemestre
-        semestres.postValue(list[whichSemestre].matters)
-    }
+//
+//    override fun setSemestre(whichSemestre: Int) {
+//        Log.e("errr", whichSemestre.toString())
+//      this.whichSemestre = whichSemestre
+//        semestres.postValue(list[whichSemestre].matters)
+//    }
 }
