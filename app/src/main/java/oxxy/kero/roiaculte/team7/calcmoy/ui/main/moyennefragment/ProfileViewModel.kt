@@ -20,17 +20,12 @@ import javax.inject.Inject
 class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<MoyenneState>(MoyenneState())
     , ProfileCallback{
 
-    var whichSemestre = 0
     /**
      * this will store the current list of semestre  that we observe from the mainactivity
      *
      */
     var list :List<Semestre> = emptyList()
 
-//    val semestres:MutableLiveData<List<Matter>> by lazy {
-//        val livedata = MutableLiveData<List<Matter>>()
-//        livedata
-//    }
     init {
         /**
          * this will some loading action while we send the request to get profileInfo
@@ -69,12 +64,6 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
      */
     override fun setSemestres(list: List<Semestre>) {
         this.list= list
-//       semestres.value = list[whichSemestre].matters
     }
-//
-//    override fun setSemestre(whichSemestre: Int) {
-//        Log.e("errr", whichSemestre.toString())
-//      this.whichSemestre = whichSemestre
-//        semestres.postValue(list[whichSemestre].matters)
-//    }
+
 }

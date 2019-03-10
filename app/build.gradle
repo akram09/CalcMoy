@@ -83,7 +83,7 @@ dependencies {
     implementation deps.firebase.storage
     implementation("com.google.firebase:firebase-common:16.0.4")
     implementation "com.github.jakob-grabner:Circle-Progress-View:1.4"
-    implementation 'com.github.iammert:ExpandableLayout:1.4.1'
+    implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
     kapt deps.room.compiler
 
