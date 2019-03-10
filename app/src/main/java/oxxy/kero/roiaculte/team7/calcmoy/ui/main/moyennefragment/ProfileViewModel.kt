@@ -65,7 +65,7 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
             listMoyenne = result.moyenneDeChaqueSEmestre
             setState {
                 copy(data = Success(None()) ,imageUrl = result.ImageUrl , name = result.name , prename = result.prename ,
-                    moyenne = result.moyenne  , semestres = listMoyenne to list
+                    moyenne = result.moyenne  , semestres = listMoyenne to list, isLoading = false
                 )
             }
         }
@@ -84,7 +84,7 @@ class ProfileViewModel  @Inject constructor(usecase:ProfileUser):BaseViewModel<M
            Log.e("errr", "sorry i camed late ")
            this.list = list
            setState {
-               copy(semestres = listMoyenne to list)
+               copy(semestres = listMoyenne to list , isLoading = false)
            }
        }
     }

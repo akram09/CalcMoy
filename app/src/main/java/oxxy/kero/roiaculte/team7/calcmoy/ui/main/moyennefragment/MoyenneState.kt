@@ -10,6 +10,7 @@ import oxxy.kero.roiaculte.team7.domain.models.Semestre
 data class MoyenneState(
     val data :Async<None> = Uninitialized,
     val imageUrl: String = "",
+    val isLoading: Boolean =true,
     val name :String = "",
     val prename :String= "",
     val moyenne :Double= 0.0,

@@ -23,7 +23,6 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.setValeur
-import oxxy.kero.roiaculte.team7.calcmoy.utils.extension.setValue
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.None
 import oxxy.kero.roiaculte.team7.domain.models.Matter
@@ -42,8 +41,8 @@ lateinit var  binding :MainFragmentMoyBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment_moy, container, false)
+
         viewModel.observe(this ){
-            Log.e("errr", "entere first time")
             it!!
             when (it.data) {
                  is Fail<*,*> ->showError(it.data as Fail<None, Failure.DataBaseError>)
@@ -51,8 +50,7 @@ lateinit var  binding :MainFragmentMoyBinding
                 is Loading -> showLoading()
             }
             if(it.semestres!=null){
-                Log.e("errr", "entered in success")
-                Log.e("errr", it.semestres.toString())
+
                 showMatters(it.semestres)
             }
         }
@@ -63,9 +61,9 @@ lateinit var  binding :MainFragmentMoyBinding
     }
 
      fun showMatters(metadata: Pair<List<Double>,List<Semestre>>) {
-        Log.e("errr", "hello bitch ")
+    binding.cicularProfile.visibility = View.INVISIBLE
         binding.mainProfileSemestreRecyclerview.apply {
-//            setHasFixedSize(true)
+            setHasFixedSize(true)
             layoutManager =LinearLayoutManager(context , LinearLayoutManager.VERTICAL , false)
             adapter = MoyennesAdapter(context , metadata.first , metadata.second)
 
@@ -89,7 +87,6 @@ lateinit var  binding :MainFragmentMoyBinding
     private fun showSucces(image :String , moyenne:Double , name:String , prename:String ){
 
         binding.cardView2.visibility = View.VISIBLE
-        binding.cicularProfile.visibility= View.INVISIBLE
         if(image.isEmpty()) binding.imageView.setImageResource(R.drawable.signe_in_holder)
         else {
             Picasso.Builder(context!!).build()

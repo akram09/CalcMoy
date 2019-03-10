@@ -71,6 +71,8 @@
                 app:cpv_barWidth="12dp"
                 app:cpv_rimWidth="12dp"
                 app:cpv_textColor="#70BACC"
+                app:cpv_maxValue="20"
+                app:cpv_startAngle="90"
                 app:cpv_outerContourSize="0dp"
                 app:cpv_innerContourSize="0dp"
                 app:layout_constraintBottom_toTopOf="@id/guideline45"

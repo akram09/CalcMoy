@@ -23,24 +23,15 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
         LayoutInflater.from(context).inflate(layoutRes, this, false)
 
 fun Pair<CircleProgressView, TextView>.setValeur(double :Double){
-    val int  = ((double *10).toInt()/10.0)
-    this.first.setValue(int.toFloat())
-    var valeur :Int
-    try{
-        valeur =int.toInt()
-        this.second.text= valeur.toString()
-    }catch (e:TypeCastException){
-        this.second.text = int.toString()
-    }
-}
-fun Pair<CircleProgressView?, TextView?>.setValue(double :Double?){
-    val int  = ((double?: 0.0 *10).toInt()/10.0)
-    this.first?.setValue(int.toFloat())
-    var valeur :Int
-    try{
-        valeur =int.toInt()
-        this.second?.text= valeur.toString()
-    }catch (e:TypeCastException){
-        this.second?.text = int.toString()
+    val entier = double *10
+    if(entier.toInt() % 10==0){
+       val valeur = double.toInt()
+        this.first.setValue(valeur.toFloat())
+        this.second.text = valeur.toString()
+    }else{
+     val valeur = entier.toInt() /10.0
+        this.first.setValue(valeur.toFloat())
+        this.second.text = valeur.toString()
+
     }
 }
