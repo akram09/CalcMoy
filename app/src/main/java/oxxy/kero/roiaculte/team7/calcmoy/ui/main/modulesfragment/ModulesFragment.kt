@@ -1,5 +1,6 @@
 package oxxy.kero.roiaculte.team7.calcmoy.ui.main.modulesfragment
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -18,6 +19,12 @@ class ModulesFragment:BaseFragment() {
         fun getInstance()= ModulesFragment()
     }
 private lateinit var binding :MainFragmentModuleBinding
+    private val viewModel :ModulesViewModel by lazy {
+        ViewModelProviders.of(this , this.viewModelFactory)[ModulesViewModel::class.java]
+    }
+    private val  callback:ModulesCallback by lazy {
+        viewModel
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding= DataBindingUtil.inflate(inflater, R.layout.main_fragment_module, container , false )
@@ -25,5 +32,8 @@ private lateinit var binding :MainFragmentModuleBinding
         return  binding.root
     }
 
+
+}
+interface  ModulesCallback{
 
 }
