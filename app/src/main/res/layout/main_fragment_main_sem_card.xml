@@ -5,6 +5,7 @@
     android:layout_height="80dp"
     android:layout_margin="7dp"
     app:cardBackgroundColor="#8560A8"
+     android:id="@+id/main_modules_semestre_card"
     app:cardCornerRadius="50dp"
     app:cardElevation="4dp">
 

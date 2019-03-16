@@ -6,5 +6,7 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Uninitialized
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 
 data class ModulesState(
-    val whichSemestre:Int =0, val modules:Async<List<Matter>> = Uninitialized
+    val isLoading:Boolean= false,
+    val whichSemestre:Int =0, val modules:List<Matter> = emptyList() ,
+    val size:Int = 0
 ):State
