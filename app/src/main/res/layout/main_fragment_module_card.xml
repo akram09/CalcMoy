@@ -2,10 +2,15 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="5dp">
+    android:layout_width="170dp"
+    android:layout_height="160dp"
+    app:cardBackgroundColor="@color/white"
+                                    android:layout_marginLeft="3dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginTop="10dp"
+
+    app:cardCornerRadius="4dp"
+    app:cardElevation="9dp">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -17,7 +22,6 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/guideline23"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.411"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -28,11 +32,12 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:paddingEnd="5dp"
-                android:text="TextView"
+                android:text="معامل المادة "
+                android:layout_marginRight="18dp"
                 android:textColor="#000"
                 android:textDirection="rtl"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                 />
 
             <TextView
                 android:id="@+id/textView5"
@@ -40,12 +45,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:paddingEnd="5dp"
-                android:text="TextView"
+                android:text="معدلك 20/"
+                android:paddingRight="18dp"
                 android:textColor="#000"
                 android:textDirection="rtl"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,6 +66,7 @@
                     android:layout_gravity="end"
                     android:gravity="center_vertical"
                     android:paddingEnd="5dp"
+                    android:layout_marginRight="18dp"
                     android:text="@string/events_soon"
                     android:textColor="#000"
                     android:textDirection="rtl"
@@ -74,40 +80,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
+            app:layout_constraintGuide_percent="0.7" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#E98758"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline23">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_weight="0"
-                android:gravity="center"
-                android:text="@string/points3"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:gravity="center"
+                android:background="#E98758"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline23"
                 android:text="Module"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:lines="2"
+                android:textColor="#000"
+                android:drawableRight="@drawable/ic_more_vert_black_24dp"
+                android:textSize="20sp"
+                 />
 
-        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

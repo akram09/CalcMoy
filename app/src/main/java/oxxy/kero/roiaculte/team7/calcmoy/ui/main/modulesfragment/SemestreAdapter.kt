@@ -30,9 +30,10 @@ class SemestreAdapter(val context:Context ,val size :Int, val whichOne:Int  , va
         private val textView :TextView = itemView.findViewById(R.id.textView9)
        fun update(string :String  , boolean: Boolean){
           if(boolean){
+              cardView.setCardBackgroundColor(context.resources.getColor(R.color.green))
               cardView.cardElevation = 0f
           }
-           textView.text = string +textView.text
+           textView.text = textView.text.toString() + string
        }
 
     }

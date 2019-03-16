@@ -2,11 +2,13 @@ package oxxy.kero.roiaculte.team7.calcmoy.ui.main.modulesfragment
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import oxxy.kero.roiaculte.team7.calcmoy.base.BaseViewModel
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Fail
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
+import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 
@@ -36,7 +38,11 @@ class ModulesViewModel @Inject constructor() :BaseViewModel<ModulesState>(Module
 
     override fun onSemestreClicked(which: Int) {
         setState {
-            copy(whichSemestre = which , modules = semestres[this.whichSemestre].matters )
+            copy(whichSemestre = which , modules = semestres[this.whichSemestre].matters , isLoading = false )
         }
+    }
+
+    override fun moduleClicked(matter: Matter) {
+        Log.e("errr", "${matter.name} clicked")
     }
 }

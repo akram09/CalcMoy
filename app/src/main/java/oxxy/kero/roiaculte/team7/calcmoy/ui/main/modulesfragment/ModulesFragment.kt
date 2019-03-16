@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,8 +40,9 @@ private lateinit var binding :MainFragmentModuleBinding
          viewModel.observe(this){
              it!!
              if(it.isLoading){
-
+                showLoading(true)
              }else{
+                 showLoading(false)
                  showSemestres(it.size  , it.whichSemestre)
                  if(it.modules.isNotEmpty()){
                      showMatters(it.modules)
@@ -50,8 +52,16 @@ private lateinit var binding :MainFragmentModuleBinding
         return  binding.root
     }
 
+    private fun showLoading(b: Boolean) {
+      binding.mainModulesProgress.visibility=if(b) View.VISIBLE else View.INVISIBLE
+    }
+
     private fun showMatters(modules: List<Matter>) {
-          Log.e("errr", "called show matters")
+        binding.moduleRecycler.apply {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(context , 2)
+            adapter = ModulesAdapter(context  , modules, callback::moduleClicked)
+        }
     }
 
     private fun showSemestres(size: Int, whichSemestre: Int) {
@@ -68,4 +78,5 @@ interface  ModulesCallback{
 fun doOnSuccess(list:List<Semestre>)
     fun doOnFailure(t:Throwable)
     fun onSemestreClicked(which:Int)
+    fun moduleClicked(matter :Matter)
 }
