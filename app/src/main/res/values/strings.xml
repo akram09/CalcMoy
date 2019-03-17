@@ -123,6 +123,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="add_acount">Add Acount</string>
     <string name="manage_acount">Manage Acount</string>
-
-
+    <string name="save">حفظ</string>
+   <string name="disable">إلغاء</string>
+   <string name="delete_dialog">حدف</string>
 </resources>
