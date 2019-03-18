@@ -126,4 +126,6 @@
     <string name="save">حفظ</string>
    <string name="disable">إلغاء</string>
    <string name="delete_dialog">حدف</string>
+    <string name="moyenne_is">معدلك:  20/</string>
+    <string name="matter_coefiicient"> معامل المادة : </string>
 </resources>

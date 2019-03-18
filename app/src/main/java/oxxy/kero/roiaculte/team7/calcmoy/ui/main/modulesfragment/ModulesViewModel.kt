@@ -10,11 +10,12 @@ import oxxy.kero.roiaculte.team7.calcmoy.utils.Loading
 import oxxy.kero.roiaculte.team7.calcmoy.utils.Success
 import oxxy.kero.roiaculte.team7.domain.exception.Failure
 import oxxy.kero.roiaculte.team7.domain.interactors.None
+import oxxy.kero.roiaculte.team7.domain.interactors.modules.UpdateModule
 import oxxy.kero.roiaculte.team7.domain.models.Matter
 import oxxy.kero.roiaculte.team7.domain.models.Semestre
 import javax.inject.Inject
 
-class ModulesViewModel @Inject constructor() :BaseViewModel<ModulesState>(ModulesState()) , ModulesCallback {
+class ModulesViewModel @Inject constructor(val updateModule:UpdateModule) :BaseViewModel<ModulesState>(ModulesState()) , ModulesCallback {
    private var semestres = emptyList<Semestre>()
 
     init {

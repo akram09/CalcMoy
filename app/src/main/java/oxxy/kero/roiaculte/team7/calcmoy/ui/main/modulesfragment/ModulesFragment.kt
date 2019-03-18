@@ -114,7 +114,8 @@ private lateinit var binding :MainFragmentModuleBinding
     private fun showMatters(modules: List<Matter>) {
         binding.moduleRecycler.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context , 2)
+            //todo fix the expandable problem with the gridlayout manager
+            layoutManager =GridLayoutManager(activity , 2 )
             adapter = ModulesAdapter(context  , modules, callback::moduleClicked)
         }
     }
