@@ -4,7 +4,7 @@ This app for calculating the pass mark.
 
 ---
 ## Developers:
-The platform is developed by:
+The app is developed by:
 - Akram Boutouchent
 - Djawed Benahmed
 
