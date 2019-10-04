@@ -1,6 +1,6 @@
 # CalMoy
 
-This app for calculating the pass mark.
+this app was devaloped by esi sba students to help other faculties calculate their semster mark and gives statistics abt their enrolment
 
 ---
 ## Screenshoots
